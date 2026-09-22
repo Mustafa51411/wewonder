@@ -94,6 +94,35 @@
     #ww-product-{{ section.id }} .wwp-timeline-dot { display: grid; width: 34px; height: 34px; margin: 0 auto 14px; place-items: center; border: 2px solid var(--ww-blue); border-radius: 50%; background: #fff; color: var(--ww-navy); font-size: 12px; font-weight: 850; }
     #ww-product-{{ section.id }} .wwp-timeline-step h3 { margin: 0; color: var(--ww-navy); font-size: 15px; }
     #ww-product-{{ section.id }} .wwp-timeline-step p { margin: 7px 0 0; color: var(--ww-muted); font-size: 12px; line-height: 1.45; }
+    #ww-product-{{ section.id }} .wwp-offer { padding: clamp(54px, 8vw, 96px) 0; background: #fff; border-top: 1px solid var(--ww-line); text-align: center; }
+    #ww-product-{{ section.id }} .wwp-offer h2, #ww-product-{{ section.id }} .wwp-faq h2, #ww-product-{{ section.id }} .wwp-recommendations h2 { margin: 0; color: var(--ww-navy); font-family: var(--font-heading-family, inherit); font-size: clamp(28px, 3.5vw, 43px); line-height: 1.1; letter-spacing: -.035em; }
+    #ww-product-{{ section.id }} .wwp-offer p { max-width: 600px; margin: 10px auto 22px; color: var(--ww-muted); line-height: 1.55; }
+    #ww-product-{{ section.id }} .wwp-offer-variants { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; max-width: 650px; margin: 0 auto 18px; }
+    #ww-product-{{ section.id }} .wwp-offer-variant { display: grid; grid-template-columns: 48px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 11px; border: 1px solid var(--ww-line); border-radius: 14px; background: var(--ww-bg); color: inherit; text-align: left; text-decoration: none; }
+    #ww-product-{{ section.id }} .wwp-offer-variant img { width: 48px; height: 48px; border-radius: 9px; object-fit: contain; background: #fff; }
+    #ww-product-{{ section.id }} .wwp-offer-variant strong { color: var(--ww-navy); font-size: 14px; }
+    #ww-product-{{ section.id }} .wwp-offer-variant span { color: var(--ww-blue); font-weight: 850; white-space: nowrap; }
+    #ww-product-{{ section.id }} .wwp-offer-button { display: inline-flex; min-height: 52px; align-items: center; justify-content: center; padding: 13px 28px; border-radius: 12px; background: var(--ww-navy); color: #fff; font-weight: 850; text-decoration: none; }
+    #ww-product-{{ section.id }} .wwp-offer-notes { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; margin-top: 15px; color: var(--ww-muted); font-size: 12px; }
+    #ww-product-{{ section.id }} .wwp-offer-notes span::before { margin-right: 5px; color: #2c9d67; content: '✓'; }
+    #ww-product-{{ section.id }} .wwp-faq { padding: clamp(54px, 8vw, 96px) 0; background: var(--ww-bg); border-top: 1px solid var(--ww-line); }
+    #ww-product-{{ section.id }} .wwp-faq-inner { max-width: 850px; margin: 0 auto; }
+    #ww-product-{{ section.id }} .wwp-faq h2 { margin-bottom: 26px; text-align: center; }
+    #ww-product-{{ section.id }} .wwp-faq-item { border-bottom: 1px solid var(--ww-line); }
+    #ww-product-{{ section.id }} .wwp-faq-item summary { display: flex; justify-content: space-between; gap: 20px; padding: 18px 0; color: var(--ww-navy); cursor: pointer; font-weight: 800; list-style: none; }
+    #ww-product-{{ section.id }} .wwp-faq-item summary::-webkit-details-marker { display: none; }
+    #ww-product-{{ section.id }} .wwp-faq-item summary::after { color: var(--ww-blue); content: '+'; font-size: 22px; line-height: .8; }
+    #ww-product-{{ section.id }} .wwp-faq-item[open] summary::after { content: '−'; }
+    #ww-product-{{ section.id }} .wwp-faq-answer { padding: 0 0 18px; color: var(--ww-muted); line-height: 1.65; }
+    #ww-product-{{ section.id }} .wwp-recommendations { padding: clamp(54px, 8vw, 96px) 0; background: #fff; border-top: 1px solid var(--ww-line); }
+    #ww-product-{{ section.id }} .wwp-recommendations h2 { margin-bottom: 28px; text-align: center; }
+    #ww-product-{{ section.id }} .wwp-recommendation-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+    #ww-product-{{ section.id }} .wwp-recommendation { color: inherit; text-decoration: none; }
+    #ww-product-{{ section.id }} .wwp-recommendation-media { overflow: hidden; aspect-ratio: 1; border: 1px solid var(--ww-line); border-radius: 16px; background: var(--ww-bg); }
+    #ww-product-{{ section.id }} .wwp-recommendation-media img { width: 100%; height: 100%; object-fit: contain; transition: transform .2s ease; }
+    #ww-product-{{ section.id }} .wwp-recommendation:hover img { transform: scale(1.04); }
+    #ww-product-{{ section.id }} .wwp-recommendation h3 { margin: 12px 0 4px; color: var(--ww-navy); font-size: 15px; }
+    #ww-product-{{ section.id }} .wwp-recommendation span { color: var(--ww-muted); font-size: 14px; font-weight: 700; }
     #ww-product-{{ section.id }} .wwp-details { border-top: 1px solid var(--ww-line); background: linear-gradient(180deg, #fff, var(--ww-bg)); padding: clamp(40px, 6vw, 80px) 0; }
     #ww-product-{{ section.id }} .wwp-details-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, .75fr); gap: clamp(30px, 6vw, 86px); }
     #ww-product-{{ section.id }} .wwp-details h2 { margin: 0 0 16px; color: var(--ww-navy); font-family: var(--font-heading-family, inherit); font-size: clamp(28px, 3vw, 42px); line-height: 1.1; letter-spacing: -.03em; }
@@ -175,6 +204,7 @@
       #ww-product-{{ section.id }} .wwp-proof-stats { grid-template-columns: 1fr 1fr; }
       #ww-product-{{ section.id }} .wwp-rule-grid, #ww-product-{{ section.id }} .wwp-timeline { grid-template-columns: 1fr; }
       #ww-product-{{ section.id }} .wwp-timeline::before { display: none; }
+      #ww-product-{{ section.id }} .wwp-offer-variants, #ww-product-{{ section.id }} .wwp-recommendation-grid { grid-template-columns: 1fr 1fr; }
       #ww-product-{{ section.id }} .wwp-grid--3, #ww-product-{{ section.id }} .wwp-grid--4, #ww-product-{{ section.id }} .wwp-timeline { grid-template-columns: 1fr 1fr; }
       #ww-product-{{ section.id }} .wwp-feature-grid { grid-template-columns: 1fr; }
       #ww-product-{{ section.id }} .wwp-guarantee { align-items: flex-start; padding: 20px; }
@@ -291,6 +321,31 @@
     </section>
   {% endif %}
 
+  {% if section.settings.offer_heading != blank %}
+    <section class="wwp-offer" aria-labelledby="wwp-offer-heading-{{ section.id }}">
+      <div class="wwp-shell"><h2 id="wwp-offer-heading-{{ section.id }}">{{ section.settings.offer_heading }}</h2>{% if section.settings.offer_text != blank %}<p>{{ section.settings.offer_text }}</p>{% endif %}
+        <div class="wwp-offer-variants">
+          {% for variant in product.variants limit: 2 %}
+            {% assign offer_image = variant.featured_image | default: product.featured_image %}
+            <a class="wwp-offer-variant" href="#ww-product-{{ section.id }}" data-ww-offer-variant="{{ variant.id }}">{% if offer_image != blank %}{{ offer_image | image_url: width: 120 | image_tag: loading: 'lazy', widths: '60, 120' }}{% endif %}<strong>{{ variant.title }}</strong><span>{{ variant.price | money }}</span></a>
+          {% endfor %}
+        </div>
+        <a class="wwp-offer-button" href="#ww-product-{{ section.id }}">{{ section.settings.offer_button_label }}</a>
+        {% assign offer_note_blocks = section.blocks | where: 'type', 'offer_note' %}{% if offer_note_blocks.size > 0 %}<div class="wwp-offer-notes">{% for block in offer_note_blocks %}<span {{ block.shopify_attributes }}>{{ block.settings.text }}</span>{% endfor %}</div>{% endif %}
+      </div>
+    </section>
+  {% endif %}
+
+  {% assign faq_blocks = section.blocks | where: 'type', 'faq' %}
+  {% if faq_blocks.size > 0 %}
+    <section class="wwp-faq" aria-labelledby="wwp-faq-heading-{{ section.id }}"><div class="wwp-shell wwp-faq-inner"><h2 id="wwp-faq-heading-{{ section.id }}">{{ section.settings.faq_heading }}</h2>{% for block in faq_blocks %}<details class="wwp-faq-item" {{ block.shopify_attributes }}><summary>{{ block.settings.question }}</summary><div class="wwp-faq-answer">{{ block.settings.answer }}</div></details>{% endfor %}</div></section>
+  {% endif %}
+
+  {% assign recommendation_collection = section.settings.recommendation_collection %}
+  {% if recommendation_collection != blank and recommendation_collection.products_count > 0 %}
+    <section class="wwp-recommendations" aria-labelledby="wwp-recommendations-heading-{{ section.id }}"><div class="wwp-shell"><h2 id="wwp-recommendations-heading-{{ section.id }}">{{ section.settings.recommendations_heading }}</h2><div class="wwp-recommendation-grid">{% for item in recommendation_collection.products limit: section.settings.recommendations_limit %}{% unless item.id == product.id %}<a class="wwp-recommendation" href="{{ item.url }}"><div class="wwp-recommendation-media">{% if item.featured_image != blank %}{{ item.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', widths: '240, 400, 600' }}{% endif %}</div><h3>{{ item.title }}</h3><span>{{ item.price | money }}</span></a>{% endunless %}{% endfor %}</div></div></section>
+  {% endif %}
+
   <script type="application/json" data-ww-variants>{{ product.variants | json }}</script>
   <script>
     (() => {
@@ -340,6 +395,12 @@
         selectors.forEach((select, index) => { select.value = variant.options[index]; });
         applyVariant(variant);
       }));
+      root.querySelectorAll('[data-ww-offer-variant]').forEach(link => link.addEventListener('click', () => {
+        const variant = variants.find(item => item.id === Number(link.dataset.wwOfferVariant));
+        if (!variant) return;
+        selectors.forEach((select, index) => { select.value = variant.options[index]; });
+        applyVariant(variant);
+      }));
       const thumbs = [...root.querySelectorAll('[data-ww-thumb]')];
       let index = Math.max(0, thumbs.findIndex(thumb => thumb.getAttribute('aria-current') === 'true'));
       const showImage = next => {
@@ -367,6 +428,13 @@
     {"type":"inline_richtext","id":"rule_heading","label":"Rule section heading","default":"Your result can <mark>improve</mark>"},
     {"type":"text","id":"timeline_heading","label":"Timeline heading","default":"Your first month"},
     {"type":"textarea","id":"timeline_text","label":"Timeline introduction","default":"Add your product journey or milestones."},
+    {"type":"text","id":"offer_heading","label":"Offer section heading","default":"Choose your option"},
+    {"type":"textarea","id":"offer_text","label":"Offer section introduction","default":"Prices and options are pulled from this product in Shopify."},
+    {"type":"text","id":"offer_button_label","label":"Offer button label","default":"Choose options"},
+    {"type":"text","id":"faq_heading","label":"FAQ heading","default":"Questions customers ask"},
+    {"type":"collection","id":"recommendation_collection","label":"You may also like collection"},
+    {"type":"text","id":"recommendations_heading","label":"Recommendations heading","default":"You may also like"},
+    {"type":"range","id":"recommendations_limit","label":"Maximum recommendations","min":2,"max":8,"step":1,"default":4},
     {"type":"text","id":"add_to_cart_label","label":"Add to cart label","default":"Add to cart"},
     {"type":"text","id":"in_stock_label","label":"In stock label","default":"In stock"},
     {"type":"text","id":"sold_out_label","label":"Sold out label","default":"Sold out"},
@@ -381,7 +449,9 @@
     {"type":"proof_media","name":"Social proof media","limit":5,"settings":[{"type":"image_picker","id":"image","label":"Image"},{"type":"video","id":"video","label":"Video (takes priority over image)"},{"type":"text","id":"label","label":"Media label","default":"Customer moment"}]},
     {"type":"proof_stat","name":"Social proof statistic","limit":4,"settings":[{"type":"text","id":"value","label":"Value","default":"100%"},{"type":"text","id":"label","label":"Label","default":"Editable statistic"}]},
     {"type":"rule_card","name":"Rule comparison card","limit":2,"settings":[{"type":"image_picker","id":"image","label":"Image"},{"type":"text","id":"title","label":"Title","default":"Comparison title"},{"type":"textarea","id":"text","label":"Description","default":"Add the factual comparison text here."},{"type":"text","id":"outcome","label":"Outcome","default":"Add the outcome"}]},
-    {"type":"timeline_step","name":"Timeline step","limit":5,"settings":[{"type":"text","id":"title","label":"Title","default":"Step title"},{"type":"textarea","id":"text","label":"Description","default":"Add the step details here."}]}
+    {"type":"timeline_step","name":"Timeline step","limit":5,"settings":[{"type":"text","id":"title","label":"Title","default":"Step title"},{"type":"textarea","id":"text","label":"Description","default":"Add the step details here."}]},
+    {"type":"offer_note","name":"Offer reassurance note","limit":4,"settings":[{"type":"text","id":"text","label":"Text","default":"Add a real service promise"}]},
+    {"type":"faq","name":"FAQ","limit":8,"settings":[{"type":"text","id":"question","label":"Question","default":"Add a question"},{"type":"richtext","id":"answer","label":"Answer","default":"<p>Add the answer in the Theme Editor.</p>"}]}
   ],
   "presets":[{"name":"WeeWonders product page","blocks":[{"type":"benefit"},{"type":"benefit","settings":{"title":"Quality assured","text":"Made to last"}},{"type":"benefit","settings":{"title":"Support available","text":"We are here to help"}},{"type":"review"},{"type":"proof_media"},{"type":"proof_stat"},{"type":"rule_card"},{"type":"timeline_step"}]}]
 }
