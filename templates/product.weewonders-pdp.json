@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "weewonders-pdp",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

@@ -97,14 +97,18 @@
     {% render 'transition-cover' %}
 
     <div class="transition-body">
-      {% sections 'header-group' %}
+      {% unless template.suffix == 'weewonders-pdp' %}
+        {% sections 'header-group' %}
+      {% endunless %}
 
       <div class="transition-content">
         <main id="MainContent" class="content-for-layout focus-none shopify-section" role="main" tabindex="-1">
           {{ content_for_layout }}
         </main>
 
-        {% sections 'footer-group' %}
+        {% unless template.suffix == 'weewonders-pdp' %}
+          {% sections 'footer-group' %}
+        {% endunless %}
       </div>
     </div>
 
