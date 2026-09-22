@@ -1,0 +1,292 @@
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    --section-padding-top: {{ section.settings.padding_top }}px;
+    --section-padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{%- endstyle -%}
+
+{{ 'section-faq.css' | asset_url | stylesheet_tag }}
+
+<div class="section--padding{% if section.settings.show_divider %} section--divider{% endif %}">
+  {%- if section.settings.secondary_background -%}
+    <div class="faq--colored">
+  {%- endif -%}
+    <div class="faq page-width{% if section.settings.narrow %} page-width--inner{% endif %}">
+      <div class="title-wrapper{% if section.settings.heading == blank %} title-wrapper--no-heading{% endif %} {{ section.settings.heading_alignment }}">
+        <{{ section.settings.heading_tag }} class="title {{ section.settings.heading_size }}">
+  {% if request.locale.iso_code contains 'ar' %}
+    أسئلة بتخطر ببالك
+  {% else %}
+    {{ section.settings.heading | escape }}
+  {% endif %}
+</{{ section.settings.heading_tag }}>
+      </div>
+
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'rich-text' -%}
+            <p class="h3" {{ block.shopify_attributes }}>{{ block.settings.title | escape }}</p>
+            <div class="rte">{{ block.settings.text }}</div>
+          {%- when 'question' -%}
+            {%- if block.settings.text != blank -%}
+            <accordion-tab {{ block.shopify_attributes }}>
+              <details>
+                <summary>
+                  <span>
+                    <span class="icon icon-plus-alt"></span>
+                    {% if request.locale.iso_code contains 'ar' %}
+  {% case forloop.index %}
+    {% when 1 %}
+      قدّيش لازم تدوم جلسة الشفط؟
+    {% when 2 %}
+      كيف بختار مستوى الشفط المناسب؟
+    {% when 3 %}
+      هل مريحة باللبس؟
+    {% when 4 %}
+      كيف بنضّف المضخة؟
+    {% when 5 %}
+      فيني اتحرّك وأنا عم بشفط؟
+    {% else %}
+      {{ block.settings.title | escape }}
+  {% endcase %}
+{% else %}
+  {{ block.settings.title | escape }}
+{% endif %}
+                  </span>
+                </summary>
+                <div class="accordion__content rte typeset">
+  {% if request.locale.iso_code contains 'ar' %}
+    {% case forloop.index %}
+      {% when 1 %}
+        <p>عادةً جلسة الشفط بتكون حوالي ١٥ إلى ٣٠ دقيقة، حسب جسمك وكمية الحليب. الأهم ما تضغطي على حالك ووقفي إذا حسّيتي بأي انزعاج.</p>
+
+      {% when 2 %}
+        <p>بلّشي بمستوى خفيف، وبعدها زيدي تدريجياً لحدّ ما تحسي إنو الشفط فعّال بس بعده مريح. الشفط الأقوى مش دايمًا يعني نتيجة أحسن.</p>
+
+      {% when 3 %}
+        <p>إيه، مصمّمة لتكون خفيفة ومريحة جوّا حمالة صدر، وتساعدك تشفطي من دون ما تكوني ماسكة المضخة بإيدك.</p>
+
+      {% when 4 %}
+        <p>بعد كل استخدام، فكّي القطع اللي بيلمسوا الحليب واغسليهم بمي دافية وصابون. خليهم ينشفوا منيح قبل التركيب من جديد.</p>
+
+      {% when 5 %}
+        <p>إيه، لأنها لاسلكية وبتنلبس جوّا حمالة صدر، فيكِ تتحرّكي وتعملي شغلك الخفيف خلال الشفط.</p>
+
+      {% else %}
+        {{ block.settings.text }}
+    {% endcase %}
+  {% else %}
+    {{ block.settings.text }}
+  {% endif %}
+</div>
+              </details>
+            </accordion-tab>
+            {%- endif -%}
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  {%- if section.settings.secondary_background -%}
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.faq.name",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "narrow",
+      "default": false,
+      "label": "t:sections.all.narrow.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "secondary_background",
+      "default": false,
+      "label": "t:sections.faq.settings.secondary_background.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_divider",
+      "default": false,
+      "label": "t:sections.all.show_divider.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.heading.label"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "FAQs",
+      "label": "t:sections.all.heading.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "t:sections.all.heading_alignment.label",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.all.heading_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.all.heading_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.all.heading_alignment.options__3.label"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "options": [
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_tag.options__1.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_tag.options__2.label"
+        },
+        {
+          "value": "h3",
+          "label": "t:sections.all.heading_tag.options__3.label"
+        },
+        {
+          "value": "h4",
+          "label": "t:sections.all.heading_tag.options__4.label"
+        },
+        {
+          "value": "h5",
+          "label": "t:sections.all.heading_tag.options__5.label"
+        },
+        {
+          "value": "h6",
+          "label": "t:sections.all.heading_tag.options__6.label"
+        },
+        {
+          "value": "div",
+          "label": "t:sections.all.heading_tag.options__7.label"
+        },
+        {
+          "value": "span",
+          "label": "t:sections.all.heading_tag.options__8.label"
+        },
+        {
+          "value": "p",
+          "label": "t:sections.all.heading_tag.options__9.label"
+        }
+      ],
+      "default": "h2",
+      "label": "t:sections.all.heading_tag.label",
+      "info": "t:sections.all.heading_tag.info"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.header.content"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "t:sections.all.padding.padding_top.unit",
+      "label": "t:sections.all.padding.padding_top.label",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "t:sections.all.padding.padding_bottom.unit",
+      "label": "t:sections.all.padding.padding_bottom.label",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "rich-text",
+      "name": "t:sections.faq.blocks.rich-text.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "default": "Rich text",
+          "label": "t:sections.faq.blocks.rich-text.settings.title.label"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "<p>Use this section for any descriptive text you need to fill out your pages or to add introductory headings between other blocks.</p>",
+          "label": "t:sections.faq.blocks.rich-text.settings.text.label"
+        }
+      ]
+    },
+    {
+      "type": "question",
+      "name": "t:sections.faq.blocks.question.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "default": "Frequently asked question",
+          "label": "t:sections.faq.blocks.question.settings.title.label"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "t:sections.faq.blocks.question.settings.text.label",
+          "default": "<p>Use this text to answer questions in as much detail as possible for your customers.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.faq.presets.name",
+      "blocks": [
+        {
+          "type": "question"
+        },
+        {
+          "type": "question"
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.overlay"]
+  }
+}
+{% endschema %}

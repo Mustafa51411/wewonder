@@ -1,0 +1,419 @@
+{% comment %}
+  Section: Product In Action (2-card slider)
+  - 2 cards per viewport (desktop + mobile)
+  - Each card = Video ONLY (no text under)
+  - Play/Pause icon per card
+  - Left/Right arrows under the title (horizontal)
+  - FIX: prevent blurry preview by forcing high-res poster for Shopify videos
+  - NOTE: audio can only be heard after user interaction (tap/click). We unmute on play.
+{% endcomment %}
+
+{%- style -%}
+  #shopify-section-{{ section.id }}{
+    --pia-bg: {{ section.settings.bg }};
+    --pia-text: {{ section.settings.text }};
+    --pia-muted: {{ section.settings.muted }};
+    --pia-accent: {{ section.settings.accent }};
+    --pia-border: rgba(0,0,0,.10);
+    --pia-radius: 18px;
+    --pia-gap: {{ section.settings.gap }}px;
+    --pia-pad-y: {{ section.settings.pad_y }}px;
+    --pia-pad-x: {{ section.settings.pad_x }}px;
+    --pia-max: {{ section.settings.max_width }}px;
+  }
+
+  #shopify-section-{{ section.id }} .pia{
+    background: var(--pia-bg);
+    color: var(--pia-text);
+    padding: var(--pia-pad-y) var(--pia-pad-x);
+    width: 100%;
+  }
+
+  #shopify-section-{{ section.id }} .pia__wrap{
+    max-width: var(--pia-max);
+    margin: 0 auto;
+  }
+
+  #shopify-section-{{ section.id }} .pia__top{
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  #shopify-section-{{ section.id }} .pia__title{
+    margin: 0;
+    font-size: 30px;
+    line-height: 1.1;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+
+  #shopify-section-{{ section.id }} .pia__sub{
+    margin: 8px 0 0;
+    color: var(--pia-muted);
+    line-height: 1.55;
+    max-width: 70ch;
+    font-weight: 600;
+  }
+
+  /* arrows (horizontal) */
+  #shopify-section-{{ section.id }} .pia__nav{
+    display: inline-flex;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  #shopify-section-{{ section.id }} .pia__arrow{
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    border: 1px solid rgba(0,0,0,.10);
+    background: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform .12s ease, opacity .12s ease;
+  }
+
+  #shopify-section-{{ section.id }} .pia__arrow:active{ transform: scale(.96); }
+  #shopify-section-{{ section.id }} .pia__arrow[disabled]{ opacity: .45; cursor: not-allowed; }
+
+  #shopify-section-{{ section.id }} .pia__arrow svg{
+    width: 18px;
+    height: 18px;
+    display: block;
+    fill: none;
+    stroke: #111;
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* slider track */
+  #shopify-section-{{ section.id }} .pia__track{
+    display: flex;
+    gap: var(--pia-gap);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 10px;
+  }
+
+  /* 2 cards per viewport always */
+  #shopify-section-{{ section.id }} .pia__card{
+    flex: 0 0 calc((100% - var(--pia-gap)) / 2);
+    scroll-snap-align: start;
+    border: 1px solid var(--pia-border);
+    border-radius: var(--pia-radius);
+    overflow: hidden;
+    background: transparent;
+    position: relative;
+  }
+
+  /* video area */
+  #shopify-section-{{ section.id }} .pia__media{
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    background: #fff;
+  }
+
+  /* keep previews crisp */
+  #shopify-section-{{ section.id }} .pia__media video,
+  #shopify-section-{{ section.id }} .pia__media iframe{
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    object-fit: cover;
+
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+  }
+
+  /* play/pause */
+  #shopify-section-{{ section.id }} .pia__pp{
+    position: absolute;
+    left: 14px;
+    bottom: 14px;
+    width: 46px;
+    height: 46px;
+    border-radius: 999px;
+    border: 0;
+    background: color-mix(in srgb, var(--pia-accent) 92%, #fff 8%);
+    box-shadow: 0 14px 24px rgba(0,0,0,.16);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform .12s ease, opacity .12s ease;
+    z-index: 3;
+  }
+
+  #shopify-section-{{ section.id }} .pia__pp:active{ transform: scale(.96); }
+
+  #shopify-section-{{ section.id }} .pia__pp svg{
+    width: 20px;
+    height: 20px;
+    fill: #fff;
+  }
+
+  #shopify-section-{{ section.id }} .pia__pp .is-pause{ display: none; }
+  #shopify-section-{{ section.id }} .pia__card.is-playing .pia__pp .is-play{ display: none; }
+  #shopify-section-{{ section.id }} .pia__card.is-playing .pia__pp .is-pause{ display: block; }
+
+  @media (max-width: 420px){
+    #shopify-section-{{ section.id }} .pia__pp{ width: 42px; height: 42px; }
+    #shopify-section-{{ section.id }} .pia__pp svg{ width: 18px; height: 18px; }
+  }
+{%- endstyle -%}
+
+<section class="pia" data-pia>
+  <div class="pia__wrap">
+    <div class="pia__top">
+      <div>
+        {%- if section.settings.heading != blank -%}
+          <h2 class="pia__title">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <div class="pia__sub rte">{{ section.settings.subheading }}</div>
+        {%- endif -%}
+      </div>
+
+      <div class="pia__nav" aria-label="Slider navigation">
+        <button class="pia__arrow" type="button" data-pia-prev aria-label="Previous">
+          <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="pia__arrow" type="button" data-pia-next aria-label="Next">
+          <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="pia__track" data-pia-track>
+      {%- for block in section.blocks -%}
+        <article class="pia__card" {{ block.shopify_attributes }} data-pia-card>
+          <div class="pia__media">
+            {%- if block.settings.media_type == 'shopify_video' and block.settings.video != blank -%}
+              {{
+                block.settings.video
+                | video_tag:
+                  image_size: '2000x',
+                  autoplay: false,
+                  loop: false,
+                  muted: false,
+                  controls: false,
+                  preload: 'metadata'
+              }}
+            {%- elsif block.settings.media_type == 'external' and block.settings.external_url != blank -%}
+              {%- assign url = block.settings.external_url | strip -%}
+              {%- if url contains 'youtube.com' or url contains 'youtu.be' -%}
+                {%- assign yt_id = '' -%}
+                {%- if url contains 'youtu.be/' -%}
+                  {%- assign yt_id = url | split: 'youtu.be/' | last | split: '?' | first -%}
+                {%- elsif url contains 'v=' -%}
+                  {%- assign yt_id = url | split: 'v=' | last | split: '&' | first -%}
+                {%- endif -%}
+                <iframe
+                  data-pia-iframe
+                  src="https://www.youtube.com/embed/{{ yt_id }}?rel=0&modestbranding=1&playsinline=1"
+                  title="Video"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                  loading="lazy"></iframe>
+              {%- elsif url contains 'vimeo.com' -%}
+                {%- assign vimeo_id = url | split: 'vimeo.com/' | last | split: '?' | first -%}
+                <iframe
+                  data-pia-iframe
+                  src="https://player.vimeo.com/video/{{ vimeo_id }}?autoplay=0&muted=1"
+                  title="Video"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  allowfullscreen
+                  loading="lazy"></iframe>
+              {%- else -%}
+                <iframe
+                  data-pia-iframe
+                  src="{{ url | escape }}"
+                  title="Video"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  allowfullscreen
+                  loading="lazy"></iframe>
+              {%- endif -%}
+            {%- else -%}
+              <div style="display:flex;align-items:center;justify-content:center;height:100%;font-weight:800;opacity:.6;">
+                Add a video in block settings
+              </div>
+            {%- endif -%}
+
+            <button class="pia__pp" type="button" data-pia-toggle aria-label="Play/Pause">
+              <svg class="is-play" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M8 5v14l12-7z"></path>
+              </svg>
+              <svg class="is-pause" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M7 5h4v14H7zM13 5h4v14h-4z"></path>
+              </svg>
+            </button>
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<script>
+  (function(){
+    const root = document.querySelector('#shopify-section-{{ section.id }} [data-pia]');
+    if(!root) return;
+
+    const track = root.querySelector('[data-pia-track]');
+    const btnPrev = root.querySelector('[data-pia-prev]');
+    const btnNext = root.querySelector('[data-pia-next]');
+    const cards = Array.from(root.querySelectorAll('[data-pia-card]'));
+
+    function pageWidth(){ return track.clientWidth; }
+
+    function updateNav(){
+      const maxScroll = track.scrollWidth - track.clientWidth - 1;
+      const x = track.scrollLeft;
+      if(btnPrev) btnPrev.disabled = x <= 2;
+      if(btnNext) btnNext.disabled = x >= maxScroll;
+    }
+
+    function pauseAllExcept(exceptVideo){
+      cards.forEach(card => {
+        const v = card.querySelector('video');
+        if(!v){ card.classList.remove('is-playing'); return; }
+        if(v !== exceptVideo){
+          try{ v.pause(); }catch(e){}
+          card.classList.remove('is-playing');
+        }
+      });
+    }
+
+    btnPrev && btnPrev.addEventListener('click', () => {
+      track.scrollBy({ left: -pageWidth(), behavior: 'smooth' });
+    });
+
+    btnNext && btnNext.addEventListener('click', () => {
+      track.scrollBy({ left: pageWidth(), behavior: 'smooth' });
+    });
+
+    track.addEventListener('scroll', () => window.requestAnimationFrame(updateNav));
+    window.addEventListener('resize', updateNav);
+    updateNav();
+
+    cards.forEach(card => {
+      const toggle = card.querySelector('[data-pia-toggle]');
+      const v = card.querySelector('video');
+
+      if(v){
+        v.controls = false;
+        v.setAttribute('playsinline','');
+        v.setAttribute('webkit-playsinline','');
+      }
+
+      const togglePlay = async () => {
+        if(!v){
+          try{ card.scrollIntoView({ behavior:'smooth', inline:'start', block:'nearest' }); }catch(e){}
+          return;
+        }
+
+        if(v.paused){
+          pauseAllExcept(v);
+          try{
+            v.muted = false;   // 🔊 allow audio after user interaction
+            v.volume = 1;
+            await v.play();
+            card.classList.add('is-playing');
+          }catch(e){}
+        }else{
+          try{ v.pause(); }catch(e){}
+          card.classList.remove('is-playing');
+        }
+      };
+
+      toggle && toggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        togglePlay();
+      });
+
+      if(v){
+        v.addEventListener('click', togglePlay);
+        v.addEventListener('ended', () => card.classList.remove('is-playing'));
+      }
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if(document.hidden){
+        cards.forEach(card => {
+          const v = card.querySelector('video');
+          if(v){ try{ v.pause(); }catch(e){} }
+          card.classList.remove('is-playing');
+        });
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Product In Action",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Title", "default": "Shop Your Product In Action" },
+    { "type": "richtext", "id": "subheading", "label": "Subtitle", "default": "<p>Tap play to watch each video.</p>" },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "max_width", "min": 900, "max": 2000, "step": 50, "unit": "px", "label": "Max width", "default": 1200 },
+    { "type": "range", "id": "gap", "min": 8, "max": 30, "step": 2, "unit": "px", "label": "Card gap", "default": 14 },
+    { "type": "range", "id": "pad_y", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding top/bottom", "default": 28 },
+    { "type": "range", "id": "pad_x", "min": 0, "max": 60, "step": 4, "unit": "px", "label": "Padding left/right", "default": 16 },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "bg", "label": "Background", "default": "#ffffff" },
+    { "type": "color", "id": "text", "label": "Text", "default": "#111111" },
+    { "type": "color", "id": "muted", "label": "Muted text", "default": "#6b6b6b" },
+    { "type": "color", "id": "accent", "label": "Accent (play button)", "default": "#f37a77" }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Video Card",
+      "settings": [
+        {
+          "type": "select",
+          "id": "media_type",
+          "label": "Media type",
+          "default": "shopify_video",
+          "options": [
+            { "value": "shopify_video", "label": "Shopify hosted video" },
+            { "value": "external", "label": "External (YouTube/Vimeo)" }
+          ]
+        },
+        { "type": "video", "id": "video", "label": "Shopify video" },
+        { "type": "url", "id": "external_url", "label": "External video URL" }
+      ]
+    }
+  ],
+  "max_blocks": 30,
+  "presets": [
+    {
+      "name": "Product In Action",
+      "blocks": [
+        { "type": "card" },
+        { "type": "card" },
+        { "type": "card" },
+        { "type": "card" }
+      ]
+    }
+  ]
+}
+{% endschema %}

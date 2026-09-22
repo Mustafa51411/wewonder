@@ -1,0 +1,592 @@
+{% liquid
+  assign sid = section.id
+  assign accent = section.settings.accent_color | default: '#2b6eda'
+  assign bg = section.settings.background_color | default: '#ffffff'
+  assign text = section.settings.text_color | default: '#0b0f19'
+  assign muted = section.settings.muted_text_color | default: '#2b2f3a'
+  assign card = section.settings.card_color | default: '#ffffff'
+  assign border = section.settings.border_color | default: 'rgba(0,0,0,0.10)'
+  assign maxw = section.settings.max_width | default: 1100
+-%}
+
+<section id="hm-premium-accordion-{{ sid }}" class="hm-pa" data-hm-pa>
+  <div class="hm-pa__wrap">
+    {% if section.settings.image != blank %}
+      <div class="hm-pa__media">
+        {{ section.settings.image | image_url: width: 1800 | image_tag: class: 'hm-pa__img', loading: 'lazy', alt: section.settings.image_alt | escape }}
+      </div>
+    {% endif %}
+
+    {% if section.settings.heading != blank %}
+      <h2 class="hm-pa__heading">{{ section.settings.heading }}</h2>
+    {% endif %}
+    {% if section.settings.subheading != blank %}
+      <div class="hm-pa__subheading rte">{{ section.settings.subheading }}</div>
+    {% endif %}
+
+    <div class="hm-pa__accordion" role="presentation">
+      {% for block in section.blocks %}
+        {% assign bid = block.id %}
+        <div class="hm-pa__item" data-pa-item {{ block.shopify_attributes }}>
+          <button
+            class="hm-pa__trigger"
+            type="button"
+            aria-expanded="{% if forloop.first and section.settings.open_first %}true{% else %}false{% endif %}"
+            aria-controls="hm-pa-panel-{{ sid }}-{{ bid }}"
+            id="hm-pa-trigger-{{ sid }}-{{ bid }}"
+            data-pa-trigger
+          >
+            <span class="hm-pa__left">
+              {% if block.settings.badge != blank %}
+                <span class="hm-pa__badge">{{ block.settings.badge }}</span>
+              {% endif %}
+              <span class="hm-pa__title">{{ block.settings.title }}</span>
+            </span>
+
+            <span class="hm-pa__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
+                <path d="M6.7 9.3a1 1 0 0 1 1.4 0L12 13.2l3.9-3.9a1 1 0 1 1 1.4 1.4l-4.6 4.6a1 1 0 0 1-1.4 0L6.7 10.7a1 1 0 0 1 0-1.4z"></path>
+              </svg>
+            </span>
+          </button>
+
+          <div
+            class="hm-pa__panel"
+            id="hm-pa-panel-{{ sid }}-{{ bid }}"
+            role="region"
+            aria-labelledby="hm-pa-trigger-{{ sid }}-{{ bid }}"
+            data-pa-panel
+          >
+            <div class="hm-pa__panel-inner rte">
+              {{ block.settings.content }}
+            </div>
+          </div>
+
+          <div class="hm-pa__divider" aria-hidden="true"></div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+<style>
+  /* FULL-WIDTH SECTION, PERFECTLY CENTERED (no “far left” issue) */
+  #hm-premium-accordion-{{ sid }}.hm-pa{
+    --pa-accent: {{ accent }};
+    --pa-bg: {{ bg }};
+    --pa-text: {{ text }};
+    --pa-muted: {{ muted }};
+    --pa-card: {{ card }};
+    --pa-border: {{ border }};
+    --pa-maxw: {{ maxw }}px;
+
+    background: var(--pa-bg);
+    color: var(--pa-text);
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+    font-family: var(--font-body-family, inherit);
+
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  /* CENTERED WRAP THAT CAN BE WIDE, BUT NEVER OVERFLOWS SCREEN */
+  #hm-premium-accordion-{{ sid }} .hm-pa__wrap{
+    width: 100%;
+    max-width: min(1400px, calc(100vw - 32px)); /* wide on desktop, safe gutters */
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+
+  /* Media */
+  #hm-premium-accordion-{{ sid }} .hm-pa__media{
+    width: 100%;
+    display: grid;
+    place-items: center;
+    margin-bottom: 22px;
+  }
+
+  #hm-premium-accordion-{{ sid }} .hm-pa__img{
+    width: 100%;
+    max-width: 520px;
+    height: auto;
+    display: block;
+    border-radius: 22px;
+    background: rgba(0,0,0,0.04);
+    box-shadow:
+      0 18px 50px rgba(0,0,0,0.12),
+      inset 0 1px 0 rgba(255,255,255,0.6);
+  }
+
+  /* Headings */
+  #hm-premium-accordion-{{ sid }} .hm-pa__heading{
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.08;
+    font-size: clamp(28px, 4vw, 44px);
+    text-align: left;
+  }
+
+  #hm-premium-accordion-{{ sid }} .hm-pa__subheading{
+    margin-top: 10px;
+    color: var(--pa-muted);
+    font-size: 16px;
+    line-height: 1.5;
+    max-width: 70ch;
+  }
+
+  /* Accordion */
+  #hm-premium-accordion-{{ sid }} .hm-pa__accordion{
+    margin-top: 22px;
+    border-radius: 22px;
+    background: var(--pa-card);
+    border: 1px solid var(--pa-border);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+
+  #hm-premium-accordion-{{ sid }} .hm-pa__item{
+    position: relative;
+    background: transparent;
+  }
+
+  #hm-premium-accordion-{{ sid }} .hm-pa__trigger{
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: var(--pa-text);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 18px;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    box-sizing: border-box;
+  }
+
+  #hm-premium-accordion-{{ sid }} .hm-pa__trigger:focus-visible{
+    outline: 2px solid color-mix(in srgb, var(--pa-accent) 55%, transparent);
+    outline-offset: -2px;
+  }
+
+  #hm-premium-accordion-{{ sid }} .hm-pa__left{
+    display: grid;
+    gap: 10px;
+    align-items: start;
+    min-width: 0;
+  }
+
+  #hm-premium-accordion-{{ sid }} .hm-pa__badge{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--pa-accent);
+    background: color-mix(in srgb, var(--pa-accent) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--pa-accent) 35%, transparent);
+  }
+
+  #hm-premium-accordion-{{ sid }} .hm-pa__title{
+    font-size: clamp(18px, 2.2vw, 24px);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    word-break: break-word;
+  }
+
+  #hm-premium-accordion-{{ sid }} .hm-pa__icon{
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--pa-accent) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--pa-accent) 22%, transparent);
+    flex: 0 0 auto;
+    transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+  }
+
+  #hm-premium-accordion-{{ sid }} .hm-pa__icon svg{
+    width: 20px;
+    height: 20px;
+    fill: var(--pa-accent);
+    display: block;
+  }
+
+  #hm-premium-accordion-{{ sid }} .hm-pa__panel{
+    height: 0;
+    overflow: hidden;
+    transition: height 260ms ease;
+    will-change: height;
+  }
+
+  #hm-premium-accordion-{{ sid }} .hm-pa__panel-inner{
+    padding: 0 18px 18px;
+    color: var(--pa-text);
+    font-size: 15px;
+    line-height: 1.65;
+    box-sizing: border-box;
+  }
+
+  #hm-premium-accordion-{{ sid }} .hm-pa__panel-inner :where(p, ul, ol){
+    margin: 0 0 10px 0;
+  }
+  #hm-premium-accordion-{{ sid }} .hm-pa__panel-inner :where(ul, ol){
+    padding-left: 18px;
+  }
+
+  #hm-premium-accordion-{{ sid }} .hm-pa__divider{
+    height: 1px;
+    background: color-mix(in srgb, var(--pa-border) 85%, transparent);
+    margin: 0 18px;
+  }
+
+  #hm-premium-accordion-{{ sid }} .hm-pa__item:last-child .hm-pa__divider{
+    display: none;
+  }
+
+  /* Open state */
+  #hm-premium-accordion-{{ sid }} .hm-pa__item.is-open .hm-pa__icon{
+    transform: rotate(180deg);
+    background: color-mix(in srgb, var(--pa-accent) 14%, transparent);
+    border-color: color-mix(in srgb, var(--pa-accent) 35%, transparent);
+  }
+
+  /* MOBILE: full width + safe gutter */
+  @media (max-width: 768px){
+    #hm-premium-accordion-{{ sid }}.hm-pa{
+      padding: {{ section.settings.padding_top_mobile }}px 0 {{ section.settings.padding_bottom_mobile }}px;
+    }
+
+    #hm-premium-accordion-{{ sid }} .hm-pa__wrap{
+      max-width: calc(100vw - 28px);
+    }
+
+    #hm-premium-accordion-{{ sid }} .hm-pa__trigger{
+      padding: 16px 14px;
+    }
+
+    #hm-premium-accordion-{{ sid }} .hm-pa__panel-inner{
+      padding: 0 14px 16px;
+    }
+
+    #hm-premium-accordion-{{ sid }} .hm-pa__divider{
+      margin: 0 14px;
+    }
+  }
+
+  /* VERY WIDE DESKTOP: make it wider */
+  @media (min-width: 1200px){
+    #hm-premium-accordion-{{ sid }} .hm-pa__wrap{
+      max-width: min(1560px, calc(100vw - 64px));
+    }
+  }
+</style>
+
+
+  <script>
+    (function () {
+      'use strict';
+
+      var root = document.querySelector('#hm-premium-accordion-{{ sid }}[data-hm-pa]');
+      if (!root) return;
+
+      function qsa(sel, ctx){ return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); }
+
+      var items = qsa('[data-pa-item]', root);
+
+      function setOpen(item, open, animate) {
+        var trigger = item.querySelector('[data-pa-trigger]');
+        var panel = item.querySelector('[data-pa-panel]');
+        if (!trigger || !panel) return;
+
+        var isOpen = item.classList.contains('is-open');
+        if (open === isOpen) return;
+
+        if (open) item.classList.add('is-open');
+        else item.classList.remove('is-open');
+
+        trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+
+        // Height animation
+        var inner = panel.firstElementChild;
+        if (!inner) return;
+
+        if (!animate) {
+          panel.style.transition = 'none';
+          panel.style.height = open ? inner.scrollHeight + 'px' : '0px';
+          panel.offsetHeight; // reflow
+          panel.style.transition = '';
+          return;
+        }
+
+        if (open) {
+          panel.style.height = '0px';
+          panel.offsetHeight; // reflow
+          panel.style.height = inner.scrollHeight + 'px';
+        } else {
+          panel.style.height = panel.scrollHeight + 'px';
+          panel.offsetHeight; // reflow
+          panel.style.height = '0px';
+        }
+      }
+
+      function closeAllExcept(exceptItem) {
+        items.forEach(function (it) {
+          if (it !== exceptItem) setOpen(it, false, true);
+        });
+      }
+
+      function bind() {
+        items = qsa('[data-pa-item]', root);
+
+        items.forEach(function (item) {
+          var trigger = item.querySelector('[data-pa-trigger]');
+          var panel = item.querySelector('[data-pa-panel]');
+          if (!trigger || !panel) return;
+
+          if (trigger.__hmBound) return;
+          trigger.__hmBound = true;
+
+          trigger.addEventListener('click', function () {
+            var willOpen = !item.classList.contains('is-open');
+            if (willOpen) closeAllExcept(item);
+            setOpen(item, willOpen, true);
+          }, { passive: true });
+
+          panel.addEventListener('transitionend', function (e) {
+            if (e.propertyName !== 'height') return;
+            if (item.classList.contains('is-open')) {
+              // keep height locked to content (good for iOS)
+              panel.style.height = panel.firstElementChild.scrollHeight + 'px';
+            }
+          });
+        });
+      }
+
+      function syncOpenHeights() {
+        items.forEach(function (item) {
+          var panel = item.querySelector('[data-pa-panel]');
+          if (!panel) return;
+          if (!item.classList.contains('is-open')) return;
+          var inner = panel.firstElementChild;
+          if (!inner) return;
+          panel.style.height = inner.scrollHeight + 'px';
+        });
+      }
+
+      // Init
+      bind();
+
+      // Open first if enabled
+      if ({{ section.settings.open_first | json }}) {
+        var first = items[0];
+        if (first) setOpen(first, true, false);
+      }
+
+      // Resize resilience
+      window.addEventListener('resize', function () {
+        syncOpenHeights();
+      });
+
+      // Re-bind if theme re-renders
+      try {
+        var mo = new MutationObserver(function () {
+          bind();
+          syncOpenHeights();
+        });
+        mo.observe(root, { childList: true, subtree: true });
+      } catch (e) {}
+
+    })();
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Premium image + c",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Top image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image alt text",
+      "default": "Section image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Probiotic That Delivers Results"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "<p>Tap each section to learn more.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_first",
+      "label": "Open first item by default",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Max content width (px)",
+      "min": 720,
+      "max": 1400,
+      "step": 20,
+      "default": 1100
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#2b6eda"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_color",
+      "label": "Card color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#0b0f19"
+    },
+    {
+      "type": "color",
+      "id": "muted_text_color",
+      "label": "Muted text color",
+      "default": "#2b2f3a"
+    },
+    {
+      "type": "text",
+      "id": "border_color",
+      "label": "Border color (CSS value)",
+      "default": "rgba(0,0,0,0.10)"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top (desktop)",
+      "min": 0,
+      "max": 140,
+      "step": 4,
+      "default": 44
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom (desktop)",
+      "min": 0,
+      "max": 140,
+      "step": 4,
+      "default": 44
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding top (mobile)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom (mobile)",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 28
+    }
+  ],
+  "blocks": [
+    {
+      "type": "panel",
+      "name": "Collapsible",
+      "settings": [
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge (e.g. 7 DAYS)",
+          "default": "7 DAYS"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Reduces Bloating and Gas"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<ul><li>Clinically proven to reduce bloating</li><li>Alleviates excess gas</li><li>Eases digestive discomfort</li></ul>"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Premium image + collapsibles",
+      "blocks": [
+        { "type": "panel" },
+        {
+          "type": "panel",
+          "settings": {
+            "badge": "2 WEEKS",
+            "title": "Supports Healthy Regularity*",
+            "content": "<ul><li>Helps support gut rhythm</li><li>Promotes smoother digestion</li><li>Supports comfort day to day</li></ul>"
+          }
+        },
+        {
+          "type": "panel",
+          "settings": {
+            "badge": "1 MONTH",
+            "title": "Helps Strengthen the Microbiome",
+            "content": "<ul><li>Supports beneficial bacteria</li><li>Helps improve resilience</li><li>Designed for daily use</li></ul>"
+          }
+        },
+        {
+          "type": "panel",
+          "settings": {
+            "badge": "ONGOING",
+            "title": "Supports Long-Term Gut Health",
+            "content": "<ul><li>Supports digestive balance</li><li>Helps maintain comfort</li><li>Complements a healthy routine</li></ul>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

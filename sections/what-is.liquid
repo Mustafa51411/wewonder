@@ -1,0 +1,410 @@
+{% comment %}
+  Section: DS-01 Difference (Mobile-first)
+  File: sections/ds01-difference-grid.liquid
+{% endcomment %}
+
+<section
+  id="ds01-diff-{{ section.id }}"
+  class="ds01-diff"
+  style="
+    --ds01-bg: {{ section.settings.bg_color }};
+    --ds01-text: {{ section.settings.text_color }};
+    --ds01-muted: {{ section.settings.muted_text_color }};
+    --ds01-divider: {{ section.settings.divider_color }};
+    --ds01-dash: {{ section.settings.dash_color }};
+    --ds01-card-gap: {{ section.settings.card_gap }}px;
+    --ds01-pad-x: {{ section.settings.mobile_side_padding }}px;
+  "
+>
+  <div class="ds01-diff__wrap page-width">
+    <header class="ds01-diff__header">
+      {% if section.settings.heading != blank %}
+        <h2 class="ds01-diff__title">{{ section.settings.heading }}</h2>
+      {% endif %}
+
+      {% if section.settings.subheading != blank %}
+        <p class="ds01-diff__sub">{{ section.settings.subheading }}</p>
+      {% endif %}
+    </header>
+
+    {% if section.settings.hero_image != blank %}
+      <div class="ds01-diff__hero">
+        {{
+          section.settings.hero_image
+          | image_url: width: 1400
+          | image_tag:
+            loading: 'lazy',
+            widths: '480, 640, 800, 1000, 1200, 1400',
+            sizes: '(max-width: 860px) 92vw, 900px',
+            alt: section.settings.hero_alt | escape
+        }}
+      </div>
+    {% endif %}
+
+    <div class="ds01-diff__grid" role="list">
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'feature' %}
+            <div class="ds01-diff__item" role="listitem" {{ block.shopify_attributes }}>
+              <div class="ds01-diff__icon">
+                {% if block.settings.icon_svg != blank %}
+                  <span class="ds01-diff__icon-svg" aria-hidden="true">
+                    {{ block.settings.icon_svg }}
+                  </span>
+                {% elsif block.settings.icon_image != blank %}
+                  <span class="ds01-diff__icon-img" aria-hidden="true">
+                    {{
+                      block.settings.icon_image
+                      | image_url: width: 140
+                      | image_tag: loading: 'lazy', alt: ''
+                    }}
+                  </span>
+                {% else %}
+                  <span class="ds01-diff__icon-fallback" aria-hidden="true">?</span>
+                {% endif %}
+              </div>
+
+              <div class="ds01-diff__dash" aria-hidden="true"></div>
+
+              {% if block.settings.title != blank %}
+                <h3 class="ds01-diff__h">{{ block.settings.title }}</h3>
+              {% endif %}
+
+              {% if block.settings.body != blank %}
+                <p class="ds01-diff__p">{{ block.settings.body }}</p>
+              {% endif %}
+            </div>
+        {% endcase %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <style>
+    /* =========================================
+       DS-01 Difference — Mobile-first (matches screenshot)
+       ========================================= */
+
+    #ds01-diff-{{ section.id }}{
+      background: var(--ds01-bg);
+      color: var(--ds01-text);
+      padding: 26px 0 34px;
+    }
+
+    /* Make spacing feel premium on mobile */
+    #ds01-diff-{{ section.id }} .page-width{
+      padding-left: var(--ds01-pad-x) !important;
+      padding-right: var(--ds01-pad-x) !important;
+    }
+
+    #ds01-diff-{{ section.id }} .ds01-diff__wrap{
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    #ds01-diff-{{ section.id }} .ds01-diff__header{
+      margin-bottom: 14px;
+    }
+
+    #ds01-diff-{{ section.id }} .ds01-diff__title{
+      margin: 0 0 10px 0;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      font-size: clamp(34px, 7.2vw, 54px);
+    }
+
+    #ds01-diff-{{ section.id }} .ds01-diff__sub{
+      margin: 0;
+      color: var(--ds01-muted);
+      font-weight: 400;
+      line-height: 1.35;
+      letter-spacing: -0.01em;
+      font-size: 18px;
+      max-width: 54ch;
+    }
+
+    /* Hero image */
+    #ds01-diff-{{ section.id }} .ds01-diff__hero{
+      margin: 18px 0 22px;
+      display: flex;
+      justify-content: center;
+    }
+
+    #ds01-diff-{{ section.id }} .ds01-diff__hero img{
+      width: 100%;
+      max-width: 620px;
+      height: auto;
+      display: block;
+      border-radius: 0;
+    }
+
+    /* Grid */
+    #ds01-diff-{{ section.id }} .ds01-diff__grid{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--ds01-card-gap);
+    }
+
+    /* Items */
+    #ds01-diff-{{ section.id }} .ds01-diff__item{
+      padding-top: 8px;
+      min-width: 0;
+    }
+
+    /* Icon row */
+    #ds01-diff-{{ section.id }} .ds01-diff__icon{
+      height: 34px;
+      display: flex;
+      align-items: center;
+      color: var(--ds01-text);
+      opacity: 0.95;
+    }
+
+    #ds01-diff-{{ section.id }} .ds01-diff__icon-svg svg{
+      width: 34px;
+      height: 34px;
+      display: block;
+    }
+
+    #ds01-diff-{{ section.id }} .ds01-diff__icon-img img{
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+      display: block;
+    }
+
+    #ds01-diff-{{ section.id }} .ds01-diff__icon-fallback{
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    /* Dashed divider like screenshot */
+    #ds01-diff-{{ section.id }} .ds01-diff__dash{
+      margin: 12px 0 14px;
+      height: 1px;
+      width: 100%;
+      background-image: repeating-linear-gradient(
+        to right,
+        var(--ds01-dash),
+        var(--ds01-dash) 6px,
+        rgba(0,0,0,0) 6px,
+        rgba(0,0,0,0) 12px
+      );
+      opacity: 0.9;
+    }
+
+    /* Title + body in cards */
+    #ds01-diff-{{ section.id }} .ds01-diff__h{
+      margin: 0 0 10px 0;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      font-size: 22px;
+      color: var(--ds01-text);
+    }
+
+    #ds01-diff-{{ section.id }} .ds01-diff__p{
+      margin: 0;
+      color: var(--ds01-muted);
+      font-weight: 400;
+      line-height: 1.55;
+      font-size: 16px;
+      max-width: 34ch;
+    }
+
+    /* Desktop refinement (keeps same layout style) */
+    @media (min-width: 861px){
+      #ds01-diff-{{ section.id }}{
+        padding: 46px 0 56px;
+      }
+
+      #ds01-diff-{{ section.id }} .ds01-diff__hero{
+        margin: 26px 0 30px;
+      }
+
+      #ds01-diff-{{ section.id }} .ds01-diff__grid{
+        gap: 26px;
+      }
+
+      #ds01-diff-{{ section.id }} .ds01-diff__h{
+        font-size: 26px;
+      }
+
+      #ds01-diff-{{ section.id }} .ds01-diff__p{
+        font-size: 16.5px;
+      }
+    }
+
+    /* Small phones: keep 2 columns but slightly tighter */
+    @media (max-width: 420px){
+      #ds01-diff-{{ section.id }} .ds01-diff__sub{
+        font-size: 16.5px;
+      }
+
+      #ds01-diff-{{ section.id }} .ds01-diff__h{
+        font-size: 20px;
+      }
+
+      #ds01-diff-{{ section.id }} .ds01-diff__p{
+        font-size: 15px;
+      }
+
+      #ds01-diff-{{ section.id }} .ds01-diff__icon{
+        height: 32px;
+      }
+    }
+  </style>
+</section>
+
+{% schema %}
+{
+  "name": "DS-01 Difference Grid",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The DS-01® Difference"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Our formulation prioritizes strain diversity and survivability,\nso you get clinically proven results, not empty promises."
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Center image"
+    },
+    {
+      "type": "text",
+      "id": "hero_alt",
+      "label": "Image alt text",
+      "default": "1"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background",
+      "default": "#173B2A"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Main text",
+      "default": "#F4F3EA"
+    },
+    {
+      "type": "color",
+      "id": "muted_text_color",
+      "label": "Muted text",
+      "default": "rgba(244, 243, 234, 0.78)"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Divider (unused fallback)",
+      "default": "rgba(244, 243, 234, 0.30)"
+    },
+    {
+      "type": "color",
+      "id": "dash_color",
+      "label": "Dashed line color",
+      "default": "rgba(244, 243, 234, 0.55)"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "mobile_side_padding",
+      "label": "Mobile side padding",
+      "min": 8,
+      "max": 28,
+      "step": 1,
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Grid gap",
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "default": 22
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "24 Diverse Probiotic Strains"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body",
+          "default": "Research-derived doses for microbial diversity, the foundation of a healthy gut."
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_image",
+          "label": "Icon image (optional)"
+        },
+        {
+          "type": "textarea",
+          "id": "icon_svg",
+          "label": "Icon SVG (optional, overrides icon image)",
+          "default": "1"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "DS-01 Difference Grid",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "title": "24 Diverse Probiotic\nStrains",
+            "body": "Research-derived doses for microbial diversity, the foundation of a healthy gut."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Engineered To Survive",
+            "body": "Proprietary ViaCap® technology safeguards probiotics during the journey to the colon."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Antioxidant-Promoting\nPrebiotic",
+            "body": "Supports the gut environment and overall microbial balance."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "4 Gold-Standard Clinical\nTrials",
+            "body": "Scientifically validated by experts as a complete synbiotic."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

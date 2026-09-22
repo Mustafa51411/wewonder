@@ -1,0 +1,475 @@
+{%- comment -%}
+  Section: Multi Media Cards (Full width)
+  - Mobile: horizontal swipe (scroll-snap) 1 card per "page"
+  - Desktop: 3 cards per row (grid)
+  - Each card supports either Image OR Video (Shopify hosted video or external video url)
+  - Under media: Title, Text, Button
+  - Unlimited blocks
+  - Videos: attempt to autoplay when the card enters viewport using IntersectionObserver
+    IMPORTANT REALITY CHECK:
+    Most browsers BLOCK autoplay WITH SOUND unless the user has interacted with the page.
+    This code will:
+      1) Try to play with audio ON when visible.
+      2) If blocked, it will retry muted autoplay (so at least it plays),
+         and then unmute immediately after a user click/tap anywhere.
+{%- endcomment -%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    --mmc-bg: {{ section.settings.background }};
+    --mmc-text: {{ section.settings.text_color }};
+    --mmc-card-bg: {{ section.settings.card_background }};
+    --mmc-radius: 8px;
+    --mmc-gap: {{ section.settings.gap }}px;
+    --mmc-max-width: {{ section.settings.max_width }}px;
+    --mmc-padding-y: {{ section.settings.padding_y }}px;
+    --mmc-padding-x: {{ section.settings.padding_x }}px;
+  }
+
+  /* Section wrapper */
+  #shopify-section-{{ section.id }} .mmc-wrap {
+    background: var(--mmc-bg);
+    color: var(--mmc-text);
+    padding: var(--mmc-padding-y) var(--mmc-padding-x);
+    width: 100%;
+  }
+
+  #shopify-section-{{ section.id }} .mmc-inner {
+    width: 100%;
+    max-width: var(--mmc-max-width);
+    margin: 0 auto;
+  }
+
+  #shopify-section-{{ section.id }} .mmc-heading {
+    margin: 0 0 14px 0;
+    text-align: {{ section.settings.heading_align }};
+  }
+
+  #shopify-section-{{ section.id }} .mmc-subheading {
+    margin: 0 0 18px 0;
+    opacity: 0.85;
+    text-align: {{ section.settings.heading_align }};
+  }
+
+  /* Mobile: horizontal swipe */
+  #shopify-section-{{ section.id }} .mmc-row {
+    display: flex;
+    gap: var(--mmc-gap);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 10px;
+  }
+
+  #shopify-section-{{ section.id }} .mmc-card {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    background: var(--mmc-card-bg);
+    border-radius: var(--mmc-radius);
+    overflow: hidden;
+  }
+
+  /* Desktop: 3 per row */
+  @media (min-width: 750px) {
+    #shopify-section-{{ section.id }} .mmc-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--mmc-gap);
+      overflow: visible;
+    }
+
+    #shopify-section-{{ section.id }} .mmc-card {
+      flex: initial;
+    }
+  }
+
+  /* MEDIA AREA — FIXED HEIGHT */
+  #shopify-section-{{ section.id }} .mmc-media {
+    position: relative;
+    width: 100%;
+    height: 550px;              /* ? requested height */
+    overflow: hidden;
+    background: #ffffff;
+    border-radius: var(--mmc-radius); /* ? rounded all sides */
+  }
+
+  #shopify-section-{{ section.id }} .mmc-media > * {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* IMAGES: no crop, white top/bottom allowed */
+  #shopify-section-{{ section.id }} .mmc-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    background: #ffffff;
+    display: block;
+  }
+
+  /* VIDEOS: edge-to-edge, no white sides */
+  #shopify-section-{{ section.id }} .mmc-media video,
+  #shopify-section-{{ section.id }} .mmc-media iframe {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    background: transparent;
+    display: block;
+  }
+
+  /* CARD CONTENT */
+  #shopify-section-{{ section.id }} .mmc-body {
+    padding: 18px 18px 22px;
+    text-align: {% if section.settings.center_text %}center{% else %}left{% endif %};
+  }
+
+  #shopify-section-{{ section.id }} .mmc-title {
+    margin: 0 0 8px;
+    font-size: {{ section.settings.title_size }}px;
+    line-height: 1.2;
+  }
+
+  #shopify-section-{{ section.id }} .mmc-text {
+    margin: 0 0 14px;
+    font-size: {{ section.settings.text_size }}px;
+    line-height: 1.45;
+    opacity: 0.9;
+  }
+
+  #shopify-section-{{ section.id }} .mmc-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: {{ section.settings.button_size }}px;
+    background: {{ section.settings.button_bg }};
+    color: {{ section.settings.button_text }};
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+
+  #shopify-section-{{ section.id }} .mmc-btn:hover {
+    transform: translateY(-1px);
+    opacity: 0.95;
+  }
+{%- endstyle -%}
+
+<section class="mmc-wrap" data-mmc-section>
+  <div class="mmc-inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="mmc-heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <div class="mmc-subheading">{{ section.settings.subheading }}</div>
+    {%- endif -%}
+
+    <div class="mmc-row" aria-label="{{ section.settings.heading | escape }}">
+      {%- for block in section.blocks -%}
+        <article class="mmc-card" {{ block.shopify_attributes }}>
+          <div class="mmc-media" data-mmc-media>
+            {%- assign media_type = block.settings.media_type -%}
+
+            {%- if media_type == 'image' -%}
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: 2000
+                  | image_tag:
+                    loading: 'lazy',
+                    sizes: '(max-width: 749px) 100vw, 33vw',
+                    widths: '400, 600, 800, 1000, 1200, 1600, 2000',
+                    alt: block.settings.title | escape
+                }}
+              {%- else -%}
+                <div style="display:flex;align-items:center;justify-content:center;height:100%;font-weight:600;opacity:.6;">
+                  Add an image
+                </div>
+              {%- endif -%}
+
+            {%- elsif media_type == 'shopify_video' -%}
+              {%- if block.settings.video != blank -%}
+                {%- comment -%}
+                  We render a <video> tag and control autoplay via JS on viewport.
+                  We set muted=false to TRY audio autoplay, but browsers usually block it.
+                {%- endcomment -%}
+                {{
+                  block.settings.video
+                  | video_tag:
+                    image_size: '2000x',
+                    autoplay: false,
+                    loop: true,
+                    muted: false,
+                    controls: false,
+                    preload: 'metadata'
+                }}
+              {%- else -%}
+                <div style="display:flex;align-items:center;justify-content:center;height:100%;font-weight:600;opacity:.6;">
+                  Add a Shopify hosted video
+                </div>
+              {%- endif -%}
+
+            {%- else -%}
+              {%- comment -%} External video: YouTube/Vimeo embeds cannot be reliably autoplayed with sound across browsers. {%- endcomment -%}
+              {%- if block.settings.external_video_url != blank -%}
+                {%- assign url = block.settings.external_video_url | strip -%}
+                {%- if url contains 'youtube.com' or url contains 'youtu.be' -%}
+                  {%- assign yt_id = '' -%}
+                  {%- if url contains 'youtu.be/' -%}
+                    {%- assign yt_id = url | split: 'youtu.be/' | last | split: '?' | first -%}
+                  {%- elsif url contains 'v=' -%}
+                    {%- assign yt_id = url | split: 'v=' | last | split: '&' | first -%}
+                  {%- endif -%}
+                  <iframe
+                    data-mmc-iframe
+                    src="https://www.youtube.com/embed/{{ yt_id }}?rel=0&modestbranding=1&playsinline=1&enablejsapi=1"
+                    title="{{ block.settings.title | escape }}"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                    loading="lazy"></iframe>
+                {%- elsif url contains 'vimeo.com' -%}
+                  {%- assign vimeo_id = url | split: 'vimeo.com/' | last | split: '?' | first -%}
+                  <iframe
+                    data-mmc-iframe
+                    src="https://player.vimeo.com/video/{{ vimeo_id }}?autoplay=0&muted=0&loop=1"
+                    title="{{ block.settings.title | escape }}"
+                    frameborder="0"
+                    allow="autoplay; fullscreen; picture-in-picture"
+                    allowfullscreen
+                    loading="lazy"></iframe>
+                {%- else -%}
+                  <iframe
+                    data-mmc-iframe
+                    src="{{ url | escape }}"
+                    title="{{ block.settings.title | escape }}"
+                    frameborder="0"
+                    allow="autoplay; fullscreen; picture-in-picture"
+                    allowfullscreen
+                    loading="lazy"></iframe>
+                {%- endif -%}
+              {%- else -%}
+                <div style="display:flex;align-items:center;justify-content:center;height:100%;font-weight:600;opacity:.6;">
+                  Add an external video URL
+                </div>
+              {%- endif -%}
+            {%- endif -%}
+          </div>
+
+          <div class="mmc-body">
+            {%- if block.settings.title != blank -%}
+              <h3 class="mmc-title">{{ block.settings.title }}</h3>
+            {%- endif -%}
+
+            {%- if block.settings.text != blank -%}
+              <div class="mmc-text">{{ block.settings.text }}</div>
+            {%- endif -%}
+
+            {%- if block.settings.button_label != blank and block.settings.button_link != blank -%}
+              <a class="mmc-btn" href="{{ block.settings.button_link }}">
+                {{ block.settings.button_label }}
+              </a>
+            {%- endif -%}
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    const section = document.querySelector('#shopify-section-{{ section.id }} [data-mmc-section]');
+    if (!section) return;
+
+    const videos = Array.from(section.querySelectorAll('.mmc-media video'));
+
+    // Helper: try play with sound; if blocked, fall back to muted autoplay.
+    async function tryPlayWithSound(video) {
+      try {
+        video.muted = false;
+        video.volume = 1;
+        await video.play();
+        return true;
+      } catch (e) {
+        // Fallback: muted autoplay (usually allowed)
+        try {
+          video.muted = true;
+          video.volume = 1;
+          await video.play();
+          return false;
+        } catch (e2) {
+          return false;
+        }
+      }
+    }
+
+    // If we had to start muted due to browser policy, unmute on first user interaction.
+    function armUnmuteOnInteraction() {
+      const handler = () => {
+        videos.forEach(v => {
+          try {
+            v.muted = false;
+            v.volume = 1;
+          } catch (e) {}
+        });
+        window.removeEventListener('pointerdown', handler);
+        window.removeEventListener('keydown', handler);
+      };
+      window.addEventListener('pointerdown', handler, { once: true });
+      window.addEventListener('keydown', handler, { once: true });
+    }
+
+    // Observe visibility
+    const io = new IntersectionObserver(async (entries) => {
+      for (const entry of entries) {
+        const video = entry.target;
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.55) {
+          const playedWithSound = await tryPlayWithSound(video);
+          if (!playedWithSound) armUnmuteOnInteraction();
+        } else {
+          try { video.pause(); } catch (e) {}
+        }
+      }
+    }, { threshold: [0, 0.55, 0.75] });
+
+    videos.forEach(v => {
+      // Ensure loop always
+      v.loop = true;
+      // Ensure controls off (you asked autoplay style)
+      v.controls = false;
+
+      // iOS: playsinline helps avoid full screen
+      v.setAttribute('playsinline', '');
+      v.setAttribute('webkit-playsinline', '');
+
+      io.observe(v);
+    });
+
+    // Optional: pause videos when tab hidden
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) videos.forEach(v => { try { v.pause(); } catch(e) {} });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Multi Media Cards",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "SEE IT IN THEIR MOOD" },
+    { "type": "richtext", "id": "subheading", "label": "Subheading", "default": "<p></p>" },
+    {
+      "type": "select",
+      "id": "heading_align",
+      "label": "Heading alignment",
+      "default": "center",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    { "type": "checkbox", "id": "center_text", "label": "Center card text", "default": false },
+
+    { "type": "header", "content": "Layout" },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 900,
+      "max": 2000,
+      "step": 50,
+      "unit": "px",
+      "label": "Content max width",
+      "default": 1600
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Card gap",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "padding_y",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Section padding top/bottom",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_x",
+      "min": 0,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Section padding left/right",
+      "default": 16
+    },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background", "label": "Section background", "default": "#FFFFFF" },
+    { "type": "color", "id": "card_background", "label": "Card background", "default": "#FFFFFF" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#111111" },
+
+    { "type": "header", "content": "Typography" },
+    { "type": "range", "id": "title_size", "min": 14, "max": 34, "step": 1, "unit": "px", "label": "Card title size", "default": 20 },
+    { "type": "range", "id": "text_size", "min": 12, "max": 22, "step": 1, "unit": "px", "label": "Card text size", "default": 14 },
+    { "type": "range", "id": "button_size", "min": 12, "max": 20, "step": 1, "unit": "px", "label": "Button text size", "default": 14 },
+    { "type": "color", "id": "button_bg", "label": "Button background", "default": "#111111" },
+    { "type": "color", "id": "button_text", "label": "Button text color", "default": "#FFFFFF" }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        {
+          "type": "select",
+          "id": "media_type",
+          "label": "Media type",
+          "default": "image",
+          "options": [
+            { "value": "image", "label": "Image" },
+            { "value": "shopify_video", "label": "Shopify hosted video" },
+            { "value": "external_video", "label": "External video URL (YouTube/Vimeo)" }
+          ]
+        },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "video", "id": "video", "label": "Shopify hosted video" },
+        { "type": "url", "id": "external_video_url", "label": "External video URL" },
+
+        { "type": "text", "id": "title", "label": "Title", "default": "FEEL-GOOD BALANCE" },
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Helps you feel lighter, calmer, and more at ease in your body.</p>" },
+        { "type": "text", "id": "button_label", "label": "Button label", "default": "FEEL BETTER TODAY" },
+        { "type": "url", "id": "button_link", "label": "Button link" }
+      ]
+    }
+  ],
+  "max_blocks": 50,
+  "presets": [
+    {
+      "name": "Multi Media Cards",
+      "blocks": [
+        { "type": "card" },
+        { "type": "card" },
+        { "type": "card" }
+      ]
+    }
+  ]
+}
+{% endschema %}

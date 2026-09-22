@@ -1,0 +1,164 @@
+{% comment %}
+  Section: Minimal Title + Subheading + Featured Image
+{% endcomment %}
+
+{%- assign is_arabic = false -%}
+{%- if request.locale.iso_code contains 'ar' -%}
+  {%- assign is_arabic = true -%}
+{%- endif -%}
+
+<section class="ww-minimal-section {% if is_arabic %}ww-rtl{% endif %}">
+  <div class="ww-minimal__inner">
+
+{% if section.settings.title != blank %}
+  <h2 class="ww-minimal__title">
+    {% if is_arabic %}
+      مصمّمة لأمومة أسهل  و أذكى
+    {% else %}
+      {{ section.settings.title }}
+    {% endif %}
+  </h2>
+{% endif %}
+
+{% if section.settings.subheading != blank %}
+  <p class="ww-minimal__subheading">
+    {% if is_arabic %}
+      بقوة ذكية بترافقك بكل يومك
+    {% else %}
+      {{ section.settings.subheading }}
+    {% endif %}
+  </p>
+{% endif %}
+
+    {% if section.settings.image != blank %}
+      <div class="ww-minimal__image-wrap">
+        <img 
+          src="{{ section.settings.image | image_url: width: 1200 }}" 
+          alt="{{ section.settings.image.alt | escape }}"
+          loading="lazy"
+          class="ww-minimal__image"
+        >
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+<style>
+.ww-minimal-section{
+  padding: 60px 70px 0;
+  margin-bottom: -200px;
+  width: 100%;
+  font-family: inherit;
+
+  background: linear-gradient(
+    180deg,
+    #7ac7ef 0%,
+    #eaf6fd 35%,
+    #ffffff 100%
+  );
+}
+
+.ww-minimal__inner{
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Title */
+.ww-minimal__title{
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 14px;
+  color: #111;
+}
+
+/* Subheading */
+.ww-minimal__subheading{
+  font-size: clamp(16px, 2vw, 20px);
+  line-height: 1.6;
+  font-weight: 400;
+  color: #555;
+  max-width: 640px;
+  margin: 0 auto 36px;
+}
+
+/* Image wrapper */
+.ww-minimal__image-wrap{
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+/* Default (mobile natural ratio) */
+.ww-minimal__image{
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 20px;
+}
+
+/* =========================
+   DESKTOP (NO CROP + TRANSPARENT)
+   ========================= */
+@media (min-width: 990px){
+
+  .ww-minimal-section{
+    padding: 80px 90px 0;
+  }
+
+  .ww-minimal__inner{
+    max-width: 1000px;
+  }
+
+  .ww-minimal__image-wrap{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 420px;
+  }
+
+  .ww-minimal__image{
+    width: 100%;
+    height: 420px;
+    object-fit: contain;   /* no crop */
+    background: transparent; /* removed white */
+  }
+}
+
+/* RTL */
+.ww-rtl{
+  direction: rtl;
+}
+</style>
+
+{% schema %}
+{
+  "name": "Minimal Feature Section",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Designed for Modern Motherhood"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "A discreet, hands-free solution that fits seamlessly into your daily routine."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Featured Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Minimal Feature Section"
+    }
+  ]
+}
+{% endschema %}

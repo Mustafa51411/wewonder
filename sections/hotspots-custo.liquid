@@ -1,0 +1,545 @@
+{% comment %}
+  Premium Hotspot Overlay (Modal)
+  - High-end dark + blurred overlay
+  - Hotspots + modal with next/prev
+{% endcomment %}
+
+{%- assign is_arabic = false -%}
+{%- if request.locale.iso_code contains 'ar' -%}
+  {%- assign is_arabic = true -%}
+{%- endif -%}
+
+<section class="phs {% if is_arabic %}phs--rtl{% endif %}" style="--phs-pad: {{ section.settings.padding | default: 44 }}px;">
+  <div class="page-width">
+
+    {% if section.settings.heading != blank %}
+      <div class="phs__head">
+        <h2 class="phs__title">
+          {% if is_arabic %}
+            مصمّمة بتفاصيل تفرق معك
+          {% else %}
+            {{ section.settings.heading }}
+          {% endif %}
+        </h2>
+
+        {% if section.settings.subheading != blank %}
+          <p class="phs__sub">
+            {% if is_arabic %}
+              اضغطي على النقاط لتتعرفي على التفاصيل اللي بتخليها أريح، أسهل، وأنسب لاستخدامك اليومي.
+            {% else %}
+              {{ section.settings.subheading }}
+            {% endif %}
+          </p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="phs__media" aria-label="{% if is_arabic %}تفاصيل المنتج{% else %}{{ section.settings.heading | escape }}{% endif %}">
+      {% if section.settings.image != blank %}
+        {{ section.settings.image | image_url: width: 2400 | image_tag: class: 'phs__img', loading: 'lazy', alt: section.settings.heading | escape }}
+      {% else %}
+        <div class="phs__img phs__img--ph"></div>
+      {% endif %}
+
+      {% for block in section.blocks %}
+        <button
+          class="phs__pin"
+          type="button"
+          style="--x: {{ block.settings.x }}%; --y: {{ block.settings.y }}%;"
+          aria-label="{% if is_arabic %}{% case forloop.index %}{% when 1 %}شفط ناعم{% when 2 %}تصميم لاسلكي{% when 3 %}تنظيف سهل{% when 4 %}أوضاع متعددة{% when 5 %}صوت هادئ{% when 6 %}مريحة باللبس{% else %}{{ block.settings.title | escape }}{% endcase %}{% else %}{{ block.settings.title | escape }}{% endif %}"
+          data-title="{% if is_arabic %}{% case forloop.index %}{% when 1 %}شفط ناعم ومريح{% when 2 %}تصميم لاسلكي وعملي{% when 3 %}تنظيف أسرع وأسهل{% when 4 %}أوضاع تناسب راحتك{% when 5 %}صوت خفيف{% when 6 %}مريحة جوّا حمالة صدر{% else %}{{ block.settings.title | escape }}{% endcase %}{% else %}{{ block.settings.title | escape }}{% endif %}"
+          data-text="{% if is_arabic %}{% case forloop.index %}{% when 1 %}مصمّمة لتعطي شفط ناعم بإيقاع قريب من رضاعة البيبي، لراحة أكتر وتدفّق حليب أسلس.{% when 2 %}بتنلبس بسهولة ومن دون أسلاك، لتقدري تشفطي وإيديكِ فاضيين خلال يومك.{% when 3 %}قطع أقل وتنظيف أبسط، حتى يكون استخدامها اليومي أسهل وما ياخد وقت.{% when 4 %}فيكِ تختاري بين عدّة أوضاع ومستويات لتوصلي للشفط اللي بيريّحك.{% when 5 %}صوتها خفيف ومناسب للاستخدام اليومي من دون ما تكون ملفتة.{% when 6 %}تصميمها بينحط جوّا حمالة صدر ليساعدك تشفطي براحة ومن دون ما توقفي كل شي.{% else %}{{ block.settings.text | escape }}{% endcase %}{% else %}{{ block.settings.text | escape }}{% endif %}"
+          data-index="{{ forloop.index0 }}"
+          {{ block.shopify_attributes }}
+        >
+          <span class="phs__dot" aria-hidden="true"></span>
+        </button>
+      {% endfor %}
+    </div>
+
+    <div class="phs__modal" hidden>
+      <div class="phs__backdrop" data-close="1" aria-hidden="true"></div>
+
+      <div class="phs__dialog" role="dialog" aria-modal="true" aria-label="{% if is_arabic %}تفاصيل المنتج{% else %}Product detail{% endif %}">
+        <button class="phs__close" type="button" aria-label="{% if is_arabic %}إغلاق{% else %}Close{% endif %}" data-close="1">
+          <span class="phs__icon" aria-hidden="true">×</span>
+        </button>
+
+        <div class="phs__dialogbody">
+          <div class="phs__eyebrow">
+            {% if is_arabic %}
+              التفاصيل
+            {% else %}
+              {{ section.settings.modal_eyebrow | default: "Detail" }}
+            {% endif %}
+          </div>
+
+          <div class="phs__mTitle"></div>
+          <div class="phs__mText"></div>
+
+          <div class="phs__nav">
+            <button class="phs__navbtn" type="button" data-prev="1" aria-label="{% if is_arabic %}النقطة السابقة{% else %}Previous hotspot{% endif %}">
+              <span class="phs__icon" aria-hidden="true">‹</span>
+              {% if is_arabic %}السابق{% else %}Previous{% endif %}
+            </button>
+
+            <div class="phs__counter" aria-live="polite"></div>
+
+            <button class="phs__navbtn" type="button" data-next="1" aria-label="{% if is_arabic %}النقطة التالية{% else %}Next hotspot{% endif %}">
+              {% if is_arabic %}التالي{% else %}Next{% endif %}
+              <span class="phs__icon" aria-hidden="true">›</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.phs').forEach(section => {
+    const pins = Array.from(section.querySelectorAll('.phs__pin'));
+    const modal = section.querySelector('.phs__modal');
+    const titleEl = section.querySelector('.phs__mTitle');
+    const textEl = section.querySelector('.phs__mText');
+    const counterEl = section.querySelector('.phs__counter');
+
+    if (!pins.length || !modal || !titleEl || !textEl) return;
+
+    const closeEls = section.querySelectorAll('[data-close="1"]');
+    const prevBtn = section.querySelector('[data-prev="1"]');
+    const nextBtn = section.querySelector('[data-next="1"]');
+
+    let activeIndex = 0;
+    let lastFocused = null;
+
+    const setContent = (idx) => {
+      const pin = pins[idx];
+      if (!pin) return;
+
+      activeIndex = idx;
+
+      const t = pin.dataset.title || '';
+      const d = pin.dataset.text || '';
+
+      titleEl.textContent = t;
+      textEl.textContent = d;
+
+      if (counterEl) counterEl.textContent = `${idx + 1} / ${pins.length}`;
+
+      if (prevBtn) prevBtn.disabled = (idx === 0);
+      if (nextBtn) nextBtn.disabled = (idx === pins.length - 1);
+    };
+
+    const openModal = (idx) => {
+      lastFocused = document.activeElement;
+      setContent(idx);
+
+      modal.hidden = false;
+      modal.classList.add('is-open');
+      document.documentElement.classList.add('phs--lock');
+
+      const closeBtn = section.querySelector('.phs__close');
+      if (closeBtn) closeBtn.focus({ preventScroll: true });
+    };
+
+    const closeModal = () => {
+      modal.classList.remove('is-open');
+      modal.hidden = true;
+      document.documentElement.classList.remove('phs--lock');
+
+      if (lastFocused && typeof lastFocused.focus === 'function') {
+        lastFocused.focus({ preventScroll: true });
+      }
+    };
+
+    const goNext = () => {
+      if (activeIndex < pins.length - 1) setContent(activeIndex + 1);
+    };
+
+    const goPrev = () => {
+      if (activeIndex > 0) setContent(activeIndex - 1);
+    };
+
+    pins.forEach((pin, i) => {
+      pin.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        openModal(i);
+      });
+    });
+
+    closeEls.forEach(el => el.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeModal();
+    }));
+
+    if (nextBtn) nextBtn.addEventListener('click', (e) => { e.preventDefault(); goNext(); });
+    if (prevBtn) prevBtn.addEventListener('click', (e) => { e.preventDefault(); goPrev(); });
+
+    document.addEventListener('keydown', (e) => {
+      if (modal.hidden) return;
+
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeModal();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        goNext();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        goPrev();
+      }
+    });
+
+    const dialog = section.querySelector('.phs__dialog');
+    if (dialog) dialog.addEventListener('click', (e) => e.stopPropagation());
+  });
+});
+</script>
+
+<style>
+  .phs{ padding: var(--phs-pad) 0; }
+
+  .phs,
+  .phs *{
+    font-family: inherit;
+  }
+
+  .phs--rtl{
+    direction: rtl;
+  }
+
+  .phs__head{ margin-bottom: 18px; text-align: center; }
+
+  .phs__title{
+    margin: 0;
+    font: inherit;
+    font-weight: 900;
+    font-size: clamp(22px, 2.4vw, 40px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .phs__sub{
+    margin: 10px auto 0;
+    max-width: 64ch;
+    opacity: .75;
+    font: inherit;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .phs__media{
+    position: relative;
+    border-radius: 0px;
+    overflow: hidden;
+    background: radial-gradient(circle at 30% 20%, rgba(255,255,255,.85), rgba(255,255,255,.0)),
+                linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.0));
+    box-shadow: 0 20px 60px rgba(0,0,0,.10);
+    min-height: 520px;
+  }
+
+  .phs__img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transform: scale(1.02);
+    transition: transform .55s cubic-bezier(.2,.9,.2,1);
+    filter: saturate(1.05) contrast(1.02);
+  }
+
+  .phs__media:hover .phs__img{ transform: scale(1.06); }
+
+  .phs__img--ph{
+    width: 100%;
+    height: 100%;
+    min-height: 520px;
+    background: linear-gradient(135deg, #f3f3f3, #e8e8e8);
+  }
+
+  .phs__pin{
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    transform: translate(-50%, -50%);
+    width: 46px;
+    height: 46px;
+    border: 0;
+    padding: 0;
+    border-radius: 999px;
+    background: rgba(255,255,255,.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 16px 36px rgba(0,0,0,.18);
+    transition: transform .18s ease, background .18s ease;
+    z-index: 2;
+    font: inherit;
+    color: inherit;
+  }
+
+  .phs__pin:hover{
+    transform: translate(-50%, -50%) scale(1.06);
+    background: rgba(255,255,255,.18);
+  }
+
+  .phs__dot{
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    background: #fff;
+    box-shadow:
+      0 0 0 6px rgba(255,255,255,.18),
+      0 0 0 14px rgba(255,255,255,.10);
+    position: relative;
+  }
+
+  .phs__dot::after{
+    content: "";
+    position: absolute;
+    inset: -18px;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(255,255,255,.28), rgba(255,255,255,0));
+    animation: phsPulse 2.5s ease-in-out infinite;
+  }
+
+  @keyframes phsPulse{
+    0%,100%{ transform: scale(.85); opacity: .55; }
+    50%{ transform: scale(1.12); opacity: .98; }
+  }
+
+  .phs__modal{
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .22s ease;
+    font: inherit;
+    color: inherit;
+  }
+
+  .phs__modal.is-open{
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .phs__backdrop{
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(255,255,255,.06), rgba(255,255,255,0) 55%),
+      radial-gradient(circle at 70% 80%, rgba(255,255,255,.04), rgba(255,255,255,0) 60%),
+      rgba(5, 6, 10, .78);
+    backdrop-filter: blur(18px) saturate(1.15);
+    -webkit-backdrop-filter: blur(18px) saturate(1.15);
+  }
+
+  .phs__modal::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: .12;
+    mix-blend-mode: overlay;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+  }
+
+  .phs__dialog{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -48%) scale(.985);
+    width: min(720px, calc(100vw - 32px));
+    border-radius: 26px;
+    background: rgba(18, 19, 24, .72);
+    color: #fff;
+    box-shadow: 0 28px 120px rgba(0,0,0,.55);
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.10);
+    backdrop-filter: blur(18px) saturate(1.15);
+    -webkit-backdrop-filter: blur(18px) saturate(1.15);
+    transition: transform .22s ease, opacity .22s ease;
+    opacity: 0;
+    font: inherit;
+  }
+
+  .phs--rtl .phs__dialog{
+    direction: rtl;
+    text-align: right;
+  }
+
+  .phs__modal.is-open .phs__dialog{
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .phs__close{
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    cursor: pointer;
+    color: #fff;
+    display: grid;
+    place-items: center;
+    transition: transform .15s ease, background .15s ease;
+    font: inherit;
+  }
+
+  .phs--rtl .phs__close{
+    right: auto;
+    left: 12px;
+  }
+
+  .phs__close:hover{ transform: scale(1.04); background: rgba(255,255,255,.14); }
+
+  .phs__dialogbody{
+    padding: 26px 22px 18px;
+  }
+
+  .phs__eyebrow{
+    display: inline-flex;
+    width: fit-content;
+    font: inherit;
+    font-size: 12px;
+    letter-spacing: .10em;
+    text-transform: uppercase;
+    opacity: .75;
+    margin-bottom: 10px;
+  }
+
+  .phs--rtl .phs__eyebrow{
+    letter-spacing: 0;
+  }
+
+  .phs__mTitle{
+    font: inherit;
+    font-size: clamp(20px, 2.1vw, 30px);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    font-weight: 900;
+    margin: 0 0 10px;
+  }
+
+  .phs__mText{
+    font: inherit;
+    font-size: 15px;
+    line-height: 1.55;
+    opacity: .88;
+    max-width: 62ch;
+  }
+
+  .phs__nav{
+    margin-top: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border-top: 1px solid rgba(255,255,255,.10);
+    padding-top: 14px;
+  }
+
+  .phs__navbtn{
+    border: 1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.08);
+    border-radius: 14px;
+    padding: 10px 12px;
+    font-weight: 900;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform .15s ease, background .15s ease, opacity .15s ease;
+    color: #fff;
+    font: inherit;
+  }
+
+  .phs__navbtn:hover{ transform: scale(1.02); background: rgba(255,255,255,.14); }
+  .phs__navbtn:disabled{ opacity: .45; cursor: not-allowed; }
+
+  .phs__counter{
+    font: inherit;
+    font-weight: 900;
+    opacity: .7;
+    font-size: 13px;
+    letter-spacing: .02em;
+    white-space: nowrap;
+  }
+
+  .phs__icon{
+    display: inline-block;
+    line-height: 1;
+    font-weight: 900;
+    font-size: 18px;
+    transform: translateY(-.5px);
+  }
+
+  .phs--lock{ overflow: hidden; }
+
+  @media (max-width: 989px){
+    .phs__media{ min-height: 420px; }
+    .phs__img--ph{ min-height: 420px; }
+  }
+
+  @media (max-width: 749px){
+    .phs__media{ min-height: 360px; border-radius: 0px; }
+    .phs__pin{ width: 42px; height: 42px; }
+    .phs__dialogbody{ padding: 22px 18px 16px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .phs__modal,
+    .phs__dialog{ transition: none !important; }
+    .phs__dot::after{ animation: none !important; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Premium hotspots ",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Built like a premium tool" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Tap the hotspots to explore the details that make it feel better, fit better, and perform better." },
+    { "type": "text", "id": "modal_eyebrow", "label": "Modal eyebrow label", "default": "Detail" },
+    { "type": "image_picker", "id": "image", "label": "Main product image" },
+    { "type": "range", "id": "padding", "label": "Section padding (top & bottom)", "min": 0, "max": 100, "step": 4, "default": 44 }
+  ],
+  "blocks": [
+    {
+      "type": "hotspot",
+      "name": "Hotspot",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Medical-grade adhesive" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Gentle hold that stays secure all night, without feeling harsh on skin." },
+        { "type": "range", "id": "x", "label": "Hotspot position X (%)", "min": 0, "max": 100, "step": 1, "default": 35 },
+        { "type": "range", "id": "y", "label": "Hotspot position Y (%)", "min": 0, "max": 100, "step": 1, "default": 55 }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Premium hotspots (overlay modal)",
+      "blocks": [
+        { "type": "hotspot" },
+        { "type": "hotspot" },
+        { "type": "hotspot" }
+      ]
+    }
+  ]
+}
+{% endschema %}

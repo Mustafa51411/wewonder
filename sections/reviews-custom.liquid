@@ -1,0 +1,435 @@
+{% comment %}
+  Section: Minimal Swipe Testimonials (Centered + Thin Blue Borders)
+  - Each testimonial is centered in the viewport while swiping
+  - Thin border in brand blue
+  - Minimal, high-end
+  - Theme font
+  - RTL support
+{% endcomment %}
+
+{%- liquid
+  assign sid = section.id
+  assign is_arabic = false
+  if request.locale.iso_code == 'ar'
+    assign is_arabic = true
+  endif
+
+  assign accent = section.settings.accent_color | default: '#7ac8f0'
+-%}
+
+<section id="ww-swipe-testimonials-{{ sid }}" class="wwst {% if is_arabic %}wwst--rtl{% endif %}">
+  <div class="wwst__wrap">
+    {% if section.settings.heading != blank %}
+  <h2 class="wwst__heading">
+    {% if is_arabic %}
+      أمهات حبّوها
+    {% else %}
+      {{ section.settings.heading }}
+    {% endif %}
+  </h2>
+{% endif %}
+
+{% if section.settings.subheading != blank %}
+  <p class="wwst__subheading">
+    {% if is_arabic %}
+      تجارب حقيقية من أمهات بيستخدموا WeeWonders بحياتهم اليومية.
+    {% else %}
+      {{ section.settings.subheading }}
+    {% endif %}
+  </p>
+{% endif %}
+  </div>
+
+  <div class="wwst__rail" aria-label="Testimonials carousel">
+    <div class="wwst__scroller" data-wwst-scroller>
+      {% for block in section.blocks %}
+        <article class="wwst__card" {{ block.shopify_attributes }} role="group" aria-label="Testimonial">
+          <div class="wwst__stars" aria-label="{{ block.settings.stars }} out of 5 stars">
+            {%- for i in (1..5) -%}
+              <span class="wwst__star {% if i <= block.settings.stars %}is-on{% endif %}" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path d="M12 2l2.93 6.63 7.07.61-5.35 4.64 1.6 6.92L12 17.77 5.75 20.8l1.6-6.92L2 9.24l7.07-.61L12 2z"></path>
+                </svg>
+              </span>
+            {%- endfor -%}
+          </div>
+
+          {% if block.settings.quote != blank %}
+            <p class="wwst__quote">{{ block.settings.quote }}</p>
+          {% endif %}
+
+          <div class="wwst__author">
+            {% if block.settings.photo != blank %}
+              <img
+                class="wwst__avatar"
+                src="{{ block.settings.photo | image_url: width: 160 }}"
+                alt="{{ block.settings.name | escape }}"
+                loading="lazy"
+              >
+            {% else %}
+              <span class="wwst__avatar wwst__avatar--ph" aria-hidden="true"></span>
+            {% endif %}
+
+            {% if block.settings.name != blank %}
+              <span class="wwst__name">{{ block.settings.name }}</span>
+            {% endif %}
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+
+    {% if section.blocks.size > 1 %}
+      <div class="wwst__dots" aria-label="Carousel pagination" data-wwst-dots>
+        {% for block in section.blocks %}
+          <button
+            type="button"
+            class="wwst__dot {% if forloop.first %}is-active{% endif %}"
+            aria-label="Go to testimonial {{ forloop.index }}"
+            data-wwst-dot="{{ forloop.index0 }}"
+          ></button>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+
+  <style>
+    #ww-swipe-testimonials-{{ sid }}.wwst{
+      --st-accent: {{ accent }};
+      --st-max: {{ section.settings.max_width }}px;
+      --st-pad-top: {{ section.settings.padding_top }}px;
+      --st-pad-bot: {{ section.settings.padding_bottom }}px;
+      --st-text: {{ section.settings.text_color }};
+      --st-muted: {{ section.settings.muted_color }};
+      --st-gap: 20px;
+
+      width: 100%;
+      padding: var(--st-pad-top) 0 var(--st-pad-bot);
+      font-family: var(--font-body-family, inherit);
+      color: var(--st-text);
+      background: transparent;
+    }
+
+    #ww-swipe-testimonials-{{ sid }} .wwst__wrap{
+      width: 100%;
+      max-width: min(var(--st-max), calc(100vw - 40px));
+      margin: 0 auto 18px;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    #ww-swipe-testimonials-{{ sid }} .wwst__heading{
+      margin: 0 0 8px;
+      font-size: clamp(20px, 2.6vw, 30px);
+      line-height: 1.15;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--st-text);
+    }
+
+    #ww-swipe-testimonials-{{ sid }} .wwst__subheading{
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--st-muted);
+      max-width: 70ch;
+      margin-inline: auto;
+    }
+
+    /* Center each slide in the middle of the screen */
+    #ww-swipe-testimonials-{{ sid }} .wwst__scroller{
+      width: 100%;
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(85%, 560px);
+      gap: var(--st-gap);
+      overflow-x: auto;
+
+      /* key: padding makes first/last center nicely */
+      padding: 10px 8vw 8px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      scroll-behavior: smooth;
+    }
+    #ww-swipe-testimonials-{{ sid }} .wwst__scroller::-webkit-scrollbar{ display: none; }
+
+    /* Card centered + thin blue border */
+    #ww-swipe-testimonials-{{ sid }} .wwst__card{
+      scroll-snap-align: center;
+      border: 1px solid var(--st-accent);
+      border-radius: 14px;
+      padding: 18px 18px 16px;
+      background: transparent;
+      text-align: center;
+    }
+
+    /* Stars */
+    #ww-swipe-testimonials-{{ sid }} .wwst__stars{
+      display: inline-flex;
+      gap: 6px;
+      margin-bottom: 12px;
+      justify-content: center;
+      width: 100%;
+    }
+    #ww-swipe-testimonials-{{ sid }} .wwst__star{
+      width: 18px;
+      height: 18px;
+      opacity: 0.25;
+      display: inline-flex;
+    }
+    #ww-swipe-testimonials-{{ sid }} .wwst__star svg{
+      width: 100%;
+      height: 100%;
+      fill: var(--st-accent);
+      display: block;
+    }
+    #ww-swipe-testimonials-{{ sid }} .wwst__star.is-on{ opacity: 1; }
+
+    /* Quote */
+    #ww-swipe-testimonials-{{ sid }} .wwst__quote{
+      margin: 0 auto 14px;
+      max-width: 60ch;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--st-muted);
+      text-align: center;
+    }
+
+    /* Author */
+    #ww-swipe-testimonials-{{ sid }} .wwst__author{
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+      width: 100%;
+    }
+
+    #ww-swipe-testimonials-{{ sid }} .wwst__avatar{
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      object-fit: cover;
+      display: block;
+    }
+    #ww-swipe-testimonials-{{ sid }} .wwst__avatar--ph{
+      background: rgba(0,0,0,0.06);
+    }
+
+    #ww-swipe-testimonials-{{ sid }} .wwst__name{
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--st-text);
+      white-space: nowrap;
+    }
+
+    /* Dots */
+    #ww-swipe-testimonials-{{ sid }} .wwst__dots{
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 0 0;
+    }
+    #ww-swipe-testimonials-{{ sid }} .wwst__dot{
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      border: none;
+      background: rgba(0,0,0,0.18);
+      padding: 0;
+      cursor: pointer;
+      transition: width .2s ease, background .2s ease;
+    }
+    #ww-swipe-testimonials-{{ sid }} .wwst__dot.is-active{
+      width: 26px;
+      background: #7ac8f0;
+    }
+
+    /* RTL */
+    #ww-swipe-testimonials-{{ sid }}.wwst--rtl{
+      direction: rtl;
+    }
+
+    /* Mobile tweaks */
+    @media (max-width: 520px){
+      #ww-swipe-testimonials-{{ sid }} .wwst__scroller{
+        padding: 10px 6vw 8px;
+        grid-auto-columns: minmax(90%, 520px);
+      }
+      #ww-swipe-testimonials-{{ sid }} .wwst__quote{
+        font-size: 14px;
+      }
+    }
+  </style>
+
+  <script>
+    (function(){
+      var root = document.getElementById('ww-swipe-testimonials-{{ sid }}');
+      if(!root) return;
+
+      var scroller = root.querySelector('[data-wwst-scroller]');
+      var dotsWrap = root.querySelector('[data-wwst-dots]');
+      if(!scroller || !dotsWrap) return;
+
+      var dots = Array.prototype.slice.call(dotsWrap.querySelectorAll('[data-wwst-dot]'));
+      if(!dots.length) return;
+
+      function setActive(i){
+        dots.forEach(function(d){ d.classList.remove('is-active'); });
+        if(dots[i]) dots[i].classList.add('is-active');
+      }
+
+      dots.forEach(function(dot){
+        dot.addEventListener('click', function(){
+          var idx = parseInt(dot.getAttribute('data-wwst-dot'), 10);
+          var card = scroller.children[idx];
+          if(card) card.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+        });
+      });
+
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting){
+            var idx = Array.prototype.indexOf.call(scroller.children, e.target);
+            if(idx >= 0) setActive(idx);
+          }
+        });
+      }, { root: scroller, threshold: 0.6 });
+
+      Array.prototype.forEach.call(scroller.children, function(card){ io.observe(card); });
+    })();
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Minimal Swipe ",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Loved by moms"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "A few words from mothers who use WeeWonders every day."
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Border + stars color",
+      "default": "#7ac8f0"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Heading/name color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Quote color",
+      "default": "#5b5f6a"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Max width (px)",
+      "min": 320,
+      "max": 1400,
+      "step": 20,
+      "default": 1100
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 140,
+      "step": 4,
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 140,
+      "step": 4,
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "photo",
+          "label": "Author image"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Author name",
+          "default": "Alyssa M."
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Testimonial",
+          "default": "So comfortable I forget I’m wearing it. Quiet enough to pump while working, and the modes make it easy to find what feels right."
+        },
+        {
+          "type": "range",
+          "id": "stars",
+          "label": "Stars",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Minimal Swipe Testimonials (Centered)",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "name": "Alyssa M.",
+            "quote": "So comfortable I forget I’m wearing it. Quiet enough to pump while working, and the modes make it easy to find what feels right.",
+            "stars": 5
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "name": "Noor A.",
+            "quote": "Hands-free freedom is real. I can move around the house and still get a smooth session without feeling tethered.",
+            "stars": 5
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "name": "Jenna R.",
+            "quote": "Automatic mode is my favorite—it ramps up gently and feels more natural than my old pump.",
+            "stars": 5
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

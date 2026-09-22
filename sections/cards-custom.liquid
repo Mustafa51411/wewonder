@@ -1,0 +1,453 @@
+{% comment %}
+  Section: Title + Subheading + Swipeable Feature Cards (phone-style)
+{% endcomment %}
+
+{%- liquid
+  assign sid = section.id
+  assign is_arabic = false
+  if request.locale.iso_code contains 'ar'
+    assign is_arabic = true
+  endif
+-%}
+
+<section id="ww-phone-cards-{{ sid }}" class="wwpc {% if is_arabic %}wwpc--rtl{% endif %}">
+  <div class="wwpc__wrap">
+    {% if section.settings.title != blank %}
+      <h2 class="wwpc__title">
+        {% if is_arabic %}
+          شفط أذكى… ببساطة
+        {% else %}
+          {{ section.settings.title }}
+        {% endif %}
+      </h2>
+    {% endif %}
+
+    {% if section.settings.subheading != blank %}
+      <p class="wwpc__subheading">
+        {% if is_arabic %}
+          تحكّمي، اختاري الوضعية، وشفطي بطريقة أريح من خلال الموبايل.
+        {% else %}
+          {{ section.settings.subheading }}
+        {% endif %}
+      </p>
+    {% endif %}
+  </div>
+
+  <div class="wwpc__rail" aria-label="{% if is_arabic %}بطاقات المميزات{% else %}Feature cards carousel{% endif %}">
+    <div class="wwpc__scroller" data-wwpc-scroller>
+      {% for block in section.blocks %}
+        <article class="wwpc__card" {{ block.shopify_attributes }} role="group" aria-label="{% if is_arabic %}ميزة{% else %}Feature card{% endif %}">
+          <div class="wwpc__media">
+            {% if block.settings.image != blank %}
+              <img
+                class="wwpc__img"
+                src="{{ block.settings.image | image_url: width: 1400 }}"
+                alt="{{ block.settings.image.alt | escape }}"
+                loading="lazy"
+              >
+            {% else %}
+              <div class="wwpc__img wwpc__img--ph" aria-hidden="true"></div>
+            {% endif %}
+          </div>
+
+          {% if block.settings.card_title != blank %}
+            <h3 class="wwpc__card-title">
+              {% if is_arabic %}
+                {% case forloop.index %}
+                  {% when 1 %}
+                    تبديل تلقائي بين الوضعيات
+                  {% when 2 %}
+                    حرية حقيقية من دون إيدين
+                  {% when 3 %}
+                    هادئة وبتنلبس بسهولة
+                  {% when 4 %}
+                    ٤ أوضاع و١٢ مستوى
+                  {% when 5 %}
+                    توقّف تلقائي للأمان
+                  {% else %}
+                    {{ block.settings.card_title }}
+                {% endcase %}
+              {% else %}
+                {{ block.settings.card_title }}
+              {% endif %}
+            </h3>
+          {% endif %}
+
+          {% if block.settings.card_text != blank %}
+            <p class="wwpc__card-text">
+              {% if is_arabic %}
+                {% case forloop.index %}
+                  {% when 1 %}
+                    بتنتقل تلقائياً من التحفيز للشفط لتجربة أسلس وأريح خلال جلسة الشفط.
+                  {% when 2 %}
+                      بتشفطي وإيديكِ فاضيين — فيكِ تتحرّكي، ترتّبي، تشتغلي، أو تهتمي بالبيبي من دون ما توقفي كل شي.
+                  {% when 3 %}
+                    بتنلبس جوّا حمالة صدر وصوتها خفيف، لتناسب حركتك وراحتك خلال اليوم.
+                  {% when 4 %}
+                    تحفيز، شفط، مساج، وتلقائي — وكل وضعية فيها ١٢ مستوى لتختاري اللي بيريّحك.
+                  {% when 5 %}
+                    بتتوقّف تلقائياً بعد ٣٠ دقيقة لتستخدميها براحة ومن دون قلق.
+                  {% else %}
+                    {{ block.settings.card_text }}
+                {% endcase %}
+              {% else %}
+                {{ block.settings.card_text }}
+              {% endif %}
+            </p>
+          {% endif %}
+        </article>
+      {% endfor %}
+    </div>
+
+    {% if section.blocks.size > 1 %}
+      <div class="wwpc__dots" aria-label="{% if is_arabic %}تنقّل بين البطاقات{% else %}Carousel pagination{% endif %}" data-wwpc-dots>
+        {% for block in section.blocks %}
+          <button
+            type="button"
+            class="wwpc__dot {% if forloop.first %}is-active{% endif %}"
+            aria-label="{% if is_arabic %}الانتقال إلى البطاقة {{ forloop.index }}{% else %}Go to card {{ forloop.index }}{% endif %}"
+            data-wwpc-dot="{{ forloop.index0 }}"
+          ></button>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+
+<style>
+#ww-phone-cards-{{ sid }}.wwpc{
+  --wwpc-max: {{ section.settings.max_width }}px;
+  --wwpc-pad-top: {{ section.settings.padding_top }}px;
+  --wwpc-pad-bot: {{ section.settings.padding_bottom }}px;
+  --wwpc-text: {{ section.settings.text_color }};
+  --wwpc-muted: {{ section.settings.muted_text_color }};
+  --wwpc-card-bg: {{ section.settings.card_bg }};
+  --wwpc-border: rgba(0,0,0,0.08);
+  --wwpc-shadow: 0 8px 24px rgba(0,0,0,0.05);
+  --wwpc-gap: 20px;
+  --wwpc-accent: #7ac8f0;
+
+  padding: var(--wwpc-pad-top) 0 var(--wwpc-pad-bot);
+  width: 100%;
+  font-family: var(--font-body-family, inherit);
+  color: var(--wwpc-text);
+  background: transparent;
+}
+
+#ww-phone-cards-{{ sid }} .wwpc__wrap{
+  width: 100%;
+  max-width: min(var(--wwpc-max), calc(100vw - 60px));
+  margin: 0 auto 22px;
+  padding: 0 20px;
+}
+
+#ww-phone-cards-{{ sid }} .wwpc__title{
+  margin: 0 0 8px;
+  font-size: clamp(24px, 3vw, 34px);
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--wwpc-text);
+}
+
+#ww-phone-cards-{{ sid }} .wwpc__subheading{
+  margin: 0;
+  font-size: clamp(14px, 1.8vw, 17px);
+  line-height: 1.5;
+  color: var(--wwpc-muted);
+  max-width: 60ch;
+}
+
+#ww-phone-cards-{{ sid }} .wwpc__scroller{
+  width: 100%;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(80%, 480px);
+  gap: var(--wwpc-gap);
+  overflow-x: auto;
+  padding: 10px 20px 8px;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+#ww-phone-cards-{{ sid }} .wwpc__scroller::-webkit-scrollbar{
+  display: none;
+}
+
+#ww-phone-cards-{{ sid }} .wwpc__card{
+  scroll-snap-align: start;
+  padding: 0 4px;
+}
+
+#ww-phone-cards-{{ sid }} .wwpc__media{
+  background: var(--wwpc-card-bg);
+  border: 1px solid var(--wwpc-border);
+  box-shadow: var(--wwpc-shadow);
+  border-radius: 0;
+  overflow: hidden;
+}
+
+#ww-phone-cards-{{ sid }} .wwpc__img{
+  width: 100%;
+  height: 340px;
+  object-fit: cover;
+  display: block;
+  border-radius: 0;
+}
+
+@media (max-width: 520px){
+  #ww-phone-cards-{{ sid }} .wwpc__img{
+    height: 260px;
+  }
+}
+
+#ww-phone-cards-{{ sid }} .wwpc__card-title{
+  margin: 16px 0 6px;
+  font-size: 18px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--wwpc-text);
+}
+
+#ww-phone-cards-{{ sid }} .wwpc__card-text{
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--wwpc-muted);
+  max-width: 55ch;
+}
+
+#ww-phone-cards-{{ sid }} .wwpc__dots{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 0 0;
+}
+
+#ww-phone-cards-{{ sid }} .wwpc__dot{
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(122,200,240,0.35);
+  cursor: pointer;
+  transition: width .2s ease, background .2s ease;
+}
+
+#ww-phone-cards-{{ sid }} .wwpc__dot.is-active{
+  width: 28px;
+  background: var(--wwpc-accent);
+}
+
+@media (min-width: 900px){
+  #ww-phone-cards-{{ sid }} .wwpc__scroller{
+    grid-auto-columns: minmax(420px, 520px);
+    padding-left: max(20px, calc((100vw - min(var(--wwpc-max), (100vw - 60px))) / 2));
+    padding-right: max(20px, calc((100vw - min(var(--wwpc-max), (100vw - 60px))) / 2));
+  }
+
+  #ww-phone-cards-{{ sid }} .wwpc__img{
+    height: 360px;
+  }
+}
+
+/* RTL */
+#ww-phone-cards-{{ sid }}.wwpc--rtl{
+  direction: rtl;
+}
+
+#ww-phone-cards-{{ sid }}.wwpc--rtl .wwpc__wrap,
+#ww-phone-cards-{{ sid }}.wwpc--rtl .wwpc__card-title,
+#ww-phone-cards-{{ sid }}.wwpc--rtl .wwpc__card-text{
+  text-align: right;
+}
+
+#ww-phone-cards-{{ sid }}.wwpc--rtl .wwpc__subheading{
+  margin-left: 0;
+  margin-right: 0;
+}
+</style>
+
+  <script>
+    (function(){
+      var root = document.getElementById('ww-phone-cards-{{ sid }}');
+      if(!root) return;
+
+      var scroller = root.querySelector('[data-wwpc-scroller]');
+      var dotsWrap = root.querySelector('[data-wwpc-dots]');
+      if(!scroller || !dotsWrap) return;
+
+      var dots = Array.prototype.slice.call(dotsWrap.querySelectorAll('[data-wwpc-dot]'));
+      if(!dots.length) return;
+
+      function setActive(i){
+        dots.forEach(function(d){ d.classList.remove('is-active'); });
+        if(dots[i]) dots[i].classList.add('is-active');
+      }
+
+      dots.forEach(function(dot){
+        dot.addEventListener('click', function(){
+          var idx = parseInt(dot.getAttribute('data-wwpc-dot'), 10);
+          var card = scroller.children[idx];
+          if(card) card.scrollIntoView({behavior:'smooth', inline:'start', block:'nearest'});
+        });
+      });
+
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting){
+            var idx = Array.prototype.indexOf.call(scroller.children, e.target);
+            if(idx >= 0) setActive(idx);
+          }
+        });
+      }, { root: scroller, threshold: 0.6 });
+
+      Array.prototype.forEach.call(scroller.children, function(card){ io.observe(card); });
+    })();
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Phone Feature Cards",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Smart Pumping. Simply Done."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Track, control, and pump smarter all from your phone."
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Content max width (px)",
+      "min": 320,
+      "max": 1400,
+      "step": 20,
+      "default": 1100
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Title color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "muted_text_color",
+      "label": "Subheading / body color",
+      "default": "#5b5f6a"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Image card background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Image card radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 140,
+      "step": 4,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 140,
+      "step": 4,
+      "default": 60
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Feature card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "card_title",
+          "label": "Card title",
+          "default": "Auto Mode Switching"
+        },
+        {
+          "type": "textarea",
+          "id": "card_text",
+          "label": "Card text",
+          "default": "Automatically transitions from stimulation to expression for a smoother, more efficient pumping session."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Card image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Phone Feature Cards (Swipe)",
+      "blocks": [
+        {
+          "type": "card",
+          "settings": {
+            "card_title": "Auto Mode Switching",
+            "card_text": "Automatically transitions from stimulation to expression for a smoother, more efficient pumping session."
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "card_title": "App Control",
+            "card_text": "Control modes and levels from your phone for hands-free, discreet pumping anywhere."
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "card_title": "Quiet & Wearable",
+            "card_text": "Wear inside your bra with quiet operation—made for everyday movement and comfort."
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "card_title": "4 Modes, 12 Levels",
+            "card_text": "Stimulation, Expression, Massage, and Automatic—each with 12 levels to match your comfort."
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "card_title": "Auto Stop Safety",
+            "card_text": "Built-in auto stop after 30 minutes for a worry-free routine."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

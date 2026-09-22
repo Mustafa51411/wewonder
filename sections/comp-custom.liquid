@@ -1,0 +1,494 @@
+{% comment %}
+  Section: DS-01 Comparison Table (Seed-style)
+  File: sections/ds01-comparison-table.liquid
+{% endcomment %}
+{%- assign is_arabic = false -%}
+{%- if request.locale.iso_code contains 'ar' -%}
+  {%- assign is_arabic = true -%}
+{%- endif -%}
+<section
+  id="ds01-compare-{{ section.id }}"
+  class="ds01-compare {% if is_arabic %}ds01-rtl{% endif %}"
+  style="
+    --ds01-accent: {{ section.settings.accent_green }};
+    --ds01-page-bg: {{ section.settings.page_bg }};
+    --ds01-text: {{ section.settings.text_color }};
+    --ds01-muted: {{ section.settings.muted_text_color }};
+    --ds01-line: {{ section.settings.line_color }};
+  "
+>
+  <div class="ds01-compare__wrap page-width">
+    <div class="ds01-compare__header">
+{% if section.settings.heading != blank %}
+  <h2 class="ds01-compare__title">
+    {% if is_arabic %}
+      ليش مضخة WeeWonders خيار أذكى للأمهات؟
+    {% else %}
+      {{ section.settings.heading }}
+    {% endif %}
+  </h2>
+{% endif %}
+    </div>
+
+    <div class="ds01-compare__table" role="table" aria-label="{{ section.settings.aria_label | escape }}">
+      <!-- Column header row -->
+      <div class="ds01-compare__row ds01-compare__row--head" role="row">
+        <div class="ds01-compare__cell ds01-compare__cell--left" role="columnheader"></div>
+
+        <div class="ds01-compare__cell ds01-compare__cell--mid" role="columnheader">
+          <div class="ds01-compare__midbox ds01-compare__midbox--head">
+            {% if section.settings.brand_image != blank %}
+              <div class="ds01-compare__brandimg">
+                {{
+                  section.settings.brand_image
+                  | image_url: width: 800
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '200, 260, 320, 420, 520, 640, 800',
+                    sizes: '(max-width: 860px) 160px, 200px',
+                    alt: section.settings.brand_label | escape
+                }}
+              </div>
+            {% endif %}
+
+{% if section.settings.other_label != blank %}
+  <div class="ds01-compare__otherlabel">
+    {% if is_arabic %}
+     WeeWonders
+    {% else %}
+      {{ section.settings.other_label }}
+    {% endif %}
+  </div>
+{% endif %}
+          </div>
+        </div>
+
+        <div class="ds01-compare__cell ds01-compare__cell--right" role="columnheader">
+  {% if section.settings.other_label != blank %}
+    <div class="ds01-compare__otherlabel">
+      {% if is_arabic %}
+        مضخات أخرى
+      {% else %}
+        {{ section.settings.other_label }}
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
+      </div>
+
+      <!-- Data rows -->
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'row' %}
+            <div class="ds01-compare__row" role="row" {{ block.shopify_attributes }}>
+              <div class="ds01-compare__cell ds01-compare__cell--left" role="cell">
+              <div class="ds01-compare__lefttext">
+  {% if is_arabic %}
+    {% case forloop.index %}
+      {% when 1 %}
+        شفط ناعم بإيقاع بيشبه رضاعة البيبي
+      {% when 2 %}
+        بتلبسيها جوّا حمالة صدر
+      {% when 3 %}
+        صوتها خفيف كتير
+      {% when 4 %}
+        كذا وضعية فيكِ تعدّليها حسب راحتك
+      {% else %}
+        {{ block.settings.left_text }}
+    {% endcase %}
+  {% else %}
+    {{ block.settings.left_text }}
+  {% endif %}
+</div>
+              </div>
+
+              <div class="ds01-compare__cell ds01-compare__cell--mid" role="cell">
+                <div class="ds01-compare__midbox">
+                  {% if block.settings.show_check %}
+                    <span class="ds01-compare__check" aria-label="Included">
+                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M9.2 16.2 5.7 12.7a1 1 0 0 1 1.4-1.4l2.5 2.5 7-7a1 1 0 1 1 1.4 1.4l-7.7 7.7a1 1 0 0 1-1.1.3.9.9 0 0 1-.2 0Z" fill="currentColor"/>
+                      </svg>
+                    </span>
+                  {% else %}
+                    <span class="ds01-compare__dash" aria-hidden="true">—</span>
+                  {% endif %}
+                </div>
+              </div>
+
+              <div class="ds01-compare__cell ds01-compare__cell--right" role="cell">
+               <div class="ds01-compare__righttext">
+  {% if is_arabic %}
+    {% case forloop.index %}
+      {% when 1 %}
+        سحب قاسي وميكانيكي
+      {% when 2 %}
+        جهاز خارجي كبير ومزعج
+      {% when 3 %}
+        صوتها واضح وممكن يزعج
+      {% when 4 %}
+        خيارات محدودة
+      {% else %}
+        {{ block.settings.right_text }}
+    {% endcase %}
+  {% else %}
+    {{ block.settings.right_text }}
+  {% endif %}
+</div>
+              </div>
+            </div>
+        {% endcase %}
+      {% endfor %}
+    </div>
+  </div>
+
+<style>
+  /* =========================
+     DS-01 Comparison (FINAL – premium mobile spacing)
+     Updates:
+     - Check background: BLACK
+     - Check icon: WHITE (forced, so it shows on mobile)
+     - Check icon slightly larger (balanced)
+     ========================= */
+
+  #ds01-compare-{{ section.id }}{
+    background: var(--ds01-page-bg);
+    color: var(--ds01-text);
+    padding: clamp(24px, 4vw, 56px) 0;
+  }
+
+  #ds01-compare-{{ section.id }} .ds01-compare__wrap{
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  #ds01-compare-{{ section.id }} .ds01-compare__title{
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin-bottom: clamp(16px, 2.5vw, 28px);
+    font-size: clamp(32px, 4.2vw, 60px);
+  }
+
+  /* ===== Table layout ===== */
+  #ds01-compare-{{ section.id }} .ds01-compare__table{
+    --col-left: 38%;
+    --col-mid: 30%;
+    --col-right: 32%;
+    position: relative;
+    width: 100%;
+    border-top: 1px solid var(--ds01-line);
+  }
+
+  #ds01-compare-{{ section.id }} .ds01-compare__table::before{
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 var(--col-left);
+    width: var(--col-mid);
+    background: var(--ds01-accent);
+    border-radius: 0px;
+    z-index: 0;
+  }
+
+  #ds01-compare-{{ section.id }} .ds01-compare__table::after{
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 var(--col-left);
+    width: var(--col-mid);
+    border-left: 1px solid var(--ds01-line);
+    border-right: 1px solid var(--ds01-line);
+    border-radius: 0px;
+    z-index: 1;
+  }
+
+  #ds01-compare-{{ section.id }} .ds01-compare__row{
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: var(--col-left) var(--col-mid) var(--col-right);
+    border-bottom: 1px solid var(--ds01-line);
+    min-height: 92px;
+  }
+
+  #ds01-compare-{{ section.id }} .ds01-compare__row--head{
+    min-height: 160px;
+  }
+
+  #ds01-compare-{{ section.id }} .ds01-compare__cell{
+    display: flex;
+    align-items: center;
+    padding: 18px 18px;
+    min-width: 0;
+  }
+
+  #ds01-compare-{{ section.id }} .ds01-compare__cell--left{
+    padding-left: 0;
+  }
+
+  #ds01-compare-{{ section.id }} .ds01-compare__cell--right{
+    padding-right: 0;
+    justify-content: flex-start;
+  }
+
+  #ds01-compare-{{ section.id }} .ds01-compare__cell--mid{
+    padding: 0;
+    justify-content: center;
+  }
+
+  #ds01-compare-{{ section.id }} .ds01-compare__midbox{
+    width: 100%;
+    min-height: 92px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+  }
+
+  #ds01-compare-{{ section.id }} .ds01-compare__brandimg img{
+    width: 170px;
+    max-width: 72%;
+    margin: 0 auto;
+    display: inline-block;
+  }
+
+  #ds01-compare-{{ section.id }} .ds01-compare__brandlabel{
+    font-size: clamp(34px, 3.2vw, 54px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    text-align: center;
+  }
+
+  #ds01-compare-{{ section.id }} .ds01-compare__otherlabel{
+    font-size: clamp(18px, 1.7vw, 28px);
+    font-weight: 500;
+    line-height: 1.1;
+    max-width: 10ch;
+    white-space: normal;
+    color: var(--ds01-text);
+  }
+
+  #ds01-compare-{{ section.id }} .ds01-compare__lefttext{
+    font-size: clamp(16px, 1.35vw, 22px);
+    line-height: 1.25;
+    max-width: 34ch;
+  }
+
+  #ds01-compare-{{ section.id }} .ds01-compare__righttext{
+    font-size: clamp(16px, 1.25vw, 20px);
+    line-height: 1.35;
+    max-width: 34ch;
+    color: var(--ds01-muted);
+  }
+
+  /* =========================
+     Check – slightly larger icon
+     ========================= */
+
+  #ds01-compare-{{ section.id }} .ds01-compare__check{
+    width: 42px;
+    height: 42px;
+    border-radius: 999px;
+    background: #000 !important;
+    color: #fff !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Larger SVG check */
+  #ds01-compare-{{ section.id }} .ds01-compare__check svg{
+    width: 20px;   /* was 18px */
+    height: 20px;  /* was 18px */
+    display: block;
+  }
+
+  #ds01-compare-{{ section.id }} .ds01-compare__check svg,
+  #ds01-compare-{{ section.id }} .ds01-compare__check svg *{
+    fill: #fff !important;
+    stroke: #fff !important;
+  }
+
+  #ds01-compare-{{ section.id }} .ds01-compare__check i,
+  #ds01-compare-{{ section.id }} .ds01-compare__check span{
+    color: #fff !important;
+  }
+
+  /* =========================
+     MOBILE
+     ========================= */
+
+  @media (max-width: 860px){
+
+    #ds01-compare-{{ section.id }}{
+      padding: 36px 16px 48px;
+    }
+
+    #ds01-compare-{{ section.id }} .ds01-compare__check{
+      width: 34px;
+      height: 34px;
+    }
+
+    /* Slightly larger on mobile too */
+    #ds01-compare-{{ section.id }} .ds01-compare__check svg{
+      width: 18px;   /* was 16px */
+      height: 18px;
+    }
+  }
+
+  @media (max-width: 420px){
+    #ds01-compare-{{ section.id }} .ds01-compare__otherlabel{
+      font-size: 15px;
+      max-width: 8ch;
+    }
+  }
+  #ds01-compare-{{ section.id }}.ds01-rtl{
+  direction: rtl;
+}
+
+#ds01-compare-{{ section.id }}.ds01-rtl .ds01-compare__title,
+#ds01-compare-{{ section.id }}.ds01-rtl .ds01-compare__lefttext,
+#ds01-compare-{{ section.id }}.ds01-rtl .ds01-compare__righttext,
+#ds01-compare-{{ section.id }}.ds01-rtl .ds01-compare__otherlabel{
+  text-align: right;
+}
+</style>
+
+
+</section>
+
+{% schema %}
+{
+  "name": "DS-01 Comparison Table",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "DS-01® Outperforms Other Probiotics."
+    },
+    {
+      "type": "image_picker",
+      "id": "brand_image",
+      "label": "Center column product image"
+    },
+    {
+      "type": "text",
+      "id": "brand_label",
+      "label": "Center column label",
+      "default": "Seed"
+    },
+    {
+      "type": "text",
+      "id": "other_label",
+      "label": "Right column header",
+      "default": "Other Products"
+    },
+    {
+      "type": "text",
+      "id": "aria_label",
+      "label": "Accessibility label",
+      "default": "Comparison table"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "accent_green",
+      "label": "Light green background (center column)",
+      "default": "#DDE7C7"
+    },
+    {
+      "type": "color",
+      "id": "page_bg",
+      "label": "Section background",
+      "default": "#FAFBF7"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Main text color",
+      "default": "#183B2D"
+    },
+    {
+      "type": "color",
+      "id": "muted_text_color",
+      "label": "Right column text color",
+      "default": "#6B6F6C"
+    },
+    {
+      "type": "color",
+      "id": "line_color",
+      "label": "Divider line color",
+      "default": "#D9DCD2"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Comparison row",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "left_text",
+          "label": "Left text",
+          "default": "24 clinically studied probiotic strains"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_check",
+          "label": "Show checkmark in center column",
+          "default": true
+        },
+        {
+          "type": "textarea",
+          "id": "right_text",
+          "label": "Right text",
+          "default": "5 or less strains, rarely tested clinically"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "DS-01 Comparison Table",
+      "blocks": [
+        {
+          "type": "row",
+          "settings": {
+            "left_text": "24 clinically studied\nprobiotic strains",
+            "show_check": true,
+            "right_text": "5 or less strains,\nrarely tested\nclinically"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "left_text": "Engineered for\nprecision delivery to\nthe colon",
+            "show_check": true,
+            "right_text": "Rarely reaches\nthe colon"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "left_text": "Third-party tested for\npesticides, allergens,\nand heavy metals",
+            "show_check": true,
+            "right_text": "Rare"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "left_text": "Vegan, gluten- and\nnut-tested, low\nFODMAP",
+            "show_check": true,
+            "right_text": "Rare"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

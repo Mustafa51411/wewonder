@@ -1,0 +1,343 @@
+{% comment %}
+  Section: Small Full-Width Testimonial Card (premium gradient, stars, name, flag, verified)
+{% endcomment %}
+
+{%- liquid
+  assign sid = section.id
+  assign is_arabic = false
+  if request.locale.iso_code contains 'ar'
+    assign is_arabic = true
+  endif
+
+  assign bg1 = section.settings.bg_color_1 | default: '#f6f7fb'
+  assign bg2 = section.settings.bg_color_2 | default: '#e9f6ff'
+  assign bg3 = section.settings.bg_color_3 | default: '#ffeef3'
+  assign text = section.settings.text_color | default: '#5b5f6a'
+  assign namec = section.settings.name_color | default: '#2b2f3a'
+  assign accent = section.settings.accent_color | default: '#7ac8f0'
+  assign stars = section.settings.stars | default: 5
+-%}
+
+<section id="ww-mini-testimonial-{{ sid }}" class="ww-mt {% if is_arabic %}ww-mt--rtl{% endif %}">
+  <div class="ww-mt__wrap">
+    <div class="ww-mt__card" role="group" aria-label="{% if is_arabic %}تقييم زبونة{% else %}Customer testimonial{% endif %}">
+      <div class="ww-mt__stars" aria-label="{% if is_arabic %}{{ stars }} من ٥ نجوم{% else %}{{ stars }} out of 5 stars{% endif %}">
+        {%- for i in (1..5) -%}
+          <span class="ww-mt__star {% if i <= stars %}is-on{% endif %}" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M12 2l2.93 6.63 7.07.61-5.35 4.64 1.6 6.92L12 17.77 5.75 20.8l1.6-6.92L2 9.24l7.07-.61L12 2z"></path>
+            </svg>
+          </span>
+        {%- endfor -%}
+      </div>
+
+      {% if section.settings.quote != blank %}
+        <div class="ww-mt__quote">
+          {% if is_arabic %}
+            من أساسيات الشغل! حبيت قديش هي عملية ومحمولة، وسهلة الاستخدام كل يوم.
+          {% else %}
+            {{ section.settings.quote }}
+          {% endif %}
+        </div>
+      {% endif %}
+
+      <div class="ww-mt__meta">
+        <div class="ww-mt__who">
+          {% if section.settings.name != blank %}
+            <span class="ww-mt__name">
+              {% if is_arabic %}
+                سارة
+              {% else %}
+                {{ section.settings.name }}
+              {% endif %}
+            </span>
+          {% endif %}
+          {% if section.settings.flag != blank %}
+            <span class="ww-mt__flag" aria-hidden="true">{{ section.settings.flag }}</span>
+          {% endif %}
+        </div>
+
+        {% if section.settings.verified_text != blank %}
+          <div class="ww-mt__verified">
+            <span class="ww-mt__check" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M9.2 16.2 5.7 12.7a1 1 0 0 1 1.4-1.4l2.1 2.1 7.7-7.7a1 1 0 1 1 1.4 1.4l-9.1 9.1a1 1 0 0 1-1.4 0z"></path>
+                <circle cx="12" cy="12" r="9" fill="none"></circle>
+              </svg>
+            </span>
+            <span class="ww-mt__verified-text">
+              {% if is_arabic %}
+                زبونة موثّقة
+              {% else %}
+                {{ section.settings.verified_text }}
+              {% endif %}
+            </span>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <style>
+#ww-mini-testimonial-{{ sid }}.ww-mt{
+  --mt-bg1: {{ bg1 }};
+  --mt-bg2: {{ bg2 }};
+  --mt-bg3: {{ bg3 }};
+  --mt-text: {{ text }};
+  --mt-name: {{ namec }};
+  --mt-accent: {{ accent }};
+  --mt-max: {{ section.settings.max_width }}px;
+
+  width: 100%;
+  padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+  background: transparent;
+  font-family: var(--font-body-family, inherit);
+}
+
+#ww-mini-testimonial-{{ sid }} .ww-mt__wrap{
+  width: 100%;
+  max-width: min(var(--mt-max), calc(100vw - 28px));
+  margin: 0 auto;
+}
+
+#ww-mini-testimonial-{{ sid }} .ww-mt__card{
+  border-radius: 0;
+  padding: 18px 18px 16px;
+  background: linear-gradient(135deg, var(--mt-bg1) 0%, var(--mt-bg2) 55%, var(--mt-bg3) 100%);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+#ww-mini-testimonial-{{ sid }} .ww-mt__stars{
+  display: inline-flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+#ww-mini-testimonial-{{ sid }} .ww-mt__star{
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  opacity: 0.25;
+}
+
+#ww-mini-testimonial-{{ sid }} .ww-mt__star svg{
+  width: 100%;
+  height: 100%;
+  fill: var(--mt-accent);
+  display: block;
+}
+
+#ww-mini-testimonial-{{ sid }} .ww-mt__star.is-on{ 
+  opacity: 1; 
+}
+
+#ww-mini-testimonial-{{ sid }} .ww-mt__quote{
+  color: var(--mt-text);
+  font-size: clamp(16px, 2.2vw, 22px);
+  line-height: 1.4;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin: 0 0 14px;
+}
+
+#ww-mini-testimonial-{{ sid }} .ww-mt__meta{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+#ww-mini-testimonial-{{ sid }} .ww-mt__who{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+#ww-mini-testimonial-{{ sid }} .ww-mt__name{
+  color: var(--mt-name);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+#ww-mini-testimonial-{{ sid }} .ww-mt__flag{
+  font-size: 18px;
+  line-height: 1;
+  transform: translateY(1px);
+  white-space: nowrap;
+}
+
+#ww-mini-testimonial-{{ sid }} .ww-mt__verified{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(0,0,0,0.55);
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+#ww-mini-testimonial-{{ sid }} .ww-mt__check{
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  color: rgba(0,0,0,0.55);
+}
+
+#ww-mini-testimonial-{{ sid }} .ww-mt__check svg{
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+  display: block;
+}
+
+#ww-mini-testimonial-{{ sid }} .ww-mt__check svg circle{
+  stroke: currentColor;
+  stroke-width: 1.6;
+}
+
+/* RTL */
+#ww-mini-testimonial-{{ sid }}.ww-mt--rtl{
+  direction: rtl;
+}
+
+#ww-mini-testimonial-{{ sid }}.ww-mt--rtl .ww-mt__quote,
+#ww-mini-testimonial-{{ sid }}.ww-mt--rtl .ww-mt__meta{
+  text-align: right;
+}
+
+#ww-mini-testimonial-{{ sid }}.ww-mt--rtl .ww-mt__meta{
+  flex-direction: row;
+}
+
+@media (max-width: 520px){
+  #ww-mini-testimonial-{{ sid }} .ww-mt__card{
+    padding: 16px 14px 14px;
+  }
+  #ww-mini-testimonial-{{ sid }} .ww-mt__quote{
+    font-size: 15px;
+  }
+  #ww-mini-testimonial-{{ sid }} .ww-mt__name{
+    font-size: 15px;
+  }
+  #ww-mini-testimonial-{{ sid }} .ww-mt__verified{
+    font-size: 13px;
+  }
+}
+</style>
+</section>
+
+{% schema %}
+{
+  "name": "Mini Testimonial Card",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "Testimonial text",
+      "default": "Work essentials! I’m in love with how portable it is and how easy it is to use every day."
+    },
+    {
+      "type": "range",
+      "id": "stars",
+      "label": "Star rating",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "text",
+      "id": "name",
+      "label": "Customer name",
+      "default": "Sharr Sharr"
+    },
+    {
+      "type": "text",
+      "id": "flag",
+      "label": "Flag emoji (optional)",
+      "default": "🇺🇸"
+    },
+    {
+      "type": "text",
+      "id": "verified_text",
+      "label": "Verified label",
+      "default": "Verified Buyer"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Max width (px)",
+      "min": 320,
+      "max": 1400,
+      "step": 20,
+      "default": 1100
+    },
+    {
+      "type": "color",
+      "id": "bg_color_1",
+      "label": "Gradient color 1",
+      "default": "#f6f7fb"
+    },
+    {
+      "type": "color",
+      "id": "bg_color_2",
+      "label": "Gradient color 2",
+      "default": "#e9f6ff"
+    },
+    {
+      "type": "color",
+      "id": "bg_color_3",
+      "label": "Gradient color 3",
+      "default": "#ffeef3"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Quote text color",
+      "default": "#5b5f6a"
+    },
+    {
+      "type": "color",
+      "id": "name_color",
+      "label": "Name color",
+      "default": "#2b2f3a"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Stars accent color",
+      "default": "#7ac8f0"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mini Testimonial Card"
+    }
+  ]
+}
+{% endschema %}
