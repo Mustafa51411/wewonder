@@ -556,10 +556,9 @@
   <div class="wrap">
     <div class="center"><h2>Different worries. <span class="hl">The same fix.</span></h2></div>
     <div class="vids">
-      <div class="vid"><div class="ph video">Video testimonial</div><div class="cap"><span class="pain">Worried about supply</span><b>Nour</b><span class="stars">★★★★★</span></div></div>
-      <div class="vid"><div class="ph video">Video testimonial</div><div class="cap"><span class="pain">Burned by a bad pump</span><b>Jana</b><span class="stars">★★★★★</span></div></div>
-      <div class="vid"><div class="ph video">Video testimonial</div><div class="cap"><span class="pain">Back at work</span><b>Carla</b><span class="stars">★★★★★</span></div></div>
-      <div class="vid"><div class="ph video">Video testimonial</div><div class="cap"><span class="pain">Just exhausted</span><b>Dina</b><span class="stars">★★★★★</span></div></div>
+      {% for block in section.blocks %}{% if block.type == 'video_story' %}
+        <article class="vid" {{ block.shopify_attributes }}><div class="ph video">{% if block.settings.image != blank %}<img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.name | escape }}" width="800" height="450" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:14px">{% else %}{{ block.settings.media_label }}{% endif %}</div><div class="cap"><span class="pain">{{ block.settings.pain }}</span><b>{{ block.settings.name }}</b><span class="stars">{{ block.settings.rating }}</span></div></article>
+      {% endif %}{% endfor %}
     </div>
   </div>
 </section>
@@ -595,11 +594,9 @@
   <div class="wrap">
     <div class="center"><h2>Five steps, then <span class="hl">hands-free</span></h2></div>
     <div class="steps">
-      <div class="step"><div class="ph sq"></div><div class="num">1</div><h3>Assemble</h3><p>Clicks together in seconds.</p></div>
-      <div class="step"><div class="ph sq"></div><div class="num">2</div><h3>Find your fit</h3><p>Pick your size with the tool.</p></div>
-      <div class="step"><div class="ph sq"></div><div class="num">3</div><h3>Slip it in</h3><p>Hidden in your bra.</p></div>
-      <div class="step"><div class="ph sq"></div><div class="num">4</div><h3>Start</h3><p>Pick a mode and level.</p></div>
-      <div class="step"><div class="ph sq"></div><div class="num">5</div><h3>Pour</h3><p>Straight into your bags.</p></div>
+      {% for block in section.blocks %}{% if block.type == 'howto_step' %}
+        <article class="step" {{ block.shopify_attributes }}><div class="ph sq">{% if block.settings.image != blank %}<img src="{{ block.settings.image | image_url: width: 500 }}" alt="{{ block.settings.title | escape }}" width="500" height="500" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:12px">{% endif %}</div><div class="num">{{ block.settings.number }}</div><h3>{{ block.settings.title }}</h3><p>{{ block.settings.text }}</p></article>
+      {% endif %}{% endfor %}
     </div>
   </div>
 </section>
@@ -645,12 +642,9 @@
   <div class="wrap">
     <div class="center"><h2><span class="hl">Questions</span> mothers ask</h2></div>
     <div class="faq">
-      <details><summary>Single or Double?<span class="pm">+</span></summary><p>Single pumps one side, lighter and cheaper. Double pumps both at once and halves your time, which is why most mothers who pump often choose it.</p></details>
-      <details><summary>Will it tank my supply?<span class="pm">+</span></summary><p>Cheap pumps do, because pain and poor fit make you tense and the session ends before the breast is empty. WeeWonders removes the pain and lets a full session finish, so it empties fully and your supply holds.</p></details>
-      <details><summary>Which flange size fits me?<span class="pm">+</span></summary><p>Every box has 17, 19, 21 and 24mm plus a sizing tool. Unsure? Send a photo on WhatsApp and we’ll help you fit it.</p></details>
-      <details><summary>What if it breaks?<span class="pm">+</span></summary><p>Six-month warranty, handled in Lebanon. Message us and replacement parts ship in a couple of days.</p></details>
-      <details><summary>Is it really discreet?<span class="pm">+</span></summary><p>Under 50dB and fully in-bra, no tubes or cords. Hidden under your top and quiet in a normal room.</p></details>
-      <details><summary>How fast is delivery?<span class="pm">+</span></summary><p>Tracked delivery across Lebanon in 48 hours, with WhatsApp support 7 days a week.</p></details>
+      {% for block in section.blocks %}{% if block.type == 'faq' %}
+        <details {{ block.shopify_attributes }}><summary>{{ block.settings.question }}<span class="pm">+</span></summary><p>{{ block.settings.answer }}</p></details>
+      {% endif %}{% endfor %}
     </div>
   </div>
 </section>
@@ -891,9 +885,38 @@
         { "type": "text", "id": "label", "label": "Statistic label", "default": "Comfortable all day" },
         { "type": "text", "id": "note", "label": "Source note", "default": "Self-reported" }
       ]
+    },
+    {
+      "type": "video_story",
+      "name": "Video testimonial",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Video cover image" },
+        { "type": "text", "id": "media_label", "label": "Empty-state label", "default": "Video testimonial" },
+        { "type": "text", "id": "pain", "label": "Story label", "default": "Customer story" },
+        { "type": "text", "id": "name", "label": "Customer name", "default": "Customer" },
+        { "type": "text", "id": "rating", "label": "Rating", "default": "★★★★★" }
+      ]
+    },
+    {
+      "type": "howto_step",
+      "name": "How-to step",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Step image" },
+        { "type": "text", "id": "number", "label": "Step number", "default": "1" },
+        { "type": "text", "id": "title", "label": "Step title", "default": "Step title" },
+        { "type": "textarea", "id": "text", "label": "Step description", "default": "Add the step description." }
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "FAQ item",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "Add a question" },
+        { "type": "textarea", "id": "answer", "label": "Answer", "default": "Add the answer." }
+      ]
     }
   ],
-  "max_blocks": 40,
+  "max_blocks": 60,
   "presets": [{ "name": "WeeWonders Custom PDP" }]
 }
 {% endschema %}
