@@ -2,39 +2,7 @@
   "sections": {
     "main": {
       "type": "weewonders-reference-pdp",
-      "blocks": {
-        "benefit_delivery": {"type": "benefit", "settings": {"title": "Fast delivery", "text": "Reliable shipping"}},
-        "benefit_quality": {"type": "benefit", "settings": {"title": "Quality assured", "text": "Made to last"}},
-        "benefit_support": {"type": "benefit", "settings": {"title": "Support available", "text": "We are here to help"}},
-        "review_1": {"type": "review", "settings": {"kicker": "Customer story", "name": "Customer", "rating": 5, "text": "Add a genuine customer review in the Theme Editor."}},
-        "review_2": {"type": "review", "settings": {"kicker": "Customer story", "name": "Customer", "rating": 5, "text": "Add a genuine customer review in the Theme Editor."}},
-        "review_3": {"type": "review", "settings": {"kicker": "Customer story", "name": "Customer", "rating": 5, "text": "Add a genuine customer review in the Theme Editor."}},
-        "review_4": {"type": "review", "settings": {"kicker": "Customer story", "name": "Customer", "rating": 5, "text": "Add a genuine customer review in the Theme Editor."}},
-        "media_1": {"type": "proof_media", "settings": {"label": "Customer moment"}},
-        "media_2": {"type": "proof_media", "settings": {"label": "Customer moment"}},
-        "media_3": {"type": "proof_media", "settings": {"label": "Customer moment"}},
-        "media_4": {"type": "proof_media", "settings": {"label": "Customer moment"}},
-        "media_5": {"type": "proof_media", "settings": {"label": "Customer moment"}},
-        "stat_1": {"type": "proof_stat", "settings": {"value": "", "label": ""}},
-        "stat_2": {"type": "proof_stat", "settings": {"value": "", "label": ""}},
-        "stat_3": {"type": "proof_stat", "settings": {"value": "", "label": ""}},
-        "stat_4": {"type": "proof_stat", "settings": {"value": "", "label": ""}},
-        "rule_1": {"type": "rule_card", "settings": {"title": "Comparison title", "text": "Add the factual comparison text in the Theme Editor.", "outcome": "Add the outcome"}},
-        "rule_2": {"type": "rule_card", "settings": {"title": "Comparison title", "text": "Add the factual comparison text in the Theme Editor.", "outcome": "Add the outcome"}},
-        "timeline_1": {"type": "timeline_step", "settings": {"title": "Step title", "text": "Add the step details in the Theme Editor."}},
-        "timeline_2": {"type": "timeline_step", "settings": {"title": "Step title", "text": "Add the step details in the Theme Editor."}},
-        "timeline_3": {"type": "timeline_step", "settings": {"title": "Step title", "text": "Add the step details in the Theme Editor."}},
-        "timeline_4": {"type": "timeline_step", "settings": {"title": "Step title", "text": "Add the step details in the Theme Editor."}},
-        "timeline_5": {"type": "timeline_step", "settings": {"title": "Step title", "text": "Add the step details in the Theme Editor."}},
-        "offer_note_1": {"type": "offer_note", "settings": {"text": "Add a real delivery or warranty promise"}},
-        "offer_note_2": {"type": "offer_note", "settings": {"text": "Add a real service promise"}},
-        "faq_1": {"type": "faq", "settings": {"question": "Add a customer question", "answer": "<p>Add the answer in the Theme Editor.</p>"}},
-        "faq_2": {"type": "faq", "settings": {"question": "Add a customer question", "answer": "<p>Add the answer in the Theme Editor.</p>"}},
-        "faq_3": {"type": "faq", "settings": {"question": "Add a customer question", "answer": "<p>Add the answer in the Theme Editor.</p>"}},
-        "faq_4": {"type": "faq", "settings": {"question": "Add a customer question", "answer": "<p>Add the answer in the Theme Editor.</p>"}}
-      },
-      "block_order": ["benefit_delivery", "benefit_quality", "benefit_support", "review_1", "review_2", "review_3", "review_4", "media_1", "media_2", "media_3", "media_4", "media_5", "stat_1", "stat_2", "stat_3", "stat_4", "rule_1", "rule_2", "timeline_1", "timeline_2", "timeline_3", "timeline_4", "timeline_5", "offer_note_1", "offer_note_2", "faq_1", "faq_2", "faq_3", "faq_4"],
-      "settings": {"recommendation_collection": "all"}
+      "settings": {}
     }
   },
   "order": ["main"]
