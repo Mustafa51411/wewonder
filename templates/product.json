@@ -35,7 +35,34 @@
       },
       "block_order": ["benefit_delivery", "benefit_quality", "benefit_support", "review_1", "review_2", "review_3", "review_4", "media_1", "media_2", "media_3", "media_4", "media_5", "stat_1", "stat_2", "stat_3", "stat_4", "rule_1", "rule_2", "timeline_1", "timeline_2", "timeline_3", "timeline_4", "timeline_5", "offer_note_1", "offer_note_2", "faq_1", "faq_2", "faq_3", "faq_4"],
       "settings": {"recommendation_collection": "all"}
+    },
+    "journey": {
+      "type": "ww-product-journey",
+      "blocks": {
+        "rule_left": {"type":"rule_card","settings":{"title":"Comparison title","text":"Add factual comparison content in the Theme Editor.","outcome":"Add outcome"}},
+        "rule_right": {"type":"rule_card","settings":{"title":"Comparison title","text":"Add factual comparison content in the Theme Editor.","outcome":"Add outcome"}},
+        "step_1": {"type":"step","settings":{"title":"Step title","text":"Add step details in the Theme Editor."}},
+        "step_2": {"type":"step","settings":{"title":"Step title","text":"Add step details in the Theme Editor."}},
+        "step_3": {"type":"step","settings":{"title":"Step title","text":"Add step details in the Theme Editor."}},
+        "step_4": {"type":"step","settings":{"title":"Step title","text":"Add step details in the Theme Editor."}},
+        "step_5": {"type":"step","settings":{"title":"Step title","text":"Add step details in the Theme Editor."}}
+      },
+      "block_order":["rule_left","rule_right","step_1","step_2","step_3","step_4","step_5"],
+      "settings": {}
+    },
+    "conversion": {
+      "type": "ww-product-conversion",
+      "blocks": {
+        "note_1":{"type":"note","settings":{"text":"Add a real delivery or warranty promise"}},
+        "note_2":{"type":"note","settings":{"text":"Add a real service promise"}},
+        "faq_1":{"type":"faq","settings":{"question":"Add a customer question","answer":"<p>Add the answer in the Theme Editor.</p>"}},
+        "faq_2":{"type":"faq","settings":{"question":"Add a customer question","answer":"<p>Add the answer in the Theme Editor.</p>"}},
+        "faq_3":{"type":"faq","settings":{"question":"Add a customer question","answer":"<p>Add the answer in the Theme Editor.</p>"}},
+        "faq_4":{"type":"faq","settings":{"question":"Add a customer question","answer":"<p>Add the answer in the Theme Editor.</p>"}}
+      },
+      "block_order":["note_1","note_2","faq_1","faq_2","faq_3","faq_4"],
+      "settings":{"collection":"all"}
     }
   },
-  "order": ["main"]
+  "order": ["main","journey","conversion"]
 }
