@@ -2,6 +2,13 @@
   "sections": {
     "main": {
       "type": "weewonders-pdp",
+      "blocks": {
+        "benefit_delivery": {"type": "benefit", "settings": {"title": "Fast delivery", "text": "Reliable shipping"}},
+        "benefit_quality": {"type": "benefit", "settings": {"title": "Quality assured", "text": "Made to last"}},
+        "benefit_support": {"type": "benefit", "settings": {"title": "Support available", "text": "We are here to help"}},
+        "feature_info": {"type": "feature", "settings": {"title": "Product information", "text": "Add product-specific benefits from the Theme Editor."}}
+      },
+      "block_order": ["benefit_delivery", "benefit_quality", "benefit_support", "feature_info"],
       "settings": {}
     }
   },
