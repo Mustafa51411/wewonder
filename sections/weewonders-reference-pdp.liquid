@@ -30,9 +30,6 @@
   {% assign single_pump_variant = product.variants[1] %}
 {% endif %}
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
 <style>
 @scope (#ww-reference) {
   :scope{
@@ -40,7 +37,7 @@
     --blue:#3FA9DE; --sky:#8FD9F5; --sky-soft:#EAF6FC; --sky-soft2:#F5FBFD;
     --white:#fff; --line:#E3EEF4;
     --good:#2E9E66; --bad:#D6493F; --star:var(--blue);
-    --fd:'Baloo 2','Nunito Sans',system-ui,sans-serif; --fb:'Nunito Sans',system-ui,-apple-system,sans-serif;
+    --fd:var(--font-heading-family,system-ui,sans-serif); --fb:var(--font-body-family,system-ui,sans-serif);
     --wrap:1200px; --shadow:0 18px 50px -22px rgba(26,43,60,.28);
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -381,7 +378,7 @@
   <div class="wrap">
     <div class="gallery">
       <div class="g-main">
-        <img id="mainimg" src="{% if product.featured_image %}{{ product.featured_image | image_url: width: 1200 }}{% else %}{{ 'pdp-hero-main.jpg' | asset_url }}{% endif %}" alt="{{ product.title | escape }}" width="1200" height="960" loading="eager" fetchpriority="high">
+        {% if product.featured_image != blank %}<img id="mainimg" src="{{ product.featured_image | image_url: width: 1200 }}" alt="{{ product.title | escape }}" width="1200" height="960" loading="eager" fetchpriority="high">{% endif %}
         <div class="g-nav g-prev" onclick="galStep(-1)">‹</div>
         <div class="g-nav g-next" onclick="galStep(1)">›</div>
         <div class="stamp s1"><div class="scallop">
@@ -435,7 +432,7 @@
         <label class="variant sel" data-name="Double Pump Set" data-price="{{ double_pump_variant.price | money }}">
           <input type="radio" name="id" value="{{ double_pump_variant.id }}" checked style="position:absolute;opacity:0;pointer-events:none" onchange="pick(this)">
           <span class="flag"><svg viewBox="0 0 100 100"><path d="M96.8,60.7 L86.9,67.8 L87.5,79.9 L75.6,82.1 L70.8,93.2 L59.1,90.0 L50.0,98.0 L40.9,90.0 L29.2,93.2 L24.4,82.1 L12.5,79.9 L13.1,67.8 L3.2,60.7 L9.0,50.0 L3.2,39.3 L13.1,32.2 L12.5,20.1 L24.4,17.9 L29.2,6.8 L40.9,10.0 L50.0,2.0 L59.1,10.0 L70.8,6.8 L75.6,17.9 L87.5,20.1 L86.9,32.2 L96.8,39.3 L91.0,50.0 Z" fill="var(--navy)"/></svg><span>Most<br>popular</span></span>
-          <img class="vimg" src="{% if double_pump_image %}{{ double_pump_image | image_url: width: 200 }}{% else %}{{ 'variant-double-pump.png' | asset_url }}{% endif %}" alt="Two WeeWonders pumps" width="74" height="74" loading="eager">
+          {% assign double_image = double_pump_image | default: product.featured_image %}{% if double_image != blank %}{{ double_image | image_url: width: 200 | image_tag: class: 'vimg', alt: double_pump_variant.title, width: 74, height: 74, loading: 'eager' }}{% endif %}
           <div class="vbody">
             <div class="vt">Double Pump Set</div>
           </div>
@@ -447,7 +444,7 @@
         </label>
         <label class="variant" data-name="Single Pump" data-price="{{ single_pump_variant.price | money }}">
           <input type="radio" name="id" value="{{ single_pump_variant.id }}" style="position:absolute;opacity:0;pointer-events:none" onchange="pick(this)">
-          <img class="vimg" src="{% if single_pump_image %}{{ single_pump_image | image_url: width: 200 }}{% else %}{{ 'variant-single-pump.png' | asset_url }}{% endif %}" alt="One WeeWonders pump" width="74" height="74" loading="eager">
+          {% assign single_image = single_pump_image | default: product.featured_image %}{% if single_image != blank %}{{ single_image | image_url: width: 200 | image_tag: class: 'vimg', alt: single_pump_variant.title, width: 74, height: 74, loading: 'eager' }}{% endif %}
           <div class="vbody">
             <div class="vt">Single Pump</div>
           </div>
@@ -588,7 +585,7 @@
   <div class="wrap">
     <div class="center"><h2>The WeeWonders <span class="hl">Difference</span></h2></div>
     <div class="split split-img">
-      <img src="{% if section.settings.comparison_image %}{{ section.settings.comparison_image | image_url: width: 1100 }}{% else %}{{ 'comparison-other-pumps.jpg' | asset_url }}{% endif %}" alt="Other pumps vs WeeWonders pump comparison" width="1100" height="975" loading="lazy">
+      {% if section.settings.comparison_image != blank %}{{ section.settings.comparison_image | image_url: width: 1100 | image_tag: alt: section.settings.comparison_image.alt, width: 1100, height: 975, loading: 'lazy' }}{% endif %}
     </div>
   </div>
 </section>
