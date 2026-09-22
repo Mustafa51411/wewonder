@@ -5,9 +5,14 @@
       "blocks": {
         "benefit_delivery": {"type": "benefit", "settings": {"title": "Fast delivery", "text": "Reliable shipping"}},
         "benefit_quality": {"type": "benefit", "settings": {"title": "Quality assured", "text": "Made to last"}},
-        "benefit_support": {"type": "benefit", "settings": {"title": "Support available", "text": "We are here to help"}}
+        "benefit_support": {"type": "benefit", "settings": {"title": "Support available", "text": "We are here to help"}},
+        "feature_1": {"type": "feature", "settings": {"title": "Thoughtfully designed", "text": "Add a real product benefit here."}},
+        "feature_2": {"type": "feature", "settings": {"title": "Made for everyday use", "text": "Add a real product benefit here."}},
+        "timeline_1": {"type": "timeline", "settings": {"title": "Get started", "text": "Add the first step here."}},
+        "timeline_2": {"type": "timeline", "settings": {"title": "Use with confidence", "text": "Add the next step here."}},
+        "timeline_3": {"type": "timeline", "settings": {"title": "Enjoy every day", "text": "Add the outcome here."}}
       },
-      "block_order": ["benefit_delivery", "benefit_quality", "benefit_support"],
+      "block_order": ["benefit_delivery", "benefit_quality", "benefit_support", "feature_1", "feature_2", "timeline_1", "timeline_2", "timeline_3"],
       "settings": {}
     }
   },
