@@ -97,22 +97,14 @@
     {% render 'transition-cover' %}
 
     <div class="transition-body">
-      {% assign uses_weewonders_pdp = false %}
-      {% if template.suffix == 'weewonders-pdp' or template.suffix == blank and request.page_type == 'product' %}
-        {% assign uses_weewonders_pdp = true %}
-      {% endif %}
-      {% unless uses_weewonders_pdp %}
-        {% sections 'header-group' %}
-      {% endunless %}
+      {% sections 'header-group' %}
 
       <div class="transition-content">
         <main id="MainContent" class="content-for-layout focus-none shopify-section" role="main" tabindex="-1">
           {{ content_for_layout }}
         </main>
 
-        {% unless uses_weewonders_pdp %}
-          {% sections 'footer-group' %}
-        {% endunless %}
+        {% sections 'footer-group' %}
       </div>
     </div>
 

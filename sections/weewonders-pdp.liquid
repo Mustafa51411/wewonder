@@ -20,15 +20,6 @@
     }
     #WeeWondersPdp-{{ section.id }} * { box-sizing: border-box; }
     #WeeWondersPdp-{{ section.id }} .ww-wrap { width: var(--ww-page); margin-inline: auto; }
-    #WeeWondersPdp-{{ section.id }} .ww-topbar { background: var(--ww-navy); color: #fff; padding: 10px 16px; text-align: center; font-size: 13px; font-weight: 700; letter-spacing: .02em; }
-    #WeeWondersPdp-{{ section.id }} .ww-head { border-bottom: 1px solid var(--ww-line); background: #fff; }
-    #WeeWondersPdp-{{ section.id }} .ww-head-inner { min-height: 62px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-    #WeeWondersPdp-{{ section.id }} .ww-brand { color: var(--ww-navy); font-size: 22px; font-weight: 800; text-decoration: none; line-height: 1; }
-    #WeeWondersPdp-{{ section.id }} .ww-brand img { width: auto; max-width: 180px; height: 32px; object-fit: contain; }
-    #WeeWondersPdp-{{ section.id }} .ww-nav { display: flex; gap: 24px; }
-    #WeeWondersPdp-{{ section.id }} .ww-nav a { color: var(--ww-ink); font-size: 14px; font-weight: 700; text-decoration: none; }
-    #WeeWondersPdp-{{ section.id }} .ww-rating { color: var(--ww-navy); font-size: 14px; font-weight: 800; white-space: nowrap; }
-    #WeeWondersPdp-{{ section.id }} .ww-stars { color: var(--ww-blue); letter-spacing: 1px; }
     #WeeWondersPdp-{{ section.id }} .ww-main { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(360px, .9fr); gap: clamp(26px, 5vw, 64px); padding-block: clamp(28px, 5vw, 64px); align-items: start; }
     #WeeWondersPdp-{{ section.id }} .ww-gallery { position: sticky; top: 20px; }
     #WeeWondersPdp-{{ section.id }} .ww-main-image { position: relative; aspect-ratio: 1 / 1; border: 1px solid var(--ww-line); border-radius: 24px; background: linear-gradient(145deg, #f5fafc, #edf6fa); overflow: hidden; }
@@ -80,10 +71,6 @@
     }
     @media (max-width: 640px) {
       #WeeWondersPdp-{{ section.id }} { --ww-page: min(100% - 28px, 1200px); }
-      #WeeWondersPdp-{{ section.id }} .ww-topbar { font-size: 11px; }
-      #WeeWondersPdp-{{ section.id }} .ww-head-inner { min-height: 54px; }
-      #WeeWondersPdp-{{ section.id }} .ww-nav { display: none; }
-      #WeeWondersPdp-{{ section.id }} .ww-rating { font-size: 12px; }
       #WeeWondersPdp-{{ section.id }} .ww-main { gap: 26px; padding-block: 22px 36px; }
       #WeeWondersPdp-{{ section.id }} .ww-main-image { border-radius: 18px; }
       #WeeWondersPdp-{{ section.id }} .ww-thumb { flex-basis: 58px; height: 58px; }
@@ -94,20 +81,6 @@
       #WeeWondersPdp-{{ section.id }} .ww-benefit strong { display: inline; }
     }
   </style>
-
-  {% if section.settings.announcement != blank %}<div class="ww-topbar">{{ section.settings.announcement }}</div>{% endif %}
-  <header class="ww-head">
-    <div class="ww-wrap ww-head-inner">
-      <a class="ww-brand" href="{{ routes.root_url }}">
-        {% if section.settings.logo != blank %}{{ section.settings.logo | image_url: width: 360 | image_tag: loading: 'eager', alt: shop.name }}{% else %}{{ shop.name }}{% endif %}
-      </a>
-      <nav class="ww-nav" aria-label="Product page">
-        <a href="#ww-details-{{ section.id }}">{{ section.settings.details_label }}</a>
-        <a href="#ww-faq-{{ section.id }}">{{ section.settings.faq_label }}</a>
-      </nav>
-      {% if section.settings.rating_text != blank %}<div class="ww-rating"><span class="ww-stars" aria-hidden="true">★★★★★</span> {{ section.settings.rating_text }}</div>{% endif %}
-    </div>
-  </header>
 
   <div class="ww-wrap ww-main">
     <div class="ww-gallery" data-gallery>
@@ -250,11 +223,6 @@
 {
   "name": "WeeWonders Custom PDP",
   "settings": [
-    { "type": "text", "id": "announcement", "label": "Announcement", "default": "Fast delivery and trusted quality for your family." },
-    { "type": "image_picker", "id": "logo", "label": "Logo" },
-    { "type": "text", "id": "rating_text", "label": "Rating text", "default": "Trusted by families" },
-    { "type": "text", "id": "details_label", "label": "Details navigation label", "default": "Details" },
-    { "type": "text", "id": "faq_label", "label": "FAQ navigation label", "default": "FAQ" },
     { "type": "text", "id": "add_to_cart_label", "label": "Add to cart label", "default": "Add to cart" },
     { "type": "text", "id": "available_label", "label": "Available status label", "default": "In stock" },
     { "type": "text", "id": "sold_out_label", "label": "Sold out label", "default": "Sold out" },
