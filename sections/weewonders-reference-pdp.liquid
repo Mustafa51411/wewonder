@@ -478,19 +478,19 @@
   <div class="wrap">
     <div class="center"><h2>Hear it from <span class="hl">WeeWonders Moms</span></h2></div>
     <div class="wall">
-      <div class="wa"><div class="tag">Supply came back</div><div class="top"><div class="ph av"></div><div><b>Reem B.</b><span class="stars">★★★★★</span></div></div><p>“After months of struggling, <span class="hl">my supply came back</span>. This changed everything.”</p></div>
-      <div class="wa"><div class="tag">No more pain</div><div class="top"><div class="ph av"></div><div><b>Malak</b><span class="stars">★★★★★</span></div></div><p>“200ml in 10 minutes, and it <span class="hl">doesn’t hurt at all</span>.”</p></div>
-      <div class="wa"><div class="tag">Burned before</div><div class="top"><div class="ph av"></div><div><b>Rania K.</b><span class="stars">★★★★★</span></div></div><p>“Paid a fortune for a pump that quit. This one just <span class="hl">fit, and it works</span>.”</p></div>
-      <div class="wa"><div class="tag">Back at work</div><div class="top"><div class="ph av"></div><div><b>Lynn A.</b><span class="stars">★★★★★</span></div></div><p>“I pump at my desk now and <span class="hl">no one knows</span>.”</p></div>
+      {% for block in section.blocks %}{% if block.type == 'testimonial' %}
+        <article class="wa" {{ block.shopify_attributes }}><div class="tag">{{ block.settings.tag }}</div><div class="top">{% if block.settings.image != blank %}<img class="ph av" src="{{ block.settings.image | image_url: width: 120 }}" alt="{{ block.settings.name | escape }}" width="60" height="60" loading="lazy">{% else %}<div class="ph av"></div>{% endif %}<div><b>{{ block.settings.name }}</b><span class="stars">{{ block.settings.rating }}</span></div></div><p>{{ block.settings.review }}</p></article>
+      {% endif %}{% endfor %}
     </div>
     <div class="shots">
-      <div class="ph shot">WhatsApp<br>screenshot</div><div class="ph shot">WhatsApp<br>screenshot</div><div class="ph shot">WhatsApp<br>screenshot</div><div class="ph shot">Product<br>in real life</div><div class="ph shot">Transformation</div>
+      {% for block in section.blocks %}{% if block.type == 'proof_media' %}
+        <div class="ph shot" {{ block.shopify_attributes }}>{% if block.settings.image != blank %}<img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.label | escape }}" width="600" height="760" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:16px">{% else %}{{ block.settings.label }}{% endif %}</div>
+      {% endif %}{% endfor %}
     </div>
     <div class="stats">
-      <div class="stat"><b class="cu" data-target="94">0</b><span>Comfortable all day</span><small>self-reported, confirm</small></div>
-      <div class="stat"><b class="cu" data-target="91">0</b><span>Smoother flow</span><small>self-reported, confirm</small></div>
-      <div class="stat"><b class="cu" data-target="89">0</b><span>More confident</span><small>self-reported, confirm</small></div>
-      <div class="stat"><b class="cu" data-target="92">0</b><span>Prefer it to old pump</span><small>self-reported, confirm</small></div>
+      {% for block in section.blocks %}{% if block.type == 'stat' %}
+        <div class="stat" {{ block.shopify_attributes }}><b class="cu" data-target="{{ block.settings.value | escape }}">0</b><span>{{ block.settings.label }}</span><small>{{ block.settings.note }}</small></div>
+      {% endif %}{% endfor %}
     </div>
   </div>
 </section>
@@ -862,6 +862,38 @@
       "id": "scenario_right_image",
       "label": "\"Fully emptied / More milk\" scenario photo"
     }
-  ]
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Customer review",
+      "settings": [
+        { "type": "text", "id": "tag", "label": "Review label", "default": "Customer story" },
+        { "type": "image_picker", "id": "image", "label": "Customer image" },
+        { "type": "text", "id": "name", "label": "Customer name", "default": "Customer" },
+        { "type": "text", "id": "rating", "label": "Rating", "default": "★★★★★" },
+        { "type": "textarea", "id": "review", "label": "Review text", "default": "Add a genuine customer review here." }
+      ]
+    },
+    {
+      "type": "proof_media",
+      "name": "Social proof image",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "label", "label": "Media label", "default": "Customer moment" }
+      ]
+    },
+    {
+      "type": "stat",
+      "name": "Social proof statistic",
+      "settings": [
+        { "type": "text", "id": "value", "label": "Number or percentage", "default": "94" },
+        { "type": "text", "id": "label", "label": "Statistic label", "default": "Comfortable all day" },
+        { "type": "text", "id": "note", "label": "Source note", "default": "Self-reported" }
+      ]
+    }
+  ],
+  "max_blocks": 40,
+  "presets": [{ "name": "WeeWonders Custom PDP" }]
 }
 {% endschema %}

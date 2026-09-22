@@ -2,7 +2,23 @@
   "sections": {
     "main": {
       "type": "weewonders-reference-pdp",
-      "settings": {}
+      "settings": {},
+      "blocks": {
+        "review_1": { "type": "testimonial", "settings": { "tag": "Supply came back", "name": "Reem B.", "rating": "★★★★★", "review": "After months of struggling, my supply came back. This changed everything." } },
+        "review_2": { "type": "testimonial", "settings": { "tag": "No more pain", "name": "Malak", "rating": "★★★★★", "review": "200ml in 10 minutes, and it doesn't hurt at all." } },
+        "review_3": { "type": "testimonial", "settings": { "tag": "Burned before", "name": "Rania K.", "rating": "★★★★★", "review": "Paid a fortune for a pump that quit. This one just fit, and it works." } },
+        "review_4": { "type": "testimonial", "settings": { "tag": "Back at work", "name": "Lynn A.", "rating": "★★★★★", "review": "I pump at my desk now and no one knows." } },
+        "proof_1": { "type": "proof_media", "settings": { "label": "WhatsApp screenshot" } },
+        "proof_2": { "type": "proof_media", "settings": { "label": "WhatsApp screenshot" } },
+        "proof_3": { "type": "proof_media", "settings": { "label": "WhatsApp screenshot" } },
+        "proof_4": { "type": "proof_media", "settings": { "label": "Product in real life" } },
+        "proof_5": { "type": "proof_media", "settings": { "label": "Transformation" } },
+        "stat_1": { "type": "stat", "settings": { "value": "94", "label": "Comfortable all day", "note": "Self-reported" } },
+        "stat_2": { "type": "stat", "settings": { "value": "91", "label": "Smoother flow", "note": "Self-reported" } },
+        "stat_3": { "type": "stat", "settings": { "value": "89", "label": "More confident", "note": "Self-reported" } },
+        "stat_4": { "type": "stat", "settings": { "value": "92", "label": "Prefer it to old pump", "note": "Self-reported" } }
+      },
+      "block_order": ["review_1", "review_2", "review_3", "review_4", "proof_1", "proof_2", "proof_3", "proof_4", "proof_5", "stat_1", "stat_2", "stat_3", "stat_4"]
     }
   },
   "order": ["main"]
