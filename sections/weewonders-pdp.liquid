@@ -166,70 +166,6 @@
     </div>
   </div>
 
-  {% assign quote_blocks = section.blocks | where: 'type', 'quote' %}
-  {% if quote_blocks.size > 0 %}
-    <div class="wwp-section wwp-section--soft"><div class="wwp-shell"><div class="wwp-section-head"><h2>{{ section.settings.quotes_heading }}</h2></div><div class="wwp-grid wwp-grid--{{ section.settings.quotes_columns }}">{% for block in quote_blocks %}<article class="wwp-quote" {{ block.shopify_attributes }}><div class="wwp-quote-stars">★★★★★</div><p class="wwp-quote-text">{{ block.settings.text }}</p><span class="wwp-quote-name">{{ block.settings.name }}</span></article>{% endfor %}</div></div></div>
-  {% endif %}
-
-  {% if product.images.size > 1 %}
-    <div class="wwp-section"><div class="wwp-shell"><div class="wwp-section-head"><h2>{{ section.settings.media_heading }}</h2></div><div class="wwp-grid wwp-grid--{{ section.settings.media_columns }}">{% for image in product.images limit: section.settings.media_limit %}<div class="wwp-media">{{ image | image_url: width: 700 | image_tag: loading: 'lazy', widths: '300, 500, 700' }}</div>{% endfor %}</div></div></div>
-  {% endif %}
-
-  {% assign stat_blocks = section.blocks | where: 'type', 'stat' %}
-  {% if stat_blocks.size > 0 %}
-    <div class="wwp-section wwp-section--soft"><div class="wwp-shell"><div class="wwp-grid wwp-grid--4">{% for block in stat_blocks %}<div class="wwp-stat" {{ block.shopify_attributes }}><span class="wwp-stat-value">{{ block.settings.value }}</span><span class="wwp-stat-label">{{ block.settings.label }}</span></div>{% endfor %}</div></div></div>
-  {% endif %}
-
-  {% assign feature_blocks = section.blocks | where: 'type', 'feature' %}
-  {% if feature_blocks.size > 0 or section.settings.feature_image != blank %}
-    <div class="wwp-section"><div class="wwp-shell wwp-feature-grid"><div class="wwp-feature-image">{% if section.settings.feature_image != blank %}{{ section.settings.feature_image | image_url: width: 1100 | image_tag: loading: 'lazy', widths: '500, 800, 1100' }}{% elsif product.featured_image != blank %}{{ product.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '450, 700, 900' }}{% endif %}</div><div><div class="wwp-section-head" style="margin:0 0 22px;text-align:left"><h2>{{ section.settings.features_heading }}</h2><p>{{ section.settings.features_text }}</p></div><div class="wwp-feature-list">{% for block in feature_blocks %}<div class="wwp-feature-item" {{ block.shopify_attributes }}><span class="wwp-feature-icon">✓</span><div><strong>{{ block.settings.title }}</strong><span>{{ block.settings.text }}</span></div></div>{% endfor %}</div></div></div></div>
-  {% endif %}
-
-  {% assign timeline_blocks = section.blocks | where: 'type', 'timeline' %}
-  {% if timeline_blocks.size > 0 %}
-    <div class="wwp-section wwp-section--soft"><div class="wwp-shell"><div class="wwp-section-head"><h2>{{ section.settings.timeline_heading }}</h2><p>{{ section.settings.timeline_text }}</p></div><div class="wwp-timeline">{% for block in timeline_blocks %}<article class="wwp-timeline-card" {{ block.shopify_attributes }}><span class="wwp-timeline-step">{{ forloop.index }}</span><h3>{{ block.settings.title }}</h3><p>{{ block.settings.text }}</p></article>{% endfor %}</div></div></div>
-  {% endif %}
-
-  {% if section.settings.claim_text != blank %}
-    <div class="wwp-section wwp-section--dark"><div class="wwp-shell wwp-claim"><small>{{ section.settings.claim_eyebrow }}</small><h2>{{ section.settings.claim_text }}</h2></div></div>
-  {% endif %}
-
-  {% assign video_blocks = section.blocks | where: 'type', 'video' %}
-  {% if video_blocks.size > 0 %}
-    <div class="wwp-section"><div class="wwp-shell"><div class="wwp-section-head"><h2>{{ section.settings.video_heading }}</h2><p>{{ section.settings.video_text }}</p></div><div class="wwp-grid wwp-grid--{{ section.settings.video_columns }} wwp-video-grid">{% for block in video_blocks %}<div {{ block.shopify_attributes }}>{% if block.settings.video != blank %}<div class="wwp-video">{{ block.settings.video | video_tag: controls: true, preload: 'metadata' }}</div>{% endif %}{% if block.settings.title != blank %}<p class="wwp-quote-name" style="margin:10px 0 0">{{ block.settings.title }}</p>{% endif %}</div>{% endfor %}</div></div></div>
-  {% endif %}
-
-  {% if section.settings.comparison_image != blank %}
-    <div class="wwp-section wwp-section--soft"><div class="wwp-shell"><div class="wwp-section-head"><h2>{{ section.settings.comparison_heading }}</h2></div><div class="wwp-comparison">{{ section.settings.comparison_image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '600, 900, 1400' }}</div></div></div>
-  {% endif %}
-
-  <div class="wwp-details">
-    <div class="wwp-shell wwp-details-grid">
-      <div>
-        <h2>{{ section.settings.details_heading }}</h2>
-        <div class="wwp-rte">{{ product.description }}</div>
-      </div>
-      <div>
-        {% for block in section.blocks %}
-          {% if block.type == 'faq' %}
-            <details {{ block.shopify_attributes }}>
-              <summary>{{ block.settings.question }}</summary>
-              <div class="wwp-answer">{{ block.settings.answer }}</div>
-            </details>
-          {% endif %}
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-
-  {% if section.settings.guarantee_heading != blank %}
-    <div class="wwp-section wwp-section--dark"><div class="wwp-shell"><div class="wwp-guarantee"><div class="wwp-guarantee-badge">{{ section.settings.guarantee_badge }}</div><div><h3>{{ section.settings.guarantee_heading }}</h3><p>{{ section.settings.guarantee_text }}</p></div></div></div></div>
-  {% endif %}
-
-  {% if product.available %}
-    <div class="wwp-section"><div class="wwp-shell"><div class="wwp-repeat"><h2>{{ section.settings.repeat_heading }}</h2><p>{{ section.settings.repeat_text }}</p><a class="wwp-button wwp-button--primary" href="#ww-product-{{ section.id }}">{{ section.settings.repeat_label }}</a></div></div></div>
-  {% endif %}
-
   <script type="application/json" data-ww-variants>{{ product.variants | json }}</script>
   <script>
     (() => {
@@ -300,30 +236,6 @@
 {
   "name": "WeeWonders product page",
   "settings": [
-    {"type":"text","id":"details_heading","label":"Details heading","default":"Product details"},
-    {"type":"text","id":"quotes_heading","label":"Reviews heading","default":"Loved by families"},
-    {"type":"select","id":"quotes_columns","label":"Review columns","default":"3","options":[{"value":"3","label":"3 columns"},{"value":"4","label":"4 columns"}]},
-    {"type":"text","id":"media_heading","label":"Product media heading","default":"See it in detail"},
-    {"type":"select","id":"media_columns","label":"Product media columns","default":"4","options":[{"value":"3","label":"3 columns"},{"value":"4","label":"4 columns"}]},
-    {"type":"range","id":"media_limit","label":"Product media limit","min":2,"max":8,"step":1,"default":4},
-    {"type":"text","id":"features_heading","label":"Features heading","default":"Designed for everyday use"},
-    {"type":"textarea","id":"features_text","label":"Features intro","default":"Add product-specific benefits from the Theme Editor."},
-    {"type":"image_picker","id":"feature_image","label":"Features image"},
-    {"type":"text","id":"timeline_heading","label":"Timeline heading","default":"What to expect"},
-    {"type":"textarea","id":"timeline_text","label":"Timeline intro","default":"Add your product journey or usage steps."},
-    {"type":"text","id":"claim_eyebrow","label":"Dark statement eyebrow","default":"The simple rule"},
-    {"type":"inline_richtext","id":"claim_text","label":"Dark statement","default":"Make the benefit <mark>stand out</mark>"},
-    {"type":"text","id":"video_heading","label":"Video section heading","default":"See it in action"},
-    {"type":"textarea","id":"video_text","label":"Video section intro","default":"Add real product or customer videos from the Theme Editor."},
-    {"type":"select","id":"video_columns","label":"Video columns","default":"3","options":[{"value":"3","label":"3 columns"},{"value":"4","label":"4 columns"}]},
-    {"type":"text","id":"comparison_heading","label":"Comparison heading","default":"The WeeWonders difference"},
-    {"type":"image_picker","id":"comparison_image","label":"Comparison image"},
-    {"type":"text","id":"guarantee_badge","label":"Guarantee badge","default":"30"},
-    {"type":"text","id":"guarantee_heading","label":"Guarantee heading","default":"Shop with confidence"},
-    {"type":"textarea","id":"guarantee_text","label":"Guarantee text","default":"Add your delivery, warranty, or returns promise here."},
-    {"type":"text","id":"repeat_heading","label":"Final call to action heading","default":"Ready when you are"},
-    {"type":"textarea","id":"repeat_text","label":"Final call to action text","default":"Choose your options above and add this product to cart."},
-    {"type":"text","id":"repeat_label","label":"Final call to action label","default":"Choose options"},
     {"type":"text","id":"add_to_cart_label","label":"Add to cart label","default":"Add to cart"},
     {"type":"text","id":"in_stock_label","label":"In stock label","default":"In stock"},
     {"type":"text","id":"sold_out_label","label":"Sold out label","default":"Sold out"},
@@ -333,14 +245,8 @@
     {"type":"color","id":"color_surface","label":"Surface color","default":"#f4f9fb"}
   ],
   "blocks": [
-    {"type":"benefit","name":"Purchase benefit","limit":3,"settings":[{"type":"text","id":"title","label":"Title","default":"Fast delivery"},{"type":"text","id":"text","label":"Text","default":"Reliable shipping"}]},
-    {"type":"quote","name":"Customer review","settings":[{"type":"text","id":"name","label":"Customer name","default":"Customer"},{"type":"textarea","id":"text","label":"Review","default":"Add a real customer review here."}]},
-    {"type":"stat","name":"Statistic","limit":4,"settings":[{"type":"text","id":"value","label":"Value","default":"100%"},{"type":"text","id":"label","label":"Label","default":"Editable statistic"}]},
-    {"type":"feature","name":"Product feature","limit":6,"settings":[{"type":"text","id":"title","label":"Title","default":"Product benefit"},{"type":"textarea","id":"text","label":"Text","default":"Add a product-specific benefit here."}]},
-    {"type":"timeline","name":"Timeline step","limit":5,"settings":[{"type":"text","id":"title","label":"Title","default":"Step title"},{"type":"textarea","id":"text","label":"Text","default":"Add a step or milestone."}]},
-    {"type":"video","name":"Product or customer video","limit":6,"settings":[{"type":"video","id":"video","label":"Video"},{"type":"text","id":"title","label":"Caption","default":"Video caption"}]},
-    {"type":"faq","name":"FAQ","settings":[{"type":"text","id":"question","label":"Question","default":"Have a question?"},{"type":"richtext","id":"answer","label":"Answer","default":"<p>Add the answer here.</p>"}]}
+    {"type":"benefit","name":"Purchase benefit","limit":3,"settings":[{"type":"text","id":"title","label":"Title","default":"Fast delivery"},{"type":"text","id":"text","label":"Text","default":"Reliable shipping"}]}
   ],
-  "presets":[{"name":"WeeWonders product page","blocks":[{"type":"benefit"},{"type":"benefit","settings":{"title":"Quality assured","text":"Made to last"}},{"type":"benefit","settings":{"title":"Support available","text":"We are here to help"}},{"type":"feature"},{"type":"timeline"}]}]
+  "presets":[{"name":"WeeWonders product page","blocks":[{"type":"benefit"},{"type":"benefit","settings":{"title":"Quality assured","text":"Made to last"}},{"type":"benefit","settings":{"title":"Support available","text":"We are here to help"}}]}]
 }
 {% endschema %}
