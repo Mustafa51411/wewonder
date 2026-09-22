@@ -97,7 +97,11 @@
     {% render 'transition-cover' %}
 
     <div class="transition-body">
-      {% unless template.suffix == 'weewonders-pdp' %}
+      {% assign uses_weewonders_pdp = false %}
+      {% if template.suffix == 'weewonders-pdp' or template.suffix == blank and request.page_type == 'product' %}
+        {% assign uses_weewonders_pdp = true %}
+      {% endif %}
+      {% unless uses_weewonders_pdp %}
         {% sections 'header-group' %}
       {% endunless %}
 
@@ -106,7 +110,7 @@
           {{ content_for_layout }}
         </main>
 
-        {% unless template.suffix == 'weewonders-pdp' %}
+        {% unless uses_weewonders_pdp %}
           {% sections 'footer-group' %}
         {% endunless %}
       </div>
