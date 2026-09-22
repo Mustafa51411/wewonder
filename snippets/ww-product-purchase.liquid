@@ -1,0 +1,31 @@
+<div class="wwp-info">
+  {% if product.vendor != blank %}<p class="wwp-eyebrow">{{ product.vendor }}</p>{% endif %}
+  <h1 class="wwp-title">{{ product.title }}</h1>
+  {% if product.description != blank %}<p class="wwp-summary">{{ product.description | strip_html | truncatewords: 28 }}</p>{% endif %}
+  <div class="wwp-price-row">
+    <span class="wwp-price" data-ww-price>{{ current_variant.price | money }}</span>
+    <s class="wwp-compare" data-ww-compare {% unless current_variant.compare_at_price > current_variant.price %}hidden{% endunless %}>{% if current_variant.compare_at_price > current_variant.price %}{{ current_variant.compare_at_price | money }}{% endif %}</s>
+    <span class="wwp-save" data-ww-save {% unless current_variant.compare_at_price > current_variant.price %}hidden{% endunless %}>{% if current_variant.compare_at_price > current_variant.price %}Save {{ current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price }}%{% endif %}</span>
+  </div>
+  {% form 'product', product, id: product_form_id %}
+    {% unless product.has_only_default_variant %}
+      {% for option in product.options_with_values %}
+        <div class="wwp-option"><label for="wwp-option-{{ section.id }}-{{ forloop.index0 }}">{{ option.name }}</label><select id="wwp-option-{{ section.id }}-{{ forloop.index0 }}" data-ww-option>{% for value in option.values %}<option value="{{ value | escape }}" {% if option.selected_value == value %}selected{% endif %}>{{ value }}</option>{% endfor %}</select></div>
+      {% endfor %}
+    {% endunless %}
+    <input type="hidden" name="id" value="{{ current_variant.id }}" data-ww-variant-id>
+    <div class="wwp-variants">
+      {% for variant in product.variants %}
+        {% assign variant_image = variant.featured_image | default: product.featured_image %}
+        <button class="wwp-variant{% if variant.id == current_variant.id %} is-selected{% endif %}{% unless variant.available %} is-unavailable{% endunless %}" type="button" data-ww-variant-card="{{ variant.id }}" {% unless variant.available %}disabled{% endunless %}>
+          {% if variant_image != blank %}{{ variant_image | image_url: width: 150 | image_tag: loading: 'lazy', widths: '75, 150' }}{% else %}<span></span>{% endif %}
+          <span><span class="wwp-variant-title">{{ variant.title }}</span>{% unless variant.available %}<span class="wwp-variant-note">Sold out</span>{% endunless %}</span>
+          <span class="wwp-variant-price">{{ variant.price | money }}</span>
+        </button>
+      {% endfor %}
+    </div>
+    <button class="wwp-submit" type="submit" data-ww-submit {% unless current_variant.available %}disabled{% endunless %}><span data-ww-submit-label>{% if current_variant.available %}{{ section.settings.add_to_cart_label }}{% else %}{{ section.settings.sold_out_label }}{% endif %}</span></button>
+    <p class="wwp-stock" data-ww-stock>{% if current_variant.available %}{{ section.settings.in_stock_label }}{% else %}{{ section.settings.sold_out_label }}{% endif %}</p>
+  {% endform %}
+  <div class="wwp-benefits">{% for block in section.blocks %}{% if block.type == 'benefit' %}<div class="wwp-benefit" {{ block.shopify_attributes }}><strong>{{ block.settings.title }}</strong><span>{{ block.settings.text }}</span></div>{% endif %}{% endfor %}</div>
+</div>

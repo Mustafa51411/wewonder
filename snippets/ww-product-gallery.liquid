@@ -1,0 +1,21 @@
+<div class="wwp-gallery">
+  <div class="wwp-stage">
+    {% if product.featured_image != blank %}
+      {{ product.featured_image | image_url: width: 1400 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '480, 720, 960, 1400', class: 'wwp-main-image' }}
+    {% else %}
+      <div class="wwp-empty">Add product media in Shopify Admin.</div>
+    {% endif %}
+    {% if product.images.size > 1 %}
+      <div class="wwp-nav"><button type="button" data-ww-prev aria-label="Previous image">‹</button><button type="button" data-ww-next aria-label="Next image">›</button></div>
+    {% endif %}
+  </div>
+  {% if product.images.size > 1 %}
+    <div class="wwp-thumbs" aria-label="{{ product.title }} media">
+      {% for image in product.images %}
+        <button class="wwp-thumb" type="button" data-ww-thumb data-src="{{ image | image_url: width: 1400 }}" data-alt="{{ image.alt | default: product.title | escape }}" aria-current="{% if image.id == product.featured_image.id %}true{% else %}false{% endif %}">
+          {{ image | image_url: width: 160 | image_tag: loading: 'lazy', widths: '80, 160' }}
+        </button>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
