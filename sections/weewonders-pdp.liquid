@@ -55,6 +55,24 @@
     #ww-product-{{ section.id }} .wwp-benefits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--ww-line); }
     #ww-product-{{ section.id }} .wwp-benefit { color: var(--ww-muted); font-size: 12px; font-weight: 700; text-align: center; }
     #ww-product-{{ section.id }} .wwp-benefit strong { display: block; margin-bottom: 3px; color: var(--ww-navy); font-size: 14px; }
+    #ww-product-{{ section.id }} .wwp-proof { padding: clamp(48px, 7vw, 88px) 0; background: var(--ww-bg); border-top: 1px solid var(--ww-line); }
+    #ww-product-{{ section.id }} .wwp-proof-head { max-width: 680px; margin: 0 auto 30px; text-align: center; }
+    #ww-product-{{ section.id }} .wwp-proof-head h2 { margin: 0; color: var(--ww-navy); font-family: var(--font-heading-family, inherit); font-size: clamp(28px, 3.4vw, 44px); line-height: 1.1; letter-spacing: -.035em; }
+    #ww-product-{{ section.id }} .wwp-proof-head p { margin: 10px 0 0; color: var(--ww-muted); line-height: 1.55; }
+    #ww-product-{{ section.id }} .wwp-proof-reviews { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+    #ww-product-{{ section.id }} .wwp-proof-review { min-height: 176px; padding: 18px; border: 1px solid var(--ww-line); border-radius: 16px; background: #fff; }
+    #ww-product-{{ section.id }} .wwp-proof-kicker { display: block; color: var(--ww-blue); font-size: 10px; font-weight: 850; letter-spacing: .08em; text-transform: uppercase; }
+    #ww-product-{{ section.id }} .wwp-proof-name { display: block; margin-top: 12px; color: var(--ww-navy); font-size: 14px; font-weight: 850; }
+    #ww-product-{{ section.id }} .wwp-proof-stars { margin-top: 5px; color: var(--ww-blue); font-size: 12px; letter-spacing: 1px; }
+    #ww-product-{{ section.id }} .wwp-proof-text { margin: 12px 0 0; color: var(--ww-muted); font-size: 13px; line-height: 1.55; }
+    #ww-product-{{ section.id }} .wwp-proof-media { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; margin-top: 16px; }
+    #ww-product-{{ section.id }} .wwp-proof-media-card { position: relative; overflow: hidden; aspect-ratio: 4 / 5; border: 1px solid var(--ww-line); border-radius: 16px; background: #eaf3f7; }
+    #ww-product-{{ section.id }} .wwp-proof-media-card img, #ww-product-{{ section.id }} .wwp-proof-media-card video { width: 100%; height: 100%; object-fit: cover; }
+    #ww-product-{{ section.id }} .wwp-proof-media-label { position: absolute; right: 10px; bottom: 10px; left: 10px; padding: 8px; border-radius: 9px; background: rgba(255,255,255,.9); color: var(--ww-navy); font-size: 11px; font-weight: 800; text-align: center; }
+    #ww-product-{{ section.id }} .wwp-proof-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--ww-line); }
+    #ww-product-{{ section.id }} .wwp-proof-stat { text-align: center; }
+    #ww-product-{{ section.id }} .wwp-proof-stat strong { display: block; color: var(--ww-navy); font-family: var(--font-heading-family, inherit); font-size: clamp(27px, 3vw, 38px); line-height: 1; }
+    #ww-product-{{ section.id }} .wwp-proof-stat span { display: block; margin-top: 8px; color: var(--ww-blue); font-size: 11px; font-weight: 850; letter-spacing: .05em; text-transform: uppercase; }
     #ww-product-{{ section.id }} .wwp-details { border-top: 1px solid var(--ww-line); background: linear-gradient(180deg, #fff, var(--ww-bg)); padding: clamp(40px, 6vw, 80px) 0; }
     #ww-product-{{ section.id }} .wwp-details-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, .75fr); gap: clamp(30px, 6vw, 86px); }
     #ww-product-{{ section.id }} .wwp-details h2 { margin: 0 0 16px; color: var(--ww-navy); font-family: var(--font-heading-family, inherit); font-size: clamp(28px, 3vw, 42px); line-height: 1.1; letter-spacing: -.03em; }
@@ -131,6 +149,9 @@
       #ww-product-{{ section.id }} .wwp-benefits { grid-template-columns: 1fr; }
       #ww-product-{{ section.id }} .wwp-benefit { text-align: left; }
       #ww-product-{{ section.id }} .wwp-benefit strong { display: inline; margin-right: 5px; }
+      #ww-product-{{ section.id }} .wwp-proof-reviews { grid-template-columns: 1fr 1fr; }
+      #ww-product-{{ section.id }} .wwp-proof-media { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      #ww-product-{{ section.id }} .wwp-proof-stats { grid-template-columns: 1fr 1fr; }
       #ww-product-{{ section.id }} .wwp-grid--3, #ww-product-{{ section.id }} .wwp-grid--4, #ww-product-{{ section.id }} .wwp-timeline { grid-template-columns: 1fr 1fr; }
       #ww-product-{{ section.id }} .wwp-feature-grid { grid-template-columns: 1fr; }
       #ww-product-{{ section.id }} .wwp-guarantee { align-items: flex-start; padding: 20px; }
@@ -165,6 +186,53 @@
       <div class="wwp-benefits">{% for block in section.blocks %}{% if block.type == 'benefit' %}<div class="wwp-benefit" {{ block.shopify_attributes }}><strong>{{ block.settings.title }}</strong><span>{{ block.settings.text }}</span></div>{% endif %}{% endfor %}</div>
     </div>
   </div>
+
+  {% assign review_blocks = section.blocks | where: 'type', 'review' %}
+  {% assign proof_media_blocks = section.blocks | where: 'type', 'proof_media' %}
+  {% assign proof_stat_blocks = section.blocks | where: 'type', 'proof_stat' %}
+  {% if review_blocks.size > 0 or proof_media_blocks.size > 0 or proof_stat_blocks.size > 0 %}
+    <section class="wwp-proof" aria-labelledby="wwp-proof-heading-{{ section.id }}">
+      <div class="wwp-shell">
+        <div class="wwp-proof-head">
+          <h2 id="wwp-proof-heading-{{ section.id }}">{{ section.settings.proof_heading }}</h2>
+          {% if section.settings.proof_text != blank %}<p>{{ section.settings.proof_text }}</p>{% endif %}
+        </div>
+        {% if review_blocks.size > 0 %}
+          <div class="wwp-proof-reviews">
+            {% for block in review_blocks %}
+              <article class="wwp-proof-review" {{ block.shopify_attributes }}>
+                {% if block.settings.kicker != blank %}<span class="wwp-proof-kicker">{{ block.settings.kicker }}</span>{% endif %}
+                <span class="wwp-proof-name">{{ block.settings.name }}</span>
+                <div class="wwp-proof-stars" aria-label="{{ block.settings.rating }} out of 5 stars">{% for star in (1..block.settings.rating) %}★{% endfor %}</div>
+                <p class="wwp-proof-text">{{ block.settings.text }}</p>
+              </article>
+            {% endfor %}
+          </div>
+        {% endif %}
+        {% if proof_media_blocks.size > 0 %}
+          <div class="wwp-proof-media">
+            {% for block in proof_media_blocks %}
+              <div class="wwp-proof-media-card" {{ block.shopify_attributes }}>
+                {% if block.settings.video != blank %}
+                  {{ block.settings.video | video_tag: muted: true, loop: true, autoplay: true, playsinline: true, preload: 'metadata' }}
+                {% elsif block.settings.image != blank %}
+                  {{ block.settings.image | image_url: width: 700 | image_tag: loading: 'lazy', widths: '260, 400, 700' }}
+                {% elsif product.images[forloop.index0] != blank %}
+                  {{ product.images[forloop.index0] | image_url: width: 700 | image_tag: loading: 'lazy', widths: '260, 400, 700' }}
+                {% endif %}
+                {% if block.settings.label != blank %}<span class="wwp-proof-media-label">{{ block.settings.label }}</span>{% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+        {% if proof_stat_blocks.size > 0 %}
+          <div class="wwp-proof-stats">
+            {% for block in proof_stat_blocks %}<div class="wwp-proof-stat" {{ block.shopify_attributes }}><strong>{{ block.settings.value }}</strong><span>{{ block.settings.label }}</span></div>{% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    </section>
+  {% endif %}
 
   <script type="application/json" data-ww-variants>{{ product.variants | json }}</script>
   <script>
@@ -236,6 +304,8 @@
 {
   "name": "WeeWonders product page",
   "settings": [
+    {"type":"text","id":"proof_heading","label":"Social proof heading","default":"Hear it from our customers"},
+    {"type":"textarea","id":"proof_text","label":"Social proof introduction","default":"Show real customer feedback and product moments."},
     {"type":"text","id":"add_to_cart_label","label":"Add to cart label","default":"Add to cart"},
     {"type":"text","id":"in_stock_label","label":"In stock label","default":"In stock"},
     {"type":"text","id":"sold_out_label","label":"Sold out label","default":"Sold out"},
@@ -245,8 +315,11 @@
     {"type":"color","id":"color_surface","label":"Surface color","default":"#f4f9fb"}
   ],
   "blocks": [
-    {"type":"benefit","name":"Purchase benefit","limit":3,"settings":[{"type":"text","id":"title","label":"Title","default":"Fast delivery"},{"type":"text","id":"text","label":"Text","default":"Reliable shipping"}]}
+    {"type":"benefit","name":"Purchase benefit","limit":3,"settings":[{"type":"text","id":"title","label":"Title","default":"Fast delivery"},{"type":"text","id":"text","label":"Text","default":"Reliable shipping"}]},
+    {"type":"review","name":"Customer review","limit":4,"settings":[{"type":"text","id":"kicker","label":"Short label","default":"Customer story"},{"type":"text","id":"name","label":"Customer name","default":"Customer name"},{"type":"range","id":"rating","label":"Star rating","min":1,"max":5,"step":1,"default":5},{"type":"textarea","id":"text","label":"Review text","default":"Add a genuine customer review here."}]},
+    {"type":"proof_media","name":"Social proof media","limit":5,"settings":[{"type":"image_picker","id":"image","label":"Image"},{"type":"video","id":"video","label":"Video (takes priority over image)"},{"type":"text","id":"label","label":"Media label","default":"Customer moment"}]},
+    {"type":"proof_stat","name":"Social proof statistic","limit":4,"settings":[{"type":"text","id":"value","label":"Value","default":"100%"},{"type":"text","id":"label","label":"Label","default":"Editable statistic"}]}
   ],
-  "presets":[{"name":"WeeWonders product page","blocks":[{"type":"benefit"},{"type":"benefit","settings":{"title":"Quality assured","text":"Made to last"}},{"type":"benefit","settings":{"title":"Support available","text":"We are here to help"}}]}]
+  "presets":[{"name":"WeeWonders product page","blocks":[{"type":"benefit"},{"type":"benefit","settings":{"title":"Quality assured","text":"Made to last"}},{"type":"benefit","settings":{"title":"Support available","text":"We are here to help"}},{"type":"review"},{"type":"proof_media"},{"type":"proof_stat"}]}]
 }
 {% endschema %}
