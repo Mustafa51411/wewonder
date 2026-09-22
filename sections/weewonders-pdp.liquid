@@ -73,6 +73,27 @@
     #ww-product-{{ section.id }} .wwp-proof-stat { text-align: center; }
     #ww-product-{{ section.id }} .wwp-proof-stat strong { display: block; color: var(--ww-navy); font-family: var(--font-heading-family, inherit); font-size: clamp(27px, 3vw, 38px); line-height: 1; }
     #ww-product-{{ section.id }} .wwp-proof-stat span { display: block; margin-top: 8px; color: var(--ww-blue); font-size: 11px; font-weight: 850; letter-spacing: .05em; text-transform: uppercase; }
+    #ww-product-{{ section.id }} .wwp-rule { padding: clamp(58px, 8vw, 100px) 0; overflow: hidden; background: var(--ww-navy); color: #fff; }
+    #ww-product-{{ section.id }} .wwp-rule-head { max-width: 760px; margin: 0 auto 32px; text-align: center; }
+    #ww-product-{{ section.id }} .wwp-rule-head small { display: block; color: #b9ddec; font-size: 13px; font-weight: 800; }
+    #ww-product-{{ section.id }} .wwp-rule-head h2 { margin: 9px 0 0; color: #fff; font-family: var(--font-heading-family, inherit); font-size: clamp(30px, 4vw, 52px); line-height: 1.05; letter-spacing: -.04em; }
+    #ww-product-{{ section.id }} .wwp-rule-head mark { padding: .02em .14em; background: var(--ww-blue); color: var(--ww-navy); }
+    #ww-product-{{ section.id }} .wwp-rule-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; max-width: 840px; margin: 0 auto; }
+    #ww-product-{{ section.id }} .wwp-rule-card { padding: clamp(18px, 3vw, 30px); border: 1px solid rgba(196,224,238,.27); border-radius: 20px; background: rgba(255,255,255,.07); text-align: center; }
+    #ww-product-{{ section.id }} .wwp-rule-card img { display: block; width: 100%; aspect-ratio: 16 / 9; margin-bottom: 18px; border-radius: 13px; object-fit: cover; background: rgba(255,255,255,.08); }
+    #ww-product-{{ section.id }} .wwp-rule-card h3 { margin: 0; color: #fff; font-size: 19px; }
+    #ww-product-{{ section.id }} .wwp-rule-card p { margin: 10px 0 0; color: #d2e3ec; line-height: 1.55; }
+    #ww-product-{{ section.id }} .wwp-rule-card strong { display: block; margin-top: 17px; color: var(--ww-blue); font-size: 17px; }
+    #ww-product-{{ section.id }} .wwp-timeline-section { padding: clamp(54px, 8vw, 96px) 0; border-top: 1px solid var(--ww-line); background: #fff; }
+    #ww-product-{{ section.id }} .wwp-timeline-head { max-width: 680px; margin: 0 auto 38px; text-align: center; }
+    #ww-product-{{ section.id }} .wwp-timeline-head h2 { margin: 0; color: var(--ww-navy); font-family: var(--font-heading-family, inherit); font-size: clamp(29px, 3.5vw, 44px); line-height: 1.1; letter-spacing: -.035em; }
+    #ww-product-{{ section.id }} .wwp-timeline-head p { margin: 10px 0 0; color: var(--ww-muted); line-height: 1.55; }
+    #ww-product-{{ section.id }} .wwp-timeline { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; position: relative; }
+    #ww-product-{{ section.id }} .wwp-timeline::before { position: absolute; top: 16px; right: 8%; left: 8%; height: 2px; background: var(--ww-line); content: ''; }
+    #ww-product-{{ section.id }} .wwp-timeline-step { position: relative; z-index: 1; text-align: center; }
+    #ww-product-{{ section.id }} .wwp-timeline-dot { display: grid; width: 34px; height: 34px; margin: 0 auto 14px; place-items: center; border: 2px solid var(--ww-blue); border-radius: 50%; background: #fff; color: var(--ww-navy); font-size: 12px; font-weight: 850; }
+    #ww-product-{{ section.id }} .wwp-timeline-step h3 { margin: 0; color: var(--ww-navy); font-size: 15px; }
+    #ww-product-{{ section.id }} .wwp-timeline-step p { margin: 7px 0 0; color: var(--ww-muted); font-size: 12px; line-height: 1.45; }
     #ww-product-{{ section.id }} .wwp-details { border-top: 1px solid var(--ww-line); background: linear-gradient(180deg, #fff, var(--ww-bg)); padding: clamp(40px, 6vw, 80px) 0; }
     #ww-product-{{ section.id }} .wwp-details-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, .75fr); gap: clamp(30px, 6vw, 86px); }
     #ww-product-{{ section.id }} .wwp-details h2 { margin: 0 0 16px; color: var(--ww-navy); font-family: var(--font-heading-family, inherit); font-size: clamp(28px, 3vw, 42px); line-height: 1.1; letter-spacing: -.03em; }
@@ -152,6 +173,8 @@
       #ww-product-{{ section.id }} .wwp-proof-reviews { grid-template-columns: 1fr 1fr; }
       #ww-product-{{ section.id }} .wwp-proof-media { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       #ww-product-{{ section.id }} .wwp-proof-stats { grid-template-columns: 1fr 1fr; }
+      #ww-product-{{ section.id }} .wwp-rule-grid, #ww-product-{{ section.id }} .wwp-timeline { grid-template-columns: 1fr; }
+      #ww-product-{{ section.id }} .wwp-timeline::before { display: none; }
       #ww-product-{{ section.id }} .wwp-grid--3, #ww-product-{{ section.id }} .wwp-grid--4, #ww-product-{{ section.id }} .wwp-timeline { grid-template-columns: 1fr 1fr; }
       #ww-product-{{ section.id }} .wwp-feature-grid { grid-template-columns: 1fr; }
       #ww-product-{{ section.id }} .wwp-guarantee { align-items: flex-start; padding: 20px; }
@@ -234,6 +257,40 @@
     </section>
   {% endif %}
 
+  {% assign rule_blocks = section.blocks | where: 'type', 'rule_card' %}
+  {% if rule_blocks.size > 0 %}
+    <section class="wwp-rule" aria-labelledby="wwp-rule-heading-{{ section.id }}">
+      <div class="wwp-shell">
+        <div class="wwp-rule-head">
+          {% if section.settings.rule_eyebrow != blank %}<small>{{ section.settings.rule_eyebrow }}</small>{% endif %}
+          <h2 id="wwp-rule-heading-{{ section.id }}">{{ section.settings.rule_heading }}</h2>
+        </div>
+        <div class="wwp-rule-grid">
+          {% for block in rule_blocks %}
+            <article class="wwp-rule-card" {{ block.shopify_attributes }}>
+              {% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360, 600, 900' }}{% elsif product.featured_image != blank %}{{ product.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360, 600, 900' }}{% endif %}
+              <h3>{{ block.settings.title }}</h3>
+              <p>{{ block.settings.text }}</p>
+              {% if block.settings.outcome != blank %}<strong>{{ block.settings.outcome }}</strong>{% endif %}
+            </article>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  {% assign timeline_blocks = section.blocks | where: 'type', 'timeline_step' %}
+  {% if timeline_blocks.size > 0 %}
+    <section class="wwp-timeline-section" aria-labelledby="wwp-timeline-heading-{{ section.id }}">
+      <div class="wwp-shell">
+        <div class="wwp-timeline-head"><h2 id="wwp-timeline-heading-{{ section.id }}">{{ section.settings.timeline_heading }}</h2>{% if section.settings.timeline_text != blank %}<p>{{ section.settings.timeline_text }}</p>{% endif %}</div>
+        <div class="wwp-timeline">
+          {% for block in timeline_blocks %}<article class="wwp-timeline-step" {{ block.shopify_attributes }}><span class="wwp-timeline-dot">{{ forloop.index }}</span><h3>{{ block.settings.title }}</h3><p>{{ block.settings.text }}</p></article>{% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
   <script type="application/json" data-ww-variants>{{ product.variants | json }}</script>
   <script>
     (() => {
@@ -306,6 +363,10 @@
   "settings": [
     {"type":"text","id":"proof_heading","label":"Social proof heading","default":"Hear it from our customers"},
     {"type":"textarea","id":"proof_text","label":"Social proof introduction","default":"Show real customer feedback and product moments."},
+    {"type":"text","id":"rule_eyebrow","label":"Rule section eyebrow","default":"The simple rule"},
+    {"type":"inline_richtext","id":"rule_heading","label":"Rule section heading","default":"Your result can <mark>improve</mark>"},
+    {"type":"text","id":"timeline_heading","label":"Timeline heading","default":"Your first month"},
+    {"type":"textarea","id":"timeline_text","label":"Timeline introduction","default":"Add your product journey or milestones."},
     {"type":"text","id":"add_to_cart_label","label":"Add to cart label","default":"Add to cart"},
     {"type":"text","id":"in_stock_label","label":"In stock label","default":"In stock"},
     {"type":"text","id":"sold_out_label","label":"Sold out label","default":"Sold out"},
@@ -318,8 +379,10 @@
     {"type":"benefit","name":"Purchase benefit","limit":3,"settings":[{"type":"text","id":"title","label":"Title","default":"Fast delivery"},{"type":"text","id":"text","label":"Text","default":"Reliable shipping"}]},
     {"type":"review","name":"Customer review","limit":4,"settings":[{"type":"text","id":"kicker","label":"Short label","default":"Customer story"},{"type":"text","id":"name","label":"Customer name","default":"Customer name"},{"type":"range","id":"rating","label":"Star rating","min":1,"max":5,"step":1,"default":5},{"type":"textarea","id":"text","label":"Review text","default":"Add a genuine customer review here."}]},
     {"type":"proof_media","name":"Social proof media","limit":5,"settings":[{"type":"image_picker","id":"image","label":"Image"},{"type":"video","id":"video","label":"Video (takes priority over image)"},{"type":"text","id":"label","label":"Media label","default":"Customer moment"}]},
-    {"type":"proof_stat","name":"Social proof statistic","limit":4,"settings":[{"type":"text","id":"value","label":"Value","default":"100%"},{"type":"text","id":"label","label":"Label","default":"Editable statistic"}]}
+    {"type":"proof_stat","name":"Social proof statistic","limit":4,"settings":[{"type":"text","id":"value","label":"Value","default":"100%"},{"type":"text","id":"label","label":"Label","default":"Editable statistic"}]},
+    {"type":"rule_card","name":"Rule comparison card","limit":2,"settings":[{"type":"image_picker","id":"image","label":"Image"},{"type":"text","id":"title","label":"Title","default":"Comparison title"},{"type":"textarea","id":"text","label":"Description","default":"Add the factual comparison text here."},{"type":"text","id":"outcome","label":"Outcome","default":"Add the outcome"}]},
+    {"type":"timeline_step","name":"Timeline step","limit":5,"settings":[{"type":"text","id":"title","label":"Title","default":"Step title"},{"type":"textarea","id":"text","label":"Description","default":"Add the step details here."}]}
   ],
-  "presets":[{"name":"WeeWonders product page","blocks":[{"type":"benefit"},{"type":"benefit","settings":{"title":"Quality assured","text":"Made to last"}},{"type":"benefit","settings":{"title":"Support available","text":"We are here to help"}},{"type":"review"},{"type":"proof_media"},{"type":"proof_stat"}]}]
+  "presets":[{"name":"WeeWonders product page","blocks":[{"type":"benefit"},{"type":"benefit","settings":{"title":"Quality assured","text":"Made to last"}},{"type":"benefit","settings":{"title":"Support available","text":"We are here to help"}},{"type":"review"},{"type":"proof_media"},{"type":"proof_stat"},{"type":"rule_card"},{"type":"timeline_step"}]}]
 }
 {% endschema %}

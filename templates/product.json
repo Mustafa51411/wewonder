@@ -18,9 +18,16 @@
         "stat_1": {"type": "proof_stat", "settings": {"value": "", "label": ""}},
         "stat_2": {"type": "proof_stat", "settings": {"value": "", "label": ""}},
         "stat_3": {"type": "proof_stat", "settings": {"value": "", "label": ""}},
-        "stat_4": {"type": "proof_stat", "settings": {"value": "", "label": ""}}
+        "stat_4": {"type": "proof_stat", "settings": {"value": "", "label": ""}},
+        "rule_1": {"type": "rule_card", "settings": {"title": "Comparison title", "text": "Add the factual comparison text in the Theme Editor.", "outcome": "Add the outcome"}},
+        "rule_2": {"type": "rule_card", "settings": {"title": "Comparison title", "text": "Add the factual comparison text in the Theme Editor.", "outcome": "Add the outcome"}},
+        "timeline_1": {"type": "timeline_step", "settings": {"title": "Step title", "text": "Add the step details in the Theme Editor."}},
+        "timeline_2": {"type": "timeline_step", "settings": {"title": "Step title", "text": "Add the step details in the Theme Editor."}},
+        "timeline_3": {"type": "timeline_step", "settings": {"title": "Step title", "text": "Add the step details in the Theme Editor."}},
+        "timeline_4": {"type": "timeline_step", "settings": {"title": "Step title", "text": "Add the step details in the Theme Editor."}},
+        "timeline_5": {"type": "timeline_step", "settings": {"title": "Step title", "text": "Add the step details in the Theme Editor."}}
       },
-      "block_order": ["benefit_delivery", "benefit_quality", "benefit_support", "review_1", "review_2", "review_3", "review_4", "media_1", "media_2", "media_3", "media_4", "media_5", "stat_1", "stat_2", "stat_3", "stat_4"],
+      "block_order": ["benefit_delivery", "benefit_quality", "benefit_support", "review_1", "review_2", "review_3", "review_4", "media_1", "media_2", "media_3", "media_4", "media_5", "stat_1", "stat_2", "stat_3", "stat_4", "rule_1", "rule_2", "timeline_1", "timeline_2", "timeline_3", "timeline_4", "timeline_5"],
       "settings": {}
     }
   },
