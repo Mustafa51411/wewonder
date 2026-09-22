@@ -567,12 +567,12 @@
 <!-- 6. THE WEEWONDERS ADVANTAGE -->
 <section class="section">
   <div class="wrap adv">
-    <div class="ph tall">The WeeWonders kit</div>
+    <div class="ph tall">{% if section.settings.advantage_image != blank %}<img src="{{ section.settings.advantage_image | image_url: width: 900 }}" alt="{{ section.settings.advantage_image.alt | escape }}" width="900" height="1125" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:16px">{% else %}Select an advantage image{% endif %}</div>
     <div>
-      <h2>What most pumps <span class="hl">leave out</span></h2>
+      <h2>{{ section.settings.advantage_heading }}</h2>
       <div class="adv-list" style="margin-top:22px">
-        <div class="adv-item"><div class="i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><div><b>Sized to you</b><small>4 flange sizes + a tool. The fix others skip.</small></div></div>
-        <div class="adv-item"><div class="i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M16 8a5 5 0 010 8" stroke-linecap="round"/></svg></div><div><b>Whisper quiet</b><small>Under 50dB, no one hears it.</small></div></div>
+        <div class="adv-item"><div class="i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><div><b>{{ section.settings.advantage_1_title }}</b><small>{{ section.settings.advantage_1_text }}</small></div></div>
+        <div class="adv-item"><div class="i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M16 8a5 5 0 010 8" stroke-linecap="round"/></svg></div><div><b>{{ section.settings.advantage_2_title }}</b><small>{{ section.settings.advantage_2_text }}</small></div></div>
         <div class="adv-item"><div class="i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3c4 5 7 9 7 13a7 7 0 11-14 0c0-4 3-8 7-13z"/></svg></div><div><b>Leak-proof</b><small>Seals even upside down.</small></div></div>
         <div class="adv-item"><div class="i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="7" width="14" height="10" rx="3"/><path d="M21 10v4"/></svg></div><div><b>Truly hands-free</b><small>Wear it, hold your baby.</small></div></div>
       </div>
@@ -807,6 +807,45 @@
     {
       "type": "header",
       "content": "Marketing images"
+    },
+    {
+      "type": "header",
+      "content": "Advantage section"
+    },
+    {
+      "type": "image_picker",
+      "id": "advantage_image",
+      "label": "Advantage image"
+    },
+    {
+      "type": "text",
+      "id": "advantage_heading",
+      "label": "Advantage heading",
+      "default": "What most pumps leave out"
+    },
+    {
+      "type": "text",
+      "id": "advantage_1_title",
+      "label": "Advantage 1 title",
+      "default": "Sized to you"
+    },
+    {
+      "type": "textarea",
+      "id": "advantage_1_text",
+      "label": "Advantage 1 text",
+      "default": "4 flange sizes + a tool. The fix others skip."
+    },
+    {
+      "type": "text",
+      "id": "advantage_2_title",
+      "label": "Advantage 2 title",
+      "default": "Whisper quiet"
+    },
+    {
+      "type": "textarea",
+      "id": "advantage_2_text",
+      "label": "Advantage 2 text",
+      "default": "Under 50dB, no one hears it."
     },
     {
       "type": "image_picker",
