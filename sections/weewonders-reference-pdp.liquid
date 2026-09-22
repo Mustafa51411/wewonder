@@ -402,9 +402,9 @@
       </div>
     </div>
     <div class="buy">
-      <div class="rate"><span class="stars">★★★★★</span> 4.8/5 <span class="en">Loved by thousands of Lebanese mothers</span></div>
-      <h1><span class="hl">More milk within a week</span>, <span class="h1-light">with WeeWonders Wearable Breast Pump</span></h1>
-      <p class="promise">Without the pain, the long pumping hours, or the complicated setup.</p>
+      <div class="rate"><span class="stars">{{ section.settings.hero_rating }}</span> <span class="en">{{ section.settings.hero_social_proof }}</span></div>
+      <h1><span class="hl">{{ section.settings.hero_heading_prefix }}</span>, <span class="h1-light">{{ product.title }}</span></h1>
+      <p class="promise">{{ section.settings.hero_promise }}</p>
       <ul class="ksp">
         <li><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>4 sizes + a tool to fit you</li>
         <li><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c4 5 7 9 7 13a7 7 0 11-14 0c0-4 3-8 7-13z"/></svg></span>Empties fully, supply climbs</li>
@@ -797,6 +797,34 @@
       "type": "image_picker",
       "id": "logo_image",
       "label": "Logo (used in header and footer)"
+    },
+    {
+      "type": "header",
+      "content": "Hero content"
+    },
+    {
+      "type": "text",
+      "id": "hero_rating",
+      "label": "Rating text",
+      "default": "★★★★★ 4.8/5"
+    },
+    {
+      "type": "text",
+      "id": "hero_social_proof",
+      "label": "Social proof text",
+      "default": "Loved by thousands of Lebanese mothers"
+    },
+    {
+      "type": "text",
+      "id": "hero_heading_prefix",
+      "label": "Heading prefix",
+      "default": "Made for easier everyday feeding"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_promise",
+      "label": "Hero promise",
+      "default": "Product details are pulled from your Shopify product and this supporting copy can be linked to a product metafield."
     },
     {
       "type": "header",
