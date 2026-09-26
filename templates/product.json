@@ -1,40 +1,278 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "weewonders-reference-pdp",
-      "settings": {},
       "blocks": {
-        "review_1": { "type": "testimonial", "settings": { "tag": "Supply came back", "name": "Reem B.", "rating": "★★★★★", "review": "After months of struggling, my supply came back. This changed everything." } },
-        "review_2": { "type": "testimonial", "settings": { "tag": "No more pain", "name": "Malak", "rating": "★★★★★", "review": "200ml in 10 minutes, and it doesn't hurt at all." } },
-        "review_3": { "type": "testimonial", "settings": { "tag": "Burned before", "name": "Rania K.", "rating": "★★★★★", "review": "Paid a fortune for a pump that quit. This one just fit, and it works." } },
-        "review_4": { "type": "testimonial", "settings": { "tag": "Back at work", "name": "Lynn A.", "rating": "★★★★★", "review": "I pump at my desk now and no one knows." } },
-        "proof_1": { "type": "proof_media", "settings": { "label": "WhatsApp screenshot" } },
-        "proof_2": { "type": "proof_media", "settings": { "label": "WhatsApp screenshot" } },
-        "proof_3": { "type": "proof_media", "settings": { "label": "WhatsApp screenshot" } },
-        "proof_4": { "type": "proof_media", "settings": { "label": "Product in real life" } },
-        "proof_5": { "type": "proof_media", "settings": { "label": "Transformation" } },
-        "stat_1": { "type": "stat", "settings": { "value": "94", "label": "Comfortable all day", "note": "Self-reported" } },
-        "stat_2": { "type": "stat", "settings": { "value": "91", "label": "Smoother flow", "note": "Self-reported" } },
-        "stat_3": { "type": "stat", "settings": { "value": "89", "label": "More confident", "note": "Self-reported" } },
-        "stat_4": { "type": "stat", "settings": { "value": "92", "label": "Prefer it to old pump", "note": "Self-reported" } },
-        "video_1": { "type": "video_story", "settings": { "media_label": "Video testimonial", "pain": "Worried about supply", "name": "Nour", "rating": "★★★★★" } },
-        "video_2": { "type": "video_story", "settings": { "media_label": "Video testimonial", "pain": "Burned by a bad pump", "name": "Jana", "rating": "★★★★★" } },
-        "video_3": { "type": "video_story", "settings": { "media_label": "Video testimonial", "pain": "Back at work", "name": "Carla", "rating": "★★★★★" } },
-        "video_4": { "type": "video_story", "settings": { "media_label": "Video testimonial", "pain": "Just exhausted", "name": "Dina", "rating": "★★★★★" } },
-        "step_1": { "type": "howto_step", "settings": { "number": "1", "title": "Assemble", "text": "Clicks together in seconds." } },
-        "step_2": { "type": "howto_step", "settings": { "number": "2", "title": "Find your fit", "text": "Pick your size with the tool." } },
-        "step_3": { "type": "howto_step", "settings": { "number": "3", "title": "Slip it in", "text": "Hidden in your bra." } },
-        "step_4": { "type": "howto_step", "settings": { "number": "4", "title": "Start", "text": "Pick a mode and level." } },
-        "step_5": { "type": "howto_step", "settings": { "number": "5", "title": "Pour", "text": "Straight into your bags." } },
-        "faq_1": { "type": "faq", "settings": { "question": "Single or Double?", "answer": "Single pumps one side, lighter and cheaper. Double pumps both at once and halves your time." } },
-        "faq_2": { "type": "faq", "settings": { "question": "Will it tank my supply?", "answer": "A comfortable, well-fitted session lets you finish pumping fully." } },
-        "faq_3": { "type": "faq", "settings": { "question": "Which flange size fits me?", "answer": "Every box has multiple sizes plus a sizing tool." } },
-        "faq_4": { "type": "faq", "settings": { "question": "What if it breaks?", "answer": "Six-month warranty, handled in Lebanon." } },
-        "faq_5": { "type": "faq", "settings": { "question": "Is it really discreet?", "answer": "Quiet and fully in-bra, with no tubes or cords." } },
-        "faq_6": { "type": "faq", "settings": { "question": "How fast is delivery?", "answer": "Tracked delivery across Lebanon in 48 hours." } }
+        "review_1": {
+          "type": "testimonial",
+          "settings": {
+            "tag": "Supply came back",
+            "name": "Reem B.",
+            "rating": "★★★★★",
+            "review": "After months of struggling, my supply came back. This changed everything."
+          }
+        },
+        "review_2": {
+          "type": "testimonial",
+          "settings": {
+            "tag": "No more pain",
+            "name": "Malak",
+            "rating": "★★★★★",
+            "review": "200ml in 10 minutes, and it doesn't hurt at all."
+          }
+        },
+        "review_3": {
+          "type": "testimonial",
+          "settings": {
+            "tag": "Burned before",
+            "name": "Rania K.",
+            "rating": "★★★★★",
+            "review": "Paid a fortune for a pump that quit. This one just fit, and it works."
+          }
+        },
+        "review_4": {
+          "type": "testimonial",
+          "settings": {
+            "tag": "Back at work",
+            "name": "Lynn A.",
+            "rating": "★★★★★",
+            "review": "I pump at my desk now and no one knows."
+          }
+        },
+        "proof_1": {
+          "type": "proof_media",
+          "settings": {
+            "label": "WhatsApp screenshot"
+          }
+        },
+        "proof_2": {
+          "type": "proof_media",
+          "settings": {
+            "label": "WhatsApp screenshot"
+          }
+        },
+        "proof_3": {
+          "type": "proof_media",
+          "settings": {
+            "label": "WhatsApp screenshot"
+          }
+        },
+        "proof_4": {
+          "type": "proof_media",
+          "settings": {
+            "label": "Product in real life"
+          }
+        },
+        "proof_5": {
+          "type": "proof_media",
+          "settings": {
+            "label": "Transformation"
+          }
+        },
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "value": "94",
+            "label": "Comfortable all day",
+            "note": "Based on Weewonders Moms feedback."
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "value": "91",
+            "label": "Smoother flow",
+            "note": "Based on Weewonders Moms feedback."
+          }
+        },
+        "stat_3": {
+          "type": "stat",
+          "settings": {
+            "value": "89",
+            "label": "More confident",
+            "note": "Based on Weewonders Moms feedback."
+          }
+        },
+        "stat_4": {
+          "type": "stat",
+          "settings": {
+            "value": "92",
+            "label": "Prefer it to old pump",
+            "note": "Based on Weewonders Moms feedback."
+          }
+        },
+        "video_1": {
+          "type": "video_story",
+          "settings": {
+            "media_label": "Video testimonial",
+            "pain": "Worried about supply",
+            "name": "Nour",
+            "rating": "★★★★★"
+          }
+        },
+        "video_2": {
+          "type": "video_story",
+          "settings": {
+            "media_label": "Video testimonial",
+            "pain": "Burned by a bad pump",
+            "name": "Jana",
+            "rating": "★★★★★"
+          }
+        },
+        "video_3": {
+          "type": "video_story",
+          "settings": {
+            "media_label": "Video testimonial",
+            "pain": "Back at work",
+            "name": "Carla",
+            "rating": "★★★★★"
+          }
+        },
+        "video_4": {
+          "type": "video_story",
+          "settings": {
+            "media_label": "Video testimonial",
+            "pain": "Just exhausted",
+            "name": "Dina",
+            "rating": "★★★★★"
+          }
+        },
+        "step_1": {
+          "type": "howto_step",
+          "settings": {
+            "number": "1",
+            "title": "Assemble",
+            "text": "Clicks together in seconds."
+          }
+        },
+        "step_2": {
+          "type": "howto_step",
+          "settings": {
+            "number": "2",
+            "title": "Find your fit",
+            "text": "Pick your size with the tool."
+          }
+        },
+        "step_3": {
+          "type": "howto_step",
+          "settings": {
+            "number": "3",
+            "title": "Slip it in",
+            "text": "Hidden in your bra."
+          }
+        },
+        "step_4": {
+          "type": "howto_step",
+          "settings": {
+            "number": "4",
+            "title": "Start",
+            "text": "Pick a mode and level."
+          }
+        },
+        "step_5": {
+          "type": "howto_step",
+          "settings": {
+            "number": "5",
+            "title": "Pour",
+            "text": "Straight into your bags."
+          }
+        },
+        "faq_1": {
+          "type": "faq",
+          "settings": {
+            "question": "Single or Double?",
+            "answer": "Single pumps one side, lighter and cheaper. Double pumps both at once and halves your time."
+          }
+        },
+        "faq_2": {
+          "type": "faq",
+          "settings": {
+            "question": "Will it tank my supply?",
+            "answer": "A comfortable, well-fitted session lets you finish pumping fully."
+          }
+        },
+        "faq_3": {
+          "type": "faq",
+          "settings": {
+            "question": "Which flange size fits me?",
+            "answer": "Every box has multiple sizes plus a sizing tool."
+          }
+        },
+        "faq_4": {
+          "type": "faq",
+          "settings": {
+            "question": "What if it breaks?",
+            "answer": "Six-month warranty, handled in Lebanon."
+          }
+        },
+        "faq_5": {
+          "type": "faq",
+          "settings": {
+            "question": "Is it really discreet?",
+            "answer": "Quiet and fully in-bra, with no tubes or cords."
+          }
+        },
+        "faq_6": {
+          "type": "faq",
+          "settings": {
+            "question": "How fast is delivery?",
+            "answer": "Tracked delivery across Lebanon in 48 hours."
+          }
+        }
       },
-      "block_order": ["review_1", "review_2", "review_3", "review_4", "proof_1", "proof_2", "proof_3", "proof_4", "proof_5", "stat_1", "stat_2", "stat_3", "stat_4", "video_1", "video_2", "video_3", "video_4", "step_1", "step_2", "step_3", "step_4", "step_5", "faq_1", "faq_2", "faq_3", "faq_4", "faq_5", "faq_6"]
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4",
+        "proof_1",
+        "proof_2",
+        "proof_3",
+        "proof_4",
+        "proof_5",
+        "stat_1",
+        "stat_2",
+        "stat_3",
+        "stat_4",
+        "video_1",
+        "video_2",
+        "video_3",
+        "video_4",
+        "step_1",
+        "step_2",
+        "step_3",
+        "step_4",
+        "step_5",
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_5",
+        "faq_6"
+      ],
+      "settings": {
+        "hero_rating": "★★★★★ 4.8/5",
+        "hero_social_proof": "Loved by thousands of Lebanese mothers",
+        "hero_heading_prefix": "Made for easier everyday feeding",
+        "hero_promise": "Product details are pulled from your Shopify product and this supporting copy can be linked to a product metafield.",
+        "advantage_heading": "What most pumps leave out",
+        "advantage_1_title": "Sized to you",
+        "advantage_1_text": "4 flange sizes + a tool. The fix others skip.",
+        "advantage_2_title": "Whisper quiet",
+        "advantage_2_text": "Under 50dB, no one hears it."
+      }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }
