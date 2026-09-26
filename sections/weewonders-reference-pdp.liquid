@@ -114,7 +114,7 @@
 
   .variants{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:14px}
   .variant{border:2px solid var(--line);border-radius:18px;padding:15px 17px;cursor:pointer;position:relative;transition:border-color .15s,background .15s,box-shadow .15s,transform .15s;
-    background:linear-gradient(160deg,#fff 0%,var(--mist) 120%);display:flex;gap:14px;align-items:center;box-shadow:0 10px 24px -20px rgba(26,43,60,.35)}
+    background:linear-gradient(160deg,#fff 0%,var(--mist) 120%);display:flex;flex-wrap:wrap;gap:14px;align-items:center;box-shadow:0 10px 24px -20px rgba(26,43,60,.35)}
   .variant:hover{border-color:var(--navy);transform:translateY(-1px)}
   .variant.sel{border-color:var(--navy);background:#fff;position:relative;
     box-shadow:7px 7px 0 0 var(--sky),14px 14px 0 0 var(--navy),0 20px 34px -10px rgba(26,43,60,.4)}
@@ -132,6 +132,14 @@
   .variant .pk::before{content:"✓";font-weight:800}
   #variants .variant,#variants .variant .vt,#variants .variant .vprice,#variants .variant .vnow,#variants .variant .vwas,#variants .variant .voff,#variants .variant .pk,
   .rep-grid .variant,.rep-grid .variant .vt,.rep-grid .variant .vprice,.rep-grid .variant .vnow,.rep-grid .variant .vwas,.rep-grid .variant .voff,.rep-grid .variant .pk{font-weight:800!important}
+  .variant .vgifts{flex:0 0 100%;box-sizing:border-box;display:flex;align-items:center;flex-wrap:wrap;gap:7px;margin-top:10px}
+  .variant .vg-plus{font-size:1rem;font-weight:800;color:#9aa9b5;flex:0 0 auto}
+  .variant .vgift{display:flex;align-items:center;gap:6px;background:#fff;border:1.5px solid var(--line);border-radius:28px;padding:3px 10px 3px 3px}
+  .variant .vg-img{width:34px;height:34px;border-radius:50%;object-fit:cover;flex:0 0 34px;border:1px solid var(--line)}
+  .variant .vg-text{display:flex;flex-direction:column;line-height:1.15}
+  .variant .vg-name,.variant .vg-price{font-size:.72rem;font-weight:800;color:var(--navy);white-space:nowrap}
+  .variant .vg-price{color:var(--good)}
+  .variant .vg-price s{color:#8b96a0;font-weight:700;margin-right:3px;text-decoration-color:var(--bad)}
   .variant .flag{position:absolute;top:-22px;right:-20px;width:52px;height:52px;display:grid;place-items:center;z-index:3;filter:drop-shadow(0 6px 12px rgba(26,43,60,.35))}
   .variant .flag svg{position:absolute;inset:0;width:100%;height:100%}
   .variant .flag span{position:relative;color:#fff;font-family:var(--fd);font-weight:700;font-size:.52rem;line-height:1.05;text-align:center;text-transform:uppercase}
@@ -397,6 +405,9 @@
     .variant .pk{max-width:100%;white-space:normal;overflow-wrap:anywhere;word-break:normal;line-height:1.35;text-align:left}
     .variant .flag{right:-8px;top:-17px;transform:scale(.86);transform-origin:top right}
     .variant.sel{box-shadow:5px 7px 0 var(--sky),10px 13px 0 var(--navy)}
+    .variant .vgifts{grid-column:1 / -1;grid-row:auto;margin-top:4px;padding:0}
+    .variant .vgift{padding-right:8px}.variant .vg-img{width:28px;height:28px;flex-basis:28px}
+    .variant .vg-name,.variant .vg-price{font-size:.66rem}
     footer .wrap{grid-template-columns:1fr}.section{padding:44px 0}.variants{grid-template-columns:1fr}
     .claim .big{font-size:calc(var(--font-heading-scale,1) * 3.2rem)}
   }
@@ -414,7 +425,7 @@
     {% if section.settings.logo_image %}
       <img src="{{ section.settings.logo_image | image_url: width: 200 }}" alt="{{ shop.name }}" width="200" height="69" loading="eager">
     {% else %}
-      <img src="{{ 'weewonders-logo.webp' | asset_url }}" alt="WeeWonders" width="200" height="69" loading="eager">
+      <img src="{{ 'ww-reference-logo.webp' | asset_url }}" alt="WeeWonders" width="200" height="69" loading="eager">
     {% endif %}
     <nav><a href="#how">How it works</a><a href="#reviews">Reviews</a><a href="#faq">FAQ</a></nav>
     <div class="rate"><span class="stars">★★★★★</span> 4.8</div>
@@ -426,7 +437,7 @@
   <div class="wrap">
     <div class="gallery">
       <div class="g-main">
-        {% if product.featured_image != blank %}<img id="mainimg" src="{{ product.featured_image | image_url: width: 1200 }}" alt="{{ product.title | escape }}" width="1200" height="960" loading="eager" fetchpriority="high">{% endif %}
+        {% if product.featured_image != blank %}<img id="mainimg" src="{{ product.featured_image | image_url: width: 1200 }}" alt="{{ product.title | escape }}" width="1200" height="960" loading="eager" fetchpriority="high">{% else %}<img id="mainimg" src="{{ 'ww-reference-hero.jpg' | asset_url }}" alt="WeeWonders wearable breast pump" width="1200" height="960" loading="eager" fetchpriority="high">{% endif %}
         <div class="g-nav g-prev" onclick="galStep(-1)">‹</div>
         <div class="g-nav g-next" onclick="galStep(1)">›</div>
         <div class="stamp s1"><div class="scallop">
@@ -440,12 +451,12 @@
             <button {% if forloop.first %}class="active"{% endif %} onclick="galSet({{ forloop.index0 }})"><img src="{{ image | image_url: width: 200 }}" alt="" width="200" height="200" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"></button>
           {% endfor %}
         {% else %}
-          <button class="active" onclick="galSet(0)"><img src="{{ 'pdp-hero-main.jpg' | asset_url }}" alt="" width="1000" height="800" loading="eager"></button>
-          <button onclick="galSet(1)"><img src="{{ 'pdp-gallery-2.jpg' | asset_url }}" alt="" width="1000" height="666" loading="lazy"></button>
-          <button onclick="galSet(2)"><img src="{{ 'pdp-gallery-3.jpg' | asset_url }}" alt="" width="900" height="900" loading="lazy"></button>
-          <button onclick="galSet(3)"><img src="{{ 'pdp-gallery-4.jpg' | asset_url }}" alt="" width="900" height="900" loading="lazy"></button>
-          <button onclick="galSet(4)"><img src="{{ 'pdp-gallery-5.jpg' | asset_url }}" alt="" width="900" height="900" loading="lazy"></button>
-          <button onclick="galSet(5)"><img src="{{ 'pdp-gallery-6.jpg' | asset_url }}" alt="" width="900" height="900" loading="lazy"></button>
+          <button class="active" onclick="galSet(0)"><img src="{{ 'ww-reference-hero.jpg' | asset_url }}" alt="" width="1000" height="800" loading="eager"></button>
+          <button onclick="galSet(1)"><img src="{{ 'ww-reference-gallery-2.jpg' | asset_url }}" alt="" width="1000" height="800" loading="lazy"></button>
+          <button onclick="galSet(2)"><img src="{{ 'ww-reference-gallery-3.jpg' | asset_url }}" alt="" width="900" height="900" loading="lazy"></button>
+          <button onclick="galSet(3)"><img src="{{ 'ww-reference-gallery-4.jpg' | asset_url }}" alt="" width="900" height="900" loading="lazy"></button>
+          <button onclick="galSet(4)"><img src="{{ 'ww-reference-gallery-5.jpg' | asset_url }}" alt="" width="900" height="900" loading="lazy"></button>
+          <button onclick="galSet(5)"><img src="{{ 'ww-reference-gallery-6.jpg' | asset_url }}" alt="" width="900" height="900" loading="lazy"></button>
         {% endif %}
       </div>
     </div>
@@ -489,6 +500,10 @@
             {% if double_save_pct > 0 %}<span class="voff">Save {{ double_save_pct }}%</span>{% endif %}
             <div class="perks"><span class="pk">Free sizing kit</span><span class="pk">Free gifts: storage bags + more</span><span class="pk">Free delivery</span></div>
           </div>
+          <div class="vgifts" aria-label="Included free gifts">
+            <span class="vg-plus">+</span><span class="vgift"><img class="vg-img" src="{{ 'ww-reference-storage-bags.jpg' | asset_url }}" alt="Storage bags" width="34" height="34" loading="lazy"><span class="vg-text"><span class="vg-name">Storage Bags</span><span class="vg-price"><s>$12</s> FREE</span></span></span>
+            <span class="vg-plus">+</span><span class="vgift"><img class="vg-img" src="{{ 'ww-reference-bottle-warmer.jpg' | asset_url }}" alt="Bottle warmer" width="34" height="34" loading="lazy"><span class="vg-text"><span class="vg-name">Bottle Warmer</span><span class="vg-price"><s>$25</s> FREE</span></span></span>
+          </div>
         </label>
         <label class="variant" data-name="Single Pump" data-price="{{ single_pump_variant.price | money }}" data-variant-id="{{ single_pump_variant.id }}" role="radio" aria-checked="false">
           <input type="radio" name="id" value="{{ single_pump_variant.id }}" style="position:absolute;opacity:0;pointer-events:none" onchange="pick(this)">
@@ -500,6 +515,10 @@
             <div class="vline"><span class="vnow">{{ single_pump_variant.price | money }}</span>{% if single_pump_variant.compare_at_price > single_pump_variant.price %}<span class="vwas">{{ single_pump_variant.compare_at_price | money }}</span>{% endif %}</div>
             {% if single_save_pct > 0 %}<span class="voff">Save {{ single_save_pct }}%</span>{% endif %}
             <div class="perks"><span class="pk">Free sizing kit</span><span class="pk">Free storage bag</span></div>
+          </div>
+          <div class="vgifts" aria-label="Included free gifts">
+            <span class="vg-plus">+</span><span class="vgift"><img class="vg-img" src="{{ 'ww-reference-pillow.jpg' | asset_url }}" alt="Breastfeeding pillow" width="34" height="34" loading="lazy"><span class="vg-text"><span class="vg-name">Breastfeeding Pillow</span><span class="vg-price"><s>$14</s> FREE</span></span></span>
+            <span class="vg-plus">+</span><span class="vgift"><img class="vg-img" src="{{ 'ww-reference-storage-bags.jpg' | asset_url }}" alt="Storage bags" width="34" height="34" loading="lazy"><span class="vg-text"><span class="vg-name">Storage Bags</span><span class="vg-price"><s>$12</s> FREE</span></span></span>
           </div>
         </label>
       </div>
@@ -531,8 +550,12 @@
       {% endif %}{% endfor %}
     </div>
     <div class="shots">
+      {% assign proof_index = 0 %}
       {% for block in section.blocks %}{% if block.type == 'proof_media' %}
-        {% if block.settings.image != blank %}<figure class="ph shot has-image" {{ block.shopify_attributes }}><button class="proof-open" type="button" data-proof-src="{{ block.settings.image | image_url: width: 1800 }}" data-proof-alt="{{ block.settings.label | escape }}" aria-label="Open {{ block.settings.label | escape }} full size"><img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.label | escape }}" width="600" height="750" loading="lazy"></button></figure>{% endif %}
+        {% assign proof_index = proof_index | plus: 1 %}
+        {% capture proof_asset_name %}ww-reference-proof-{{ proof_index }}.webp{% endcapture %}
+        {% if block.settings.image != blank %}{% assign proof_thumb = block.settings.image | image_url: width: 600 %}{% assign proof_full = block.settings.image | image_url: width: 1800 %}{% else %}{% assign proof_thumb = proof_asset_name | strip | asset_url %}{% assign proof_full = proof_thumb %}{% endif %}
+        <figure class="ph shot has-image" {{ block.shopify_attributes }}><button class="proof-open" type="button" data-proof-src="{{ proof_full }}" data-proof-alt="{{ block.settings.label | escape }}" aria-label="Open {{ block.settings.label | escape }} full size"><img src="{{ proof_thumb }}" alt="{{ block.settings.label | escape }}" width="600" height="750" loading="lazy"></button></figure>
       {% endif %}{% endfor %}
     </div>
     <div class="proof-lightbox" id="proofLightbox" role="dialog" aria-modal="true" aria-label="Social proof image viewer" aria-hidden="true">
@@ -618,7 +641,7 @@
 <!-- 6. THE WEEWONDERS ADVANTAGE -->
 <section class="section">
   <div class="wrap adv">
-    <div class="ph tall">{% if section.settings.advantage_image != blank %}<img src="{{ section.settings.advantage_image | image_url: width: 900 }}" alt="{{ section.settings.advantage_image.alt | escape }}" width="900" height="1125" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:16px">{% else %}Select an advantage image{% endif %}</div>
+    <div class="ph tall has-image">{% if section.settings.advantage_image != blank %}<img src="{{ section.settings.advantage_image | image_url: width: 900 }}" alt="{{ section.settings.advantage_image.alt | escape }}" width="900" height="1125" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:16px">{% else %}<img src="{{ 'ww-reference-advantage.jpg' | asset_url }}" alt="WeeWonders wearable pump in use, pouring milk into a bottle" width="900" height="1125" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:16px">{% endif %}</div>
     <div>
       <h2>{{ section.settings.advantage_heading }}</h2>
       <div class="adv-list" style="margin-top:22px">
@@ -636,7 +659,7 @@
   <div class="wrap">
     <div class="center"><h2>The WeeWonders <span class="hl">Difference</span></h2></div>
     <div class="split split-img">
-      {% if section.settings.comparison_image != blank %}{{ section.settings.comparison_image | image_url: width: 1100 | image_tag: alt: section.settings.comparison_image.alt, width: 1100, height: 975, loading: 'lazy' }}{% endif %}
+      {% if section.settings.comparison_image != blank %}{{ section.settings.comparison_image | image_url: width: 1100 | image_tag: alt: section.settings.comparison_image.alt, width: 1100, height: 975, loading: 'lazy' }}{% else %}<img src="{{ 'ww-reference-comparison.jpg' | asset_url }}" alt="Other pumps versus WeeWonders pump comparison" width="1100" height="975" loading="lazy">{% endif %}
     </div>
   </div>
 </section>
@@ -646,8 +669,10 @@
   <div class="wrap">
     <div class="center"><h2>Five steps, then <span class="hl">hands-free</span></h2></div>
     <div class="steps">
+      {% assign howto_index = 0 %}
       {% for block in section.blocks %}{% if block.type == 'howto_step' %}
-        <article class="step" {{ block.shopify_attributes }}><div class="ph sq">{% if block.settings.image != blank %}<img src="{{ block.settings.image | image_url: width: 500 }}" alt="{{ block.settings.title | escape }}" width="500" height="500" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:12px">{% endif %}</div><div class="num">{{ block.settings.number }}</div><h3>{{ block.settings.title }}</h3><p>{{ block.settings.text }}</p></article>
+        {% assign howto_index = howto_index | plus: 1 %}{% capture howto_asset_name %}ww-reference-step-{{ howto_index }}.jpg{% endcapture %}
+        <article class="step" {{ block.shopify_attributes }}><div class="ph sq has-image">{% if block.settings.image != blank %}<img src="{{ block.settings.image | image_url: width: 500 }}" alt="{{ block.settings.title | escape }}" width="500" height="500" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:12px">{% else %}<img src="{{ howto_asset_name | strip | asset_url }}" alt="{{ block.settings.title | escape }}" width="500" height="500" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:12px">{% endif %}</div><div class="num">{{ block.settings.number }}</div><h3>{{ block.settings.title }}</h3><p>{{ block.settings.text }}</p></article>
       {% endif %}{% endfor %}
     </div>
   </div>
@@ -703,7 +728,7 @@
 
 <footer>
   <div class="wrap">
-    <div>{% if section.settings.logo_image %}<img src="{{ section.settings.logo_image | image_url: width: 200 }}" alt="{{ shop.name }}" width="200" height="69" loading="lazy">{% else %}<img src="{{ 'weewonders-logo.webp' | asset_url }}" alt="WeeWonders" width="200" height="69" loading="lazy">{% endif %}<p style="max-width:34ch;color:#aab3bd;font-size:.9rem">A pump built around the one thing most pumps get wrong: fit. Made for the mothers of Lebanon.</p></div>
+    <div>{% if section.settings.logo_image %}<img src="{{ section.settings.logo_image | image_url: width: 200 }}" alt="{{ shop.name }}" width="200" height="69" loading="lazy">{% else %}<img src="{{ 'ww-reference-logo.webp' | asset_url }}" alt="WeeWonders" width="200" height="69" loading="lazy">{% endif %}<p style="max-width:34ch;color:#aab3bd;font-size:.9rem">A pump built around the one thing most pumps get wrong: fit. Made for the mothers of Lebanon.</p></div>
     <div><h4>Shop</h4><a href="#">The pump</a><a href="#">Sizing kit</a><a href="#">Reviews</a></div>
     <div><h4>Support</h4><a href="#">WhatsApp</a><a href="#">Warranty</a><a href="https://instagram.com/weewonderslb" target="_blank" rel="noopener">Instagram</a><a href="https://tiktok.com/@weewonderslb" target="_blank" rel="noopener">TikTok</a></div>
     <div class="foot-note wrap" style="padding-inline:0">Results vary from mother to mother and are not a guaranteed outcome. WeeWonders supports your feeding journey, however you choose to feed. © 2026 WeeWonders Lebanon.</div>
@@ -720,7 +745,7 @@
 </div>
 
 <script>
-  var slides=[{% if product.images.size > 0 %}{% for image in product.images %}'{{ image | image_url: width: 1200 }}'{% unless forloop.last %},{% endunless %}{% endfor %}{% else %}'{{ 'pdp-hero-main.jpg' | asset_url }}','{{ 'pdp-gallery-2.jpg' | asset_url }}','{{ 'pdp-gallery-3.jpg' | asset_url }}','{{ 'pdp-gallery-4.jpg' | asset_url }}','{{ 'pdp-gallery-5.jpg' | asset_url }}','{{ 'pdp-gallery-6.jpg' | asset_url }}'{% endif %}];
+  var slides=[{% if product.images.size > 0 %}{% for image in product.images %}'{{ image | image_url: width: 1200 }}'{% unless forloop.last %},{% endunless %}{% endfor %}{% else %}'{{ 'ww-reference-hero.jpg' | asset_url }}','{{ 'ww-reference-gallery-2.jpg' | asset_url }}','{{ 'ww-reference-gallery-3.jpg' | asset_url }}','{{ 'ww-reference-gallery-4.jpg' | asset_url }}','{{ 'ww-reference-gallery-5.jpg' | asset_url }}','{{ 'ww-reference-gallery-6.jpg' | asset_url }}'{% endif %}];
   var gi=0, main=document.getElementById('mainimg'), thumbs=document.querySelectorAll('#thumbs button');
   function galSet(i){gi=(i+slides.length)%slides.length;main.src=slides[gi];thumbs.forEach(function(b,k){b.classList.toggle('active',k===gi);});}
   function galStep(d){galSet(gi+d);}
