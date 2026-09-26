@@ -59,6 +59,8 @@
 
   .ph{background:#eef5f8;border:1.5px dashed #c8dae2;border-radius:16px;display:grid;place-items:center;color:#8ba3ae;font-weight:700;font-size:.78rem;text-align:center;gap:4px;padding:12px;min-height:120px}
   .ph::before{content:"🖼";font-size:1.35rem}
+  .ph.has-image{padding:0;border-style:solid;overflow:hidden;background:#fff;min-height:0}
+  .ph.has-image::before{display:none}
   .ph.video::before{content:"▶";font-size:1.5rem;color:#8ba3ae}
   .ph.av{min-height:0;width:52px;height:52px;border-radius:50%;flex:0 0 52px;padding:0;font-size:0}
   .ph.av::before{font-size:1.1rem}
@@ -152,7 +154,9 @@
   .wa .top b{color:var(--navy);font-size:.9rem}.wa .top .stars{font-size:.78rem;display:block}
   .wa .tag{font-size:.72rem;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.04em;margin-bottom:7px}
   .wa p{font-size:.95rem;color:var(--ink)}
-  .shots{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:16px}
+  .shots{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-top:20px}
+  .shots:empty{display:none}
+  .shot img{width:100%;height:100%;object-fit:cover;object-position:center;border-radius:15px}
   .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:30px;border-top:1px solid var(--line);padding-top:28px}
   .stat{text-align:center}
   .stat b{font-family:var(--fd);font-size:2.1rem;color:var(--navy);display:block}
@@ -349,7 +353,10 @@
     footer .wrap{grid-template-columns:1fr 1fr}.head nav{display:none}.buybar{display:block}
   }
   @media(max-width:560px){
-    .wall,.shots,.stats,.vids,.steps,.moms,.trust,.gcards{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr}
+    .wall,.stats,.vids,.steps,.moms,.trust,.gcards{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr}
+    .shots{display:flex;overflow-x:auto;gap:14px;margin-inline:-20px;padding:4px 20px 14px;scroll-snap-type:x mandatory;scroll-padding-left:20px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+    .shots::-webkit-scrollbar{display:none}
+    .shots .shot{flex:0 0:min(76vw,290px);width:min(76vw,290px);scroll-snap-align:start;aspect-ratio:9/16;border-radius:18px;box-shadow:0 14px 30px -22px rgba(26,43,60,.45)}
     footer .wrap{grid-template-columns:1fr}.section{padding:44px 0}.variants{grid-template-columns:1fr}
     .claim .big{font-size:2.4rem}
   }
@@ -484,7 +491,7 @@
     </div>
     <div class="shots">
       {% for block in section.blocks %}{% if block.type == 'proof_media' %}
-        <div class="ph shot" {{ block.shopify_attributes }}>{% if block.settings.image != blank %}<img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.label | escape }}" width="600" height="760" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:16px">{% else %}{{ block.settings.label }}{% endif %}</div>
+        {% if block.settings.image != blank %}<figure class="ph shot has-image" {{ block.shopify_attributes }}><img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.label | escape }}" width="800" height="1422" loading="lazy"></figure>{% endif %}
       {% endif %}{% endfor %}
     </div>
     <div class="stats">
