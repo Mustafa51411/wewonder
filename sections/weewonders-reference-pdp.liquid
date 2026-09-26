@@ -31,6 +31,7 @@
 {% endif %}
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&display=swap');
 @scope (#ww-reference) {
   :scope{
     --mist:#F4F6F7; --navy:#1A2B3C; --ink:#22323F; --muted:#5C6B77;
@@ -288,8 +289,9 @@
 
   /* us vs them — embedded split experience */
   .split{position:relative;border-radius:26px;overflow:hidden;margin-top:36px;display:grid;grid-template-columns:1fr 1fr;box-shadow:var(--shadow)}
-  .split-img{display:block;max-width:520px;margin:36px auto 0;border:6px solid #fff;box-shadow:0 24px 50px -20px rgba(26,43,60,.45);aspect-ratio:1100/975}
-  .split-img img{width:100%;display:block;border-radius:20px}
+  .comparison-heading{font-family:'Baloo 2',var(--fd);font-size:clamp(1.6rem,3.3vw,2.5rem);font-weight:800!important;line-height:1.08;letter-spacing:-.01em}
+  .split-img{display:block;width:min(100%,520px);max-width:520px;margin:36px auto 0;border:6px solid #fff;box-shadow:0 24px 50px -20px rgba(26,43,60,.45);aspect-ratio:1100/975}
+  .split-img img{width:100%;height:100%;display:block;border-radius:20px;object-fit:contain;object-position:center}
   .split .side{padding:38px 30px;position:relative}
   .split .them{background:#F0F3F5;color:var(--muted)}
   .split .us{background:var(--navy);color:#fff}
@@ -379,6 +381,7 @@
     h2{font-size:calc(var(--font-heading-scale,1) * 4rem)}
     h3{font-size:calc(var(--font-heading-scale,1) * 2rem)}
     .buy h1{font-size:calc(var(--font-heading-scale,1) * 4rem)}
+    .comparison-heading{font-size:clamp(2rem,3.3vw,2.5rem)}
   }
 
   @media(max-width:980px){
@@ -657,7 +660,7 @@
 <!-- 7. THE WEEWONDERS DIFFERENCE — embedded split experience -->
 <section class="section" style="background:var(--sky-soft)">
   <div class="wrap">
-    <div class="center"><h2>The WeeWonders <span class="hl">Difference</span></h2></div>
+    <div class="center"><h2 class="comparison-heading">{{ section.settings.comparison_heading }} <span class="hl">{{ section.settings.comparison_highlight }}</span></h2></div>
     <div class="split split-img">
       {% if section.settings.comparison_image != blank %}{{ section.settings.comparison_image | image_url: width: 1100 | image_tag: alt: section.settings.comparison_image.alt, width: 1100, height: 975, loading: 'lazy' }}{% else %}<img src="{{ 'ww-reference-comparison.jpg' | asset_url }}" alt="Other pumps versus WeeWonders pump comparison" width="1100" height="975" loading="lazy">{% endif %}
     </div>
@@ -1002,6 +1005,18 @@
       "id": "advantage_2_text",
       "label": "Advantage 2 text",
       "default": "Under 50dB, no one hears it."
+    },
+    {
+      "type": "text",
+      "id": "comparison_heading",
+      "label": "Comparison heading",
+      "default": "The WeeWonders"
+    },
+    {
+      "type": "text",
+      "id": "comparison_highlight",
+      "label": "Comparison highlighted word",
+      "default": "Difference"
     },
     {
       "type": "image_picker",
