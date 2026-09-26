@@ -378,7 +378,7 @@
     .wall,.stats,.vids,.steps,.moms,.trust,.gcards{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr}
     .shots{display:flex;overflow-x:auto;gap:14px;margin-inline:-20px;padding:4px 20px 14px;scroll-snap-type:x mandatory;scroll-padding-left:20px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
     .shots::-webkit-scrollbar{display:none}
-    .shots .shot{flex:0 0:min(76vw,290px);width:min(76vw,290px);scroll-snap-align:start;aspect-ratio:9/16;border-radius:18px;box-shadow:0 14px 30px -22px rgba(26,43,60,.45)}
+    .shots .shot{flex-grow:0;flex-shrink:0;flex-basis:76vw;width:76vw;max-width:290px;scroll-snap-align:start;aspect-ratio:9/16;border-radius:18px;box-shadow:0 14px 30px -22px rgba(26,43,60,.45)}
     .variant{display:grid;grid-template-columns:64px minmax(0,1fr);gap:8px 12px;align-items:start;padding:14px;overflow:visible}
     .variant .vimg{grid-column:1;grid-row:1 / span 2;width:64px;height:64px;min-width:0;flex:none}
     .variant .vbody{grid-column:2;grid-row:1;min-width:0;padding-right:38px}
