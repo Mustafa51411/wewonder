@@ -156,7 +156,13 @@
   .wa p{font-size:.95rem;color:var(--ink)}
   .shots{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-top:20px}
   .shots:empty{display:none}
-  .shot img{width:100%;height:100%;object-fit:cover;object-position:center;border-radius:15px}
+  .shot{aspect-ratio:4/5}
+  .proof-open{display:block;width:100%;height:100%;padding:0;border:0;border-radius:15px;background:#fff;cursor:zoom-in;overflow:hidden}
+  .shot img{width:100%;height:100%;object-fit:contain;object-position:center;border-radius:15px;background:#fff}
+  .proof-lightbox{position:fixed;inset:0;z-index:2147483646;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(10,22,34,.88);backdrop-filter:blur(5px)}
+  .proof-lightbox.open{display:flex}
+  .proof-lightbox img{display:block;width:auto;height:auto;max-width:min(92vw,760px);max-height:86vh;object-fit:contain;border-radius:14px;background:#fff;box-shadow:0 24px 70px rgba(0,0,0,.4)}
+  .proof-close{position:absolute;top:max(18px,env(safe-area-inset-top));right:18px;width:44px;height:44px;border:0;border-radius:50%;background:#fff;color:var(--navy);font-size:28px;line-height:1;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.24)}
   .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:30px;border-top:1px solid var(--line);padding-top:28px}
   .stat{text-align:center}
   .stat b{font-family:var(--fd);font-size:2.1rem;color:var(--navy);display:block}
@@ -378,7 +384,8 @@
     .wall,.stats,.vids,.steps,.moms,.trust,.gcards{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr}
     .shots{display:flex;overflow-x:auto;gap:14px;margin-inline:-20px;padding:4px 20px 14px;scroll-snap-type:x mandatory;scroll-padding-left:20px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
     .shots::-webkit-scrollbar{display:none}
-    .shots .shot{flex-grow:0;flex-shrink:0;flex-basis:76vw;width:76vw;max-width:290px;scroll-snap-align:start;aspect-ratio:9/16;border-radius:18px;box-shadow:0 14px 30px -22px rgba(26,43,60,.45)}
+    .shots .shot{flex-grow:0;flex-shrink:0;flex-basis:54vw;width:54vw;max-width:210px;scroll-snap-align:start;aspect-ratio:4/5;border-radius:18px;box-shadow:0 14px 30px -22px rgba(26,43,60,.45)}
+    .proof-lightbox{padding:16px}.proof-lightbox img{max-width:94vw;max-height:84vh}.proof-close{top:max(12px,env(safe-area-inset-top));right:12px}
     .variant{display:grid;grid-template-columns:64px minmax(0,1fr);gap:8px 12px;align-items:start;padding:14px;overflow:visible}
     .variant .vimg{grid-column:1;grid-row:1 / span 2;width:64px;height:64px;min-width:0;flex:none}
     .variant .vbody{grid-column:2;grid-row:1;min-width:0;padding-right:38px}
@@ -523,8 +530,12 @@
     </div>
     <div class="shots">
       {% for block in section.blocks %}{% if block.type == 'proof_media' %}
-        {% if block.settings.image != blank %}<figure class="ph shot has-image" {{ block.shopify_attributes }}><img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.label | escape }}" width="800" height="1422" loading="lazy"></figure>{% endif %}
+        {% if block.settings.image != blank %}<figure class="ph shot has-image" {{ block.shopify_attributes }}><button class="proof-open" type="button" data-proof-src="{{ block.settings.image | image_url: width: 1800 }}" data-proof-alt="{{ block.settings.label | escape }}" aria-label="Open {{ block.settings.label | escape }} full size"><img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.label | escape }}" width="600" height="750" loading="lazy"></button></figure>{% endif %}
       {% endif %}{% endfor %}
+    </div>
+    <div class="proof-lightbox" id="proofLightbox" role="dialog" aria-modal="true" aria-label="Social proof image viewer" aria-hidden="true">
+      <button class="proof-close" type="button" aria-label="Close image viewer">&times;</button>
+      <img src="" alt="">
     </div>
     <div class="stats">
       {% for block in section.blocks %}{% if block.type == 'stat' %}
@@ -721,6 +732,34 @@
   }
   var bar=document.getElementById('buybar');
   window.addEventListener('scroll',function(){if(window.scrollY>640){bar.classList.add('show');}else{bar.classList.remove('show');}},{passive:true});
+
+  // Social-proof images: compact thumbnails with a full, uncropped viewer.
+  (function(){
+    var lightbox=document.getElementById('proofLightbox');
+    if(!lightbox) return;
+    var fullImage=lightbox.querySelector('img');
+    var closeButton=lightbox.querySelector('.proof-close');
+    var previousOverflow='';
+    function openProof(button){
+      fullImage.src=button.dataset.proofSrc;
+      fullImage.alt=button.dataset.proofAlt || 'Social proof screenshot';
+      previousOverflow=document.documentElement.style.overflow;
+      document.documentElement.style.overflow='hidden';
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden','false');
+      closeButton.focus();
+    }
+    function closeProof(){
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden','true');
+      fullImage.removeAttribute('src');
+      document.documentElement.style.overflow=previousOverflow;
+    }
+    document.querySelectorAll('.proof-open').forEach(function(button){button.addEventListener('click',function(){openProof(button);});});
+    closeButton.addEventListener('click',closeProof);
+    lightbox.addEventListener('click',function(event){if(event.target===lightbox) closeProof();});
+    document.addEventListener('keydown',function(event){if(event.key==='Escape'&&lightbox.classList.contains('open')) closeProof();});
+  })();
 
   // milk timeline: drag-to-reveal on desktop, scroll-to-reveal on mobile
   (function(){
