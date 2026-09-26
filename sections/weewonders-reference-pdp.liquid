@@ -38,7 +38,7 @@
     --blue:#3FA9DE; --sky:#8FD9F5; --sky-soft:#EAF6FC; --sky-soft2:#F5FBFD;
     --white:#fff; --line:#E3EEF4;
     --good:#2E9E66; --bad:#D6493F; --star:var(--blue);
-    --fd:var(--font-heading-family,system-ui,sans-serif); --fb:var(--font-body-family,system-ui,sans-serif);
+    --fd:'Baloo 2','Nunito Sans',system-ui,sans-serif; --fb:var(--font-body-family,'Nunito Sans',system-ui,sans-serif);
     --wrap:1200px; --shadow:0 18px 50px -22px rgba(26,43,60,.28);
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -361,14 +361,13 @@
   .buybar .p{font-family:var(--fd);color:var(--navy);font-weight:800}.buybar .p small{display:block;font-family:var(--fb);font-weight:600;color:var(--muted);font-size:.74rem}
   .buybar .btn{width:auto;flex:1;max-width:230px}
 
-  /* Match the theme's configured typography and scale. The theme uses a
-     62.5% root size, so component copy uses em while headings follow the
-     same heading-scale formulas as the rest of the storefront. */
+  /* Keep body copy aligned with the storefront, while retaining the
+     reference design's Baloo 2 heading face and weight. */
   :scope{font-family:var(--font-body-family,system-ui,sans-serif);font-style:var(--font-body-style,normal);font-weight:var(--font-body-weight,400);font-size:calc(var(--font-body-scale,1) * 1.5rem);line-height:calc(1 + .8 / var(--font-body-scale,1))}
-  h1,h2,h3,.dsp{font-family:var(--font-heading-family,system-ui,sans-serif);font-style:var(--font-heading-style,normal);font-weight:var(--font-heading-weight,700);letter-spacing:calc(var(--font-heading-scale,1) * .02rem);line-height:calc(1 + .3 / max(1,var(--font-heading-scale,1)))}
+  h1,h2,h3,.dsp{font-family:var(--fd);font-style:normal;font-weight:700;letter-spacing:-.01em;line-height:1.08}
   h2{font-size:calc(var(--font-heading-scale,1) * 2.8rem)}
   h3{font-size:calc(var(--font-heading-scale,1) * 1.7rem)}
-  .buy h1{font-size:calc(var(--font-heading-scale,1) * 2.8rem);font-weight:var(--font-heading-weight,700)}
+  .buy h1{font-size:calc(var(--font-heading-scale,1) * 2.8rem);font-weight:700}
   .buy .promise,.ksp li,.wa p,.sc-step,.mom p,.adv-item small,.split li,.step p,details p{font-size:1em}
   .wa .top b,.vid .cap b,.step h3,.guarbox b,.gc b,summary{font-size:1em}
   .buy .rate,.variant .vt,.specrow b,.guar-feature .gf-title{font-size:1.05em}
