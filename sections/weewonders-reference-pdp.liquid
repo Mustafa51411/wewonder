@@ -656,7 +656,7 @@
 <!-- 4. VIDEO TESTIMONIALS -->
 <section class="section">
   <div class="wrap">
-    <div class="center"><h2>Different worries. <span class="hl">The same fix.</span></h2></div>
+    <div class="center"><h2>{{ section.settings.video_section_heading }}</h2></div>
     <div class="vids">
       {% for block in section.blocks %}{% if block.type == 'video_story' %}
         <article class="vid" {{ block.shopify_attributes }}>
@@ -1070,6 +1070,12 @@
       "id": "sticky_whatsapp_label",
       "label": "Sticky button accessible label",
       "default": "Order on WhatsApp"
+    },
+    {
+      "type": "text",
+      "id": "video_section_heading",
+      "label": "Doctor videos section heading",
+      "default": "See what doctors say about our pump."
     },
     {
       "type": "header",
