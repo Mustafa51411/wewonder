@@ -287,9 +287,13 @@
 
   /* video testimonials */
   .vids{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:32px}
-  .vid .video{width:100%;aspect-ratio:1/1;min-height:0;padding:0;overflow:hidden;border-style:solid;background:#eef5f8}
+  .vid .video{position:relative;width:100%;aspect-ratio:9/16;min-height:0;padding:0;overflow:hidden;border-style:solid;background:#eef5f8}
   .vid .video.has-media::before{display:none}
   .vid .video video,.vid .video img{display:block;width:100%;height:100%;object-fit:cover;border-radius:14px}
+  .vid .video-play{position:absolute;left:16px;bottom:16px;z-index:2;width:52px;height:52px;border:2px solid #fff;border-radius:50%;background:rgba(26,43,60,.58);color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.26);transition:transform .18s ease,background .18s ease,opacity .18s ease}
+  .vid .video-play:hover{transform:scale(1.06);background:rgba(26,43,60,.8)}
+  .vid .video-play svg{width:22px;height:22px;margin-left:3px}
+  .vid .video.is-playing .video-play{opacity:0;visibility:hidden;pointer-events:none}
   .vid .cap{margin-top:10px}.vid .cap b{color:var(--navy);font-size:.92rem;display:block;margin-top:3px}.vid .cap .stars{font-size:.78rem;display:block;margin-top:2px}
   .vid .cap .pain{display:inline-block;font-family:var(--fd);font-weight:700;font-size:.68rem;text-transform:uppercase;letter-spacing:.03em;color:var(--blue);background:var(--sky-soft);padding:3px 9px;border-radius:999px}
 
@@ -412,6 +416,7 @@
   @media(max-width:560px){
     .wall,.stats,.vids,.steps,.moms,.trust,.gcards{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr}
     .vid .video,.vid .video video,.vid .video img{border-radius:10px}
+    .vid .video-play{left:11px;bottom:11px;width:42px;height:42px}
     .vid .cap .pain{border-radius:8px;padding:5px 8px;line-height:1.35}
     .shots{display:flex;overflow-x:auto;gap:14px;margin-inline:-20px;padding:4px 20px 14px;scroll-snap-type:x mandatory;scroll-padding-left:20px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
     .shots::-webkit-scrollbar{display:none}
@@ -569,7 +574,36 @@
   </div>
 </section>
 
-<!-- 1. TESTIMONIALS -->
+<!-- 1. DOCTOR VIDEO TESTIMONIALS -->
+<section class="section doctor-videos">
+  <div class="wrap">
+    <div class="center"><h2>{{ section.settings.video_section_heading }}</h2></div>
+    <div class="vids">
+      {% for block in section.blocks %}{% if block.type == 'video_story' %}
+        <article class="vid" {{ block.shopify_attributes }}>
+          <div class="ph video{% if block.settings.video != blank or block.settings.image != blank %} has-media{% endif %}{% if block.settings.video != blank %} has-video{% endif %}">
+            {% if block.settings.video != blank %}
+              <video playsinline preload="metadata" aria-label="{{ block.settings.name | escape }} video testimonial"{% if block.settings.image != blank %} poster="{{ block.settings.image | image_url: width: 1000 }}"{% elsif block.settings.video.preview_image != blank %} poster="{{ block.settings.video.preview_image | image_url: width: 1000 }}"{% endif %}>
+                {% for source in block.settings.video.sources %}<source src="{{ source.url }}" type="{{ source.mime_type }}">{% endfor %}
+                Your browser does not support embedded video.
+              </video>
+              <button class="video-play" type="button" aria-label="Play {{ block.settings.name | escape }} video">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+              </button>
+            {% elsif block.settings.image != blank %}
+              <img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.name | escape }}" width="800" height="1422" loading="lazy">
+            {% else %}
+              {{ block.settings.media_label }}
+            {% endif %}
+          </div>
+          <div class="cap"><span class="pain">{{ block.settings.pain }}</span><b>{{ block.settings.name }}</b><span class="stars">{{ block.settings.rating }}</span></div>
+        </article>
+      {% endif %}{% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- 2. TESTIMONIALS -->
 <section class="section" id="reviews" style="background:linear-gradient(180deg,var(--sky-soft) 0%,#fff 42%)">
   <div class="wrap">
     <div class="center"><h2>Hear it from <span class="hl">WeeWonders Moms</span></h2></div>
@@ -652,32 +686,6 @@
       </div>
     </div>
     <p class="disc">Every body is different. Results vary and aren’t guaranteed.</p>
-  </div>
-</section>
-
-<!-- 4. VIDEO TESTIMONIALS -->
-<section class="section">
-  <div class="wrap">
-    <div class="center"><h2>{{ section.settings.video_section_heading }}</h2></div>
-    <div class="vids">
-      {% for block in section.blocks %}{% if block.type == 'video_story' %}
-        <article class="vid" {{ block.shopify_attributes }}>
-          <div class="ph video{% if block.settings.video != blank or block.settings.image != blank %} has-media{% endif %}">
-            {% if block.settings.video != blank %}
-              <video controls playsinline preload="metadata" aria-label="{{ block.settings.name | escape }} video testimonial"{% if block.settings.image != blank %} poster="{{ block.settings.image | image_url: width: 1000 }}"{% elsif block.settings.video.preview_image != blank %} poster="{{ block.settings.video.preview_image | image_url: width: 1000 }}"{% endif %}>
-                {% for source in block.settings.video.sources %}<source src="{{ source.url }}" type="{{ source.mime_type }}">{% endfor %}
-                Your browser does not support embedded video.
-              </video>
-            {% elsif block.settings.image != blank %}
-              <img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.name | escape }}" width="800" height="800" loading="lazy">
-            {% else %}
-              {{ block.settings.media_label }}
-            {% endif %}
-          </div>
-          <div class="cap"><span class="pain">{{ block.settings.pain }}</span><b>{{ block.settings.name }}</b><span class="stars">{{ block.settings.rating }}</span></div>
-        </article>
-      {% endif %}{% endfor %}
-    </div>
   </div>
 </section>
 
@@ -841,6 +849,28 @@
   });
   var bar=document.getElementById('buybar');
   window.addEventListener('scroll',function(){if(window.scrollY>640){bar.classList.add('show');}else{bar.classList.remove('show');}},{passive:true});
+
+  // Doctor videos: show a branded play button, then hand over to native controls.
+  (function(){
+    var videoCards=Array.prototype.slice.call(document.querySelectorAll('.vid .video.has-video'));
+    videoCards.forEach(function(card){
+      var video=card.querySelector('video');
+      var playButton=card.querySelector('.video-play');
+      if(!video || !playButton) return;
+      playButton.addEventListener('click',function(){
+        videoCards.forEach(function(otherCard){
+          var otherVideo=otherCard.querySelector('video');
+          if(otherVideo && otherVideo!==video && !otherVideo.paused) otherVideo.pause();
+        });
+        video.controls=true;
+        var playPromise=video.play();
+        if(playPromise && typeof playPromise.catch==='function') playPromise.catch(function(){});
+      });
+      video.addEventListener('play',function(){card.classList.add('is-playing');});
+      video.addEventListener('pause',function(){card.classList.remove('is-playing');});
+      video.addEventListener('ended',function(){card.classList.remove('is-playing');video.controls=false;video.currentTime=0;});
+    });
+  })();
 
   // Social-proof images: compact thumbnails with a full, uncropped viewer.
   (function(){
