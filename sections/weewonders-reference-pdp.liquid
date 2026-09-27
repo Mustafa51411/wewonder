@@ -287,7 +287,7 @@
 
   /* video testimonials */
   .vids{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:32px}
-  .vid .video{aspect-ratio:16/9;min-height:0;padding:0;overflow:hidden;border-style:solid;background:#eef5f8}
+  .vid .video{width:100%;aspect-ratio:1/1;min-height:0;padding:0;overflow:hidden;border-style:solid;background:#eef5f8}
   .vid .video.has-media::before{display:none}
   .vid .video video,.vid .video img{display:block;width:100%;height:100%;object-fit:cover;border-radius:14px}
   .vid .cap{margin-top:10px}.vid .cap b{color:var(--navy);font-size:.92rem;display:block;margin-top:3px}.vid .cap .stars{font-size:.78rem;display:block;margin-top:2px}
@@ -667,7 +667,7 @@
                 Your browser does not support embedded video.
               </video>
             {% elsif block.settings.image != blank %}
-              <img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.name | escape }}" width="800" height="450" loading="lazy">
+              <img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.name | escape }}" width="800" height="800" loading="lazy">
             {% else %}
               {{ block.settings.media_label }}
             {% endif %}
@@ -1057,7 +1057,7 @@
       "type": "textarea",
       "id": "whatsapp_message",
       "label": "Prefilled WhatsApp message",
-      "default": "Hi"
+      "default": "Hi, I would like to order"
     },
     {
       "type": "checkbox",
