@@ -130,10 +130,10 @@
   .variant .vbody{flex:1;min-width:0}
   .variant .vprice{display:flex;flex-direction:column;align-items:flex-end;gap:4px;text-align:right;flex:0 0 auto}
   .variant .vprice .vline{display:flex;align-items:baseline;gap:7px}
-  .variant .vprice .vnow{font-size:1.22rem}
+  .variant .vprice .vnow{font-family:var(--fd);font-size:1.7rem;line-height:1;font-weight:800!important}
   .variant .vt{font-family:var(--fd);font-weight:800;color:var(--navy);font-size:1.06rem}
   .variant .vnow{font-weight:800;color:var(--ink);background:linear-gradient(180deg,rgba(143,217,245,0) 55%, rgba(143,217,245,.55) 55%);padding:0 .06em}
-  .variant .vwas{color:var(--bad);font-weight:700;text-decoration:line-through;font-size:.92rem}
+  .variant .vwas{color:var(--bad);font-family:var(--fd);font-weight:800!important;text-decoration:line-through;font-size:1.05rem;line-height:1}
   .variant .voff{color:var(--good);font-weight:800;font-size:.78rem}
   .variant .perks{display:flex;flex-direction:column;gap:4px;align-items:flex-end}
   .variant .pk{font-size:.82rem;font-weight:800;display:flex;gap:6px;align-items:center;color:var(--good)}
@@ -417,6 +417,8 @@
     .variant .vbody{grid-column:2;grid-row:1;min-width:0;padding-right:38px}
     .variant .vprice{grid-column:2;grid-row:2;width:100%;min-width:0;align-items:flex-start;text-align:left;gap:6px}
     .variant .vprice .vline{display:flex;flex-wrap:wrap;align-items:baseline;gap:3px 7px;max-width:100%}
+    .variant .vprice .vnow{font-size:1.45rem}
+    .variant .vprice .vwas{font-size:.98rem}
     .variant .perks{width:100%;min-width:0;align-items:flex-start}
     .variant .pk{max-width:100%;white-space:normal;overflow-wrap:anywhere;word-break:normal;line-height:1.35;text-align:left}
     .variant .flag{right:-8px;top:-17px;transform:scale(.86);transform-origin:top right}
