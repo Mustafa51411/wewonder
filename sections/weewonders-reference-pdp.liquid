@@ -547,7 +547,7 @@
       <input type="hidden" name="quantity" value="1">
       <div class="purchase-actions">
         <button type="submit" class="btn btn-cta btn-lg" id="atc">{{ section.settings.primary_button_label }}</button>
-        <a class="btn btn-wa btn-lg" data-whatsapp-order data-whatsapp-number="{{ whatsapp_number | escape }}" data-whatsapp-message="{{ section.settings.whatsapp_message | escape }}" data-product-title="{{ product.title | escape }}" href="https://wa.me/{{ whatsapp_number }}?text={{ whatsapp_default_message | strip | url_encode }}" target="_blank" rel="noopener" aria-label="{{ section.settings.whatsapp_button_label | escape }}">
+        <a class="btn btn-wa btn-lg" data-whatsapp-order data-whatsapp-number="{{ whatsapp_number | escape }}" data-whatsapp-message="{{ section.settings.whatsapp_message | escape }}" data-product-title="{{ product.title | escape }}" href="https://api.whatsapp.com/send/?phone={{ whatsapp_number }}&amp;text={{ whatsapp_default_message | strip | url_encode }}&amp;type=phone_number&amp;app_absent=0" target="_blank" rel="noopener" aria-label="{{ section.settings.whatsapp_button_label | escape }}">
           <svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16.04 3A12.94 12.94 0 0 0 4.87 22.46L3 29l6.72-1.76A12.98 12.98 0 1 0 16.04 3Zm0 23.76c-2.1 0-4.15-.57-5.93-1.64l-.42-.25-3.99 1.05 1.07-3.89-.27-.44A10.72 10.72 0 1 1 16.04 26.76Zm5.88-8.03c-.32-.16-1.91-.94-2.2-1.05-.3-.11-.51-.16-.73.16-.21.32-.83 1.05-1.02 1.27-.19.21-.38.24-.7.08-.32-.16-1.36-.5-2.59-1.6-.96-.85-1.6-1.91-1.79-2.23-.19-.32-.02-.5.14-.66.15-.14.32-.37.49-.56.16-.19.21-.32.32-.54.11-.21.05-.4-.03-.56-.08-.16-.73-1.75-1-2.4-.26-.63-.53-.55-.73-.56h-.62c-.22 0-.57.08-.86.4-.3.32-1.13 1.1-1.13 2.69s1.16 3.12 1.32 3.34c.16.21 2.28 3.48 5.52 4.88.77.33 1.37.53 1.84.68.77.25 1.48.21 2.04.13.62-.09 1.91-.78 2.18-1.53.27-.75.27-1.4.19-1.53-.08-.13-.3-.21-.62-.37Z"/></svg>
           {{ section.settings.whatsapp_button_label }}
         </a>
@@ -784,7 +784,7 @@
 </div>
 
 {% if section.settings.show_sticky_whatsapp %}
-  <a class="ww-wa-float" data-whatsapp-order data-whatsapp-number="{{ whatsapp_number | escape }}" data-whatsapp-message="{{ section.settings.whatsapp_message | escape }}" data-product-title="{{ product.title | escape }}" href="https://wa.me/{{ whatsapp_number }}?text={{ whatsapp_default_message | strip | url_encode }}" target="_blank" rel="noopener" aria-label="{{ section.settings.sticky_whatsapp_label | escape }}" title="{{ section.settings.sticky_whatsapp_label | escape }}">
+  <a class="ww-wa-float" data-whatsapp-order data-whatsapp-number="{{ whatsapp_number | escape }}" data-whatsapp-message="{{ section.settings.whatsapp_message | escape }}" data-product-title="{{ product.title | escape }}" href="https://api.whatsapp.com/send/?phone={{ whatsapp_number }}&amp;text={{ whatsapp_default_message | strip | url_encode }}&amp;type=phone_number&amp;app_absent=0" target="_blank" rel="noopener" aria-label="{{ section.settings.sticky_whatsapp_label | escape }}" title="{{ section.settings.sticky_whatsapp_label | escape }}">
     <svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16.04 3A12.94 12.94 0 0 0 4.87 22.46L3 29l6.72-1.76A12.98 12.98 0 1 0 16.04 3Zm0 23.76c-2.1 0-4.15-.57-5.93-1.64l-.42-.25-3.99 1.05 1.07-3.89-.27-.44A10.72 10.72 0 1 1 16.04 26.76Zm5.88-8.03c-.32-.16-1.91-.94-2.2-1.05-.3-.11-.51-.16-.73.16-.21.32-.83 1.05-1.02 1.27-.19.21-.38.24-.7.08-.32-.16-1.36-.5-2.59-1.6-.96-.85-1.6-1.91-1.79-2.23-.19-.32-.02-.5.14-.66.15-.14.32-.37.49-.56.16-.19.21-.32.32-.54.11-.21.05-.4-.03-.56-.08-.16-.73-1.75-1-2.4-.26-.63-.53-.55-.73-.56h-.62c-.22 0-.57.08-.86.4-.3.32-1.13 1.1-1.13 2.69s1.16 3.12 1.32 3.34c.16.21 2.28 3.48 5.52 4.88.77.33 1.37.53 1.84.68.77.25 1.48.21 2.04.13.62-.09 1.91-.78 2.18-1.53.27-.75.27-1.4.19-1.53-.08-.13-.3-.21-.62-.37Z"/></svg>
   </a>
 {% endif %}
@@ -818,7 +818,7 @@
     if(barName){barName.textContent=el.dataset.name;}
     document.querySelectorAll('[data-whatsapp-order]').forEach(function(link){
       var message=(link.dataset.whatsappMessage || 'Hi WeeWonders, I would like to order')+': '+(link.dataset.productTitle || '')+' - '+el.dataset.name;
-      link.href='https://wa.me/'+link.dataset.whatsappNumber+'?text='+encodeURIComponent(message);
+      link.href='https://api.whatsapp.com/send/?phone='+link.dataset.whatsappNumber+'&text='+encodeURIComponent(message)+'&type=phone_number&app_absent=0';
     });
   }
   function pickRep(el){
@@ -1045,7 +1045,7 @@
       "type": "text",
       "id": "whatsapp_number",
       "label": "WhatsApp number (with country code)",
-      "default": "96179183360"
+      "default": "96181670851"
     },
     {
       "type": "text",
@@ -1057,7 +1057,7 @@
       "type": "textarea",
       "id": "whatsapp_message",
       "label": "Prefilled WhatsApp message",
-      "default": "Hi WeeWonders, I would like to order"
+      "default": "Hi"
     },
     {
       "type": "checkbox",
