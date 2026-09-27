@@ -283,6 +283,9 @@
 
   /* video testimonials */
   .vids{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:32px}
+  .vid .video{aspect-ratio:16/9;min-height:0;padding:0;overflow:hidden;border-style:solid;background:#eef5f8}
+  .vid .video.has-media::before{display:none}
+  .vid .video video,.vid .video img{display:block;width:100%;height:100%;object-fit:cover;border-radius:14px}
   .vid .cap{margin-top:10px}.vid .cap b{color:var(--navy);font-size:.92rem;display:block;margin-top:3px}.vid .cap .stars{font-size:.78rem;display:block;margin-top:2px}
   .vid .cap .pain{display:inline-block;font-family:var(--fd);font-weight:700;font-size:.68rem;text-transform:uppercase;letter-spacing:.03em;color:var(--blue);background:var(--sky-soft);padding:3px 9px;border-radius:999px}
 
@@ -650,7 +653,21 @@
     <div class="center"><h2>Different worries. <span class="hl">The same fix.</span></h2></div>
     <div class="vids">
       {% for block in section.blocks %}{% if block.type == 'video_story' %}
-        <article class="vid" {{ block.shopify_attributes }}><div class="ph video">{% if block.settings.image != blank %}<img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.name | escape }}" width="800" height="450" loading="lazy" style="width:100%;height:100%;object-fit:cover;border-radius:14px">{% else %}{{ block.settings.media_label }}{% endif %}</div><div class="cap"><span class="pain">{{ block.settings.pain }}</span><b>{{ block.settings.name }}</b><span class="stars">{{ block.settings.rating }}</span></div></article>
+        <article class="vid" {{ block.shopify_attributes }}>
+          <div class="ph video{% if block.settings.video != blank or block.settings.image != blank %} has-media{% endif %}">
+            {% if block.settings.video != blank %}
+              <video controls playsinline preload="metadata" aria-label="{{ block.settings.name | escape }} video testimonial"{% if block.settings.image != blank %} poster="{{ block.settings.image | image_url: width: 1000 }}"{% elsif block.settings.video.preview_image != blank %} poster="{{ block.settings.video.preview_image | image_url: width: 1000 }}"{% endif %}>
+                {% for source in block.settings.video.sources %}<source src="{{ source.url }}" type="{{ source.mime_type }}">{% endfor %}
+                Your browser does not support embedded video.
+              </video>
+            {% elsif block.settings.image != blank %}
+              <img src="{{ block.settings.image | image_url: width: 800 }}" alt="{{ block.settings.name | escape }}" width="800" height="450" loading="lazy">
+            {% else %}
+              {{ block.settings.media_label }}
+            {% endif %}
+          </div>
+          <div class="cap"><span class="pain">{{ block.settings.pain }}</span><b>{{ block.settings.name }}</b><span class="stars">{{ block.settings.rating }}</span></div>
+        </article>
       {% endif %}{% endfor %}
     </div>
   </div>
@@ -1126,7 +1143,8 @@
       "type": "video_story",
       "name": "Video testimonial",
       "settings": [
-        { "type": "image_picker", "id": "image", "label": "Video cover image" },
+        { "type": "video", "id": "video", "label": "Upload video" },
+        { "type": "image_picker", "id": "image", "label": "Optional video cover image" },
         { "type": "text", "id": "media_label", "label": "Empty-state label", "default": "Video testimonial" },
         { "type": "text", "id": "pain", "label": "Story label", "default": "Customer story" },
         { "type": "text", "id": "name", "label": "Customer name", "default": "Customer" },
