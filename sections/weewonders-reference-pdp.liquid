@@ -29,6 +29,8 @@
 {% if single_pump_variant == blank and product.variants.size > 1 %}
   {% assign single_pump_variant = product.variants[1] %}
 {% endif %}
+{% assign whatsapp_number = section.settings.whatsapp_number | remove: '+' | remove: ' ' | remove: '-' | remove: '(' | remove: ')' %}
+{% capture whatsapp_default_message %}{{ section.settings.whatsapp_message }}: {{ product.title }} - {{ double_pump_variant.title }}{% endcapture %}
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&display=swap');
@@ -70,6 +72,10 @@
   .btn{display:inline-flex;align-items:center;justify-content:center;font-family:var(--fd);font-weight:700;font-size:1.02rem;padding:17px 28px;border-radius:14px;border:0;cursor:pointer;transition:transform .12s,background .2s;letter-spacing:.02em}
   .btn-cta{background:var(--navy);color:#fff;box-shadow:0 14px 28px -14px rgba(26,43,60,.55)}
   .btn-cta:hover{background:#0F1C28;transform:translateY(-2px)}
+  .purchase-actions{display:grid;gap:10px}
+  .btn-wa{background:#25D366;color:#fff;box-shadow:0 14px 28px -14px rgba(18,140,75,.5);gap:9px}
+  .btn-wa:hover{background:#1fba59;color:#fff;transform:translateY(-2px)}
+  .btn-wa svg{flex:0 0 22px}
   .btn-lg{padding:19px 34px;font-size:1.08rem;width:100%}
   .btn:focus-visible{outline:3px solid var(--sky);outline-offset:3px}
 
@@ -360,6 +366,9 @@
   .buybar .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:11px 20px}
   .buybar .p{font-family:var(--fd);color:var(--navy);font-weight:800}.buybar .p small{display:block;font-family:var(--fb);font-weight:600;color:var(--muted);font-size:.74rem}
   .buybar .btn{width:auto;flex:1;max-width:230px}
+  .ww-wa-float{position:fixed;right:22px;bottom:22px;z-index:62;width:58px;height:58px;border-radius:50%;background:#25D366;color:#fff;display:grid;place-items:center;box-shadow:0 12px 30px rgba(18,140,75,.38);transition:transform .18s,background .18s}
+  .ww-wa-float:hover{background:#1fba59;color:#fff;transform:translateY(-3px) scale(1.03)}
+  .ww-wa-float svg{width:30px;height:30px}
 
   /* Keep body copy aligned with the storefront, while retaining the
      reference design's Baloo 2 heading face and weight. */
@@ -391,6 +400,7 @@
     .sc-step,.sc-result{font-size:.84rem}.sc-result{font-size:1.05rem}.sc-arrow{font-size:.9rem}
     .vids,.steps,.moms,.gcards{grid-template-columns:1fr 1fr}
     footer .wrap{grid-template-columns:1fr 1fr}.head nav{display:none}.buybar{display:block}
+    .ww-wa-float{right:16px;bottom:calc(88px + env(safe-area-inset-bottom));width:54px;height:54px}
   }
   @media(max-width:560px){
     .wall,.stats,.vids,.steps,.moms,.trust,.gcards{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr}
@@ -416,7 +426,7 @@
   @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
   :scope .head,:scope footer{display:none}
 }
-@media(max-width:560px){.whatsapp-floating-button{display:none!important}}
+.whatsapp-floating-button{display:none!important}
 </style>
 
 <div id="ww-reference">
@@ -526,7 +536,13 @@
       </div>
       <div class="gift-note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12v9H4v-9M2 7h20v5H2V7zM12 7V22M12 7a2.5 2.5 0 10-2.5-2.5C9.5 6 12 7 12 7zM12 7a2.5 2.5 0 102.5-2.5C14.5 6 12 7 12 7z"/></svg> Sizing kit free in every box, 4 sizes + a tool to find your fit.</div>
       <input type="hidden" name="quantity" value="1">
-      <button type="submit" class="btn btn-cta btn-lg" id="atc">Try it now risk-free</button>
+      <div class="purchase-actions">
+        <button type="submit" class="btn btn-cta btn-lg" id="atc">Try it now risk-free</button>
+        <a class="btn btn-wa btn-lg" data-whatsapp-order data-whatsapp-number="{{ whatsapp_number | escape }}" data-whatsapp-message="{{ section.settings.whatsapp_message | escape }}" data-product-title="{{ product.title | escape }}" href="https://wa.me/{{ whatsapp_number }}?text={{ whatsapp_default_message | strip | url_encode }}" target="_blank" rel="noopener" aria-label="{{ section.settings.whatsapp_button_label | escape }}">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16.04 3A12.94 12.94 0 0 0 4.87 22.46L3 29l6.72-1.76A12.98 12.98 0 1 0 16.04 3Zm0 23.76c-2.1 0-4.15-.57-5.93-1.64l-.42-.25-3.99 1.05 1.07-3.89-.27-.44A10.72 10.72 0 1 1 16.04 26.76Zm5.88-8.03c-.32-.16-1.91-.94-2.2-1.05-.3-.11-.51-.16-.73.16-.21.32-.83 1.05-1.02 1.27-.19.21-.38.24-.7.08-.32-.16-1.36-.5-2.59-1.6-.96-.85-1.6-1.91-1.79-2.23-.19-.32-.02-.5.14-.66.15-.14.32-.37.49-.56.16-.19.21-.32.32-.54.11-.21.05-.4-.03-.56-.08-.16-.73-1.75-1-2.4-.26-.63-.53-.55-.73-.56h-.62c-.22 0-.57.08-.86.4-.3.32-1.13 1.1-1.13 2.69s1.16 3.12 1.32 3.34c.16.21 2.28 3.48 5.52 4.88.77.33 1.37.53 1.84.68.77.25 1.48.21 2.04.13.62-.09 1.91-.78 2.18-1.53.27-.75.27-1.4.19-1.53-.08-.13-.3-.21-.62-.37Z"/></svg>
+          {{ section.settings.whatsapp_button_label }}
+        </a>
+      </div>
       </form>
       <div class="guarbox">
         <div class="gi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
@@ -744,6 +760,12 @@
   </div>
 </div>
 
+{% if section.settings.show_sticky_whatsapp %}
+  <a class="ww-wa-float" data-whatsapp-order data-whatsapp-number="{{ whatsapp_number | escape }}" data-whatsapp-message="{{ section.settings.whatsapp_message | escape }}" data-product-title="{{ product.title | escape }}" href="https://wa.me/{{ whatsapp_number }}?text={{ whatsapp_default_message | strip | url_encode }}" target="_blank" rel="noopener" aria-label="{{ section.settings.sticky_whatsapp_label | escape }}" title="{{ section.settings.sticky_whatsapp_label | escape }}">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16.04 3A12.94 12.94 0 0 0 4.87 22.46L3 29l6.72-1.76A12.98 12.98 0 1 0 16.04 3Zm0 23.76c-2.1 0-4.15-.57-5.93-1.64l-.42-.25-3.99 1.05 1.07-3.89-.27-.44A10.72 10.72 0 1 1 16.04 26.76Zm5.88-8.03c-.32-.16-1.91-.94-2.2-1.05-.3-.11-.51-.16-.73.16-.21.32-.83 1.05-1.02 1.27-.19.21-.38.24-.7.08-.32-.16-1.36-.5-2.59-1.6-.96-.85-1.6-1.91-1.79-2.23-.19-.32-.02-.5.14-.66.15-.14.32-.37.49-.56.16-.19.21-.32.32-.54.11-.21.05-.4-.03-.56-.08-.16-.73-1.75-1-2.4-.26-.63-.53-.55-.73-.56h-.62c-.22 0-.57.08-.86.4-.3.32-1.13 1.1-1.13 2.69s1.16 3.12 1.32 3.34c.16.21 2.28 3.48 5.52 4.88.77.33 1.37.53 1.84.68.77.25 1.48.21 2.04.13.62-.09 1.91-.78 2.18-1.53.27-.75.27-1.4.19-1.53-.08-.13-.3-.21-.62-.37Z"/></svg>
+  </a>
+{% endif %}
+
 </div>
 
 <script>
@@ -771,6 +793,10 @@
     var barName=document.getElementById('barname');
     if(barPrice && barPrice.childNodes.length){barPrice.childNodes[0].textContent=el.dataset.price;}
     if(barName){barName.textContent=el.dataset.name;}
+    document.querySelectorAll('[data-whatsapp-order]').forEach(function(link){
+      var message=(link.dataset.whatsappMessage || 'Hi WeeWonders, I would like to order')+': '+(link.dataset.productTitle || '')+' - '+el.dataset.name;
+      link.href='https://wa.me/'+link.dataset.whatsappNumber+'?text='+encodeURIComponent(message);
+    });
   }
   function pickRep(el){
     if(!el) return;
@@ -964,6 +990,40 @@
     },
     {
       "type": "header",
+      "content": "WhatsApp ordering"
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_number",
+      "label": "WhatsApp number (with country code)",
+      "default": "96179183360"
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_button_label",
+      "label": "Order button label",
+      "default": "Order on WhatsApp"
+    },
+    {
+      "type": "textarea",
+      "id": "whatsapp_message",
+      "label": "Prefilled WhatsApp message",
+      "default": "Hi WeeWonders, I would like to order"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sticky_whatsapp",
+      "label": "Show sticky WhatsApp button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "sticky_whatsapp_label",
+      "label": "Sticky button accessible label",
+      "default": "Order on WhatsApp"
+    },
+    {
+      "type": "header",
       "content": "Marketing images"
     },
     {
@@ -1092,7 +1152,7 @@
       ]
     }
   ],
-  "max_blocks": 60,
+  "max_blocks": 50,
   "presets": [{ "name": "WeeWonders Custom PDP" }]
 }
 {% endschema %}
