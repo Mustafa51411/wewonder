@@ -150,6 +150,30 @@
             "rating": "★★★★★"
           }
         },
+        "gift_storage": {
+          "type": "bundle_gift",
+          "settings": {
+            "product": "milk-storage-box",
+            "label": "Storage Bags",
+            "applies_to": "both"
+          }
+        },
+        "gift_warmer": {
+          "type": "bundle_gift",
+          "settings": {
+            "product": "bottle-warmer",
+            "label": "Bottle Warmer",
+            "applies_to": "double"
+          }
+        },
+        "gift_pillow": {
+          "type": "bundle_gift",
+          "settings": {
+            "product": "breastfeeding-pillow",
+            "label": "Breastfeeding Pillow",
+            "applies_to": "single"
+          }
+        },
         "step_1": {
           "type": "howto_step",
           "settings": {
@@ -251,6 +275,9 @@
         "video_2",
         "video_3",
         "video_4",
+        "gift_storage",
+        "gift_warmer",
+        "gift_pillow",
         "step_1",
         "step_2",
         "step_3",
