@@ -113,8 +113,9 @@
         "video_1": {
           "type": "video_story",
           "settings": {
+            "video": "shopify://files/videos/Dr. Elite Sokhn.mp4",
             "media_label": "Video testimonial",
-            "pain": "Worried about supply",
+            "pain": "breastfeeding and work",
             "name": "Nour",
             "rating": "★★★★★"
           }
@@ -122,8 +123,9 @@
         "video_2": {
           "type": "video_story",
           "settings": {
+            "video": "shopify://files/videos/Dr. Malak Koteich.mp4",
             "media_label": "Video testimonial",
-            "pain": "Tried a bad pump before",
+            "pain": "moms breastfeeding experiences",
             "name": "Jana",
             "rating": "★★★★★"
           }
@@ -131,8 +133,9 @@
         "video_3": {
           "type": "video_story",
           "settings": {
+            "video": "shopify://files/videos/Dr. Thuraya Alameddine.mp4",
             "media_label": "Video testimonial",
-            "pain": "Back at work",
+            "pain": "Nipple pain and pumping",
             "name": "Carla",
             "rating": "★★★★★"
           }
@@ -140,8 +143,9 @@
         "video_4": {
           "type": "video_story",
           "settings": {
+            "video": "shopify://files/videos/Dr. Farah Reslan.mp4",
             "media_label": "Video testimonial",
-            "pain": "EXHAUSTED MOM",
+            "pain": "WHY I CHOSE WEEWONDERS",
             "name": "Dina",
             "rating": "★★★★★"
           }
