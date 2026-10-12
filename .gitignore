@@ -1,0 +1,9 @@
+# Ignore untracked Saudi theme folder inside Lebanon repo
+saudi-theme/
+
+# Server local environment and runtime data
+tracking/server/.env
+tracking/server/data/
+node_modules/
+.DS_Store
+*.log
