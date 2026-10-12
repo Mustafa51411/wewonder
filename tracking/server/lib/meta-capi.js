@@ -1,46 +1,31 @@
 import crypto from 'node:crypto';
 
-/**
- * Hash string using SHA-256
- */
-export function sha256(val) {
-  if (!val) return null;
-  return crypto.createHash('sha256').update(String(val).trim()).digest('hex');
+const META_GRAPH_VERSION = 'v22.0';
+
+export function sha256(value) {
+  return crypto.createHash('sha256').update(String(value || '').trim().toLowerCase()).digest('hex');
 }
 
-/**
- * Format & hash email: lowercase and trimmed
- */
-export function hashEmail(email) {
-  if (!email || typeof email !== 'string') return null;
-  const cleaned = email.trim().toLowerCase();
-  return cleaned ? sha256(cleaned) : null;
+function hashValue(value) {
+  return value ? sha256(value) : undefined;
 }
 
-/**
- * Format & hash phone: only digits including country code, no + or spaces
- */
-export function hashPhone(phone) {
-  if (!phone) return null;
-  const digits = String(phone).replace(/\D/g, '');
-  return digits ? sha256(digits) : null;
+function compact(object) {
+  return Object.fromEntries(Object.entries(object).filter(([, value]) => value !== undefined && value !== null && value !== ''));
 }
 
-/**
- * Format & hash country: 2-letter ISO lowercase
- */
-export function hashCountry(country) {
-  if (!country || typeof country !== 'string') return null;
-  const cleaned = country.trim().toLowerCase().slice(0, 2);
-  return cleaned ? sha256(cleaned) : null;
+function normalizedContents(contents) {
+  return Array.isArray(contents)
+    ? contents
+      .map((item) => compact({
+        id: String(item?.id || ''),
+        quantity: Math.max(1, Number(item?.quantity || 1)),
+        item_price: Number.isFinite(Number(item?.item_price)) ? Number(item.item_price) : undefined
+      }))
+      .filter((item) => item.id)
+    : [];
 }
 
-/**
- * Send event payload to Meta Conversions API (CAPI)
- * Strictly follows SOW data rules:
- * - Sends only: value, currency, order_id, num_items, store
- * - Sends NO product names, categories, page titles, or free text
- */
 export async function sendMetaEvent({
   eventName,
   eventId,
@@ -51,105 +36,82 @@ export async function sendMetaEvent({
   clientUserAgent,
   fbc,
   fbp,
-  email,
-  phone,
-  country,
+  customer = {},
   customData = {}
 }) {
-  const pixelId = process.env.META_PIXEL_ID || '1032874294681740';
-  const token = process.env.META_CAPI_ACCESS_TOKEN;
-  const testCode = process.env.TEST_EVENT_CODE;
+  const pixelId = process.env.META_PIXEL_ID;
+  const accessToken = process.env.META_CAPI_ACCESS_TOKEN;
+  const testEventCode = process.env.META_TEST_EVENT_CODE || process.env.TEST_EVENT_CODE;
 
-  if (!token) {
-    console.warn('[Meta CAPI] Warning: META_CAPI_ACCESS_TOKEN not set in environment.');
-    return { success: false, error: 'META_CAPI_ACCESS_TOKEN is missing' };
-  }
-
-  // 1. Build user_data with proper hashing
-  const userData = {};
-  if (clientIp) userData.client_ip_address = clientIp;
-  if (clientUserAgent) userData.client_user_agent = clientUserAgent;
-  if (fbc) userData.fbc = fbc;
-  if (fbp) userData.fbp = fbp;
-
-  const em = hashEmail(email);
-  if (em) userData.em = [em];
-
-  const ph = hashPhone(phone);
-  if (ph) userData.ph = [ph];
-
-  const co = hashCountry(country);
-  if (co) userData.country = [co];
-
-  // 2. Build sanitized custom_data according to SOW rules
-  const sanitizedCustomData = {};
-  if (customData.value !== undefined && customData.value !== null && !isNaN(Number(customData.value))) {
-    sanitizedCustomData.value = Number(customData.value);
-  }
-  if (customData.currency) {
-    sanitizedCustomData.currency = String(customData.currency).toUpperCase();
-  }
-  if (customData.order_id) {
-    sanitizedCustomData.order_id = String(customData.order_id);
-  }
-  if (customData.num_items !== undefined && customData.num_items !== null && !isNaN(Number(customData.num_items))) {
-    sanitizedCustomData.num_items = Number(customData.num_items);
-  }
-  if (customData.store) {
-    sanitizedCustomData.store = String(customData.store).toLowerCase();
-  }
-
-  // 3. Assemble event item
-  const eventItem = {
-    event_name: eventName,
-    event_time: Number(eventTime) || Math.floor(Date.now() / 1000),
-    event_id: String(eventId),
-    action_source: actionSource,
-    user_data: userData
-  };
-
-  if (eventSourceUrl) {
-    eventItem.event_source_url = String(eventSourceUrl);
-  }
-
-  if (Object.keys(sanitizedCustomData).length > 0) {
-    eventItem.custom_data = sanitizedCustomData;
-  }
-
-  const payload = {
-    data: [eventItem]
-  };
-
-  if (testCode) {
-    payload.test_event_code = testCode;
-  }
-
-  const endpoint = `https://graph.facebook.com/v19.0/${pixelId}/events?access_token=${token}`;
-
-  try {
-    const res = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    });
-
-    const result = await res.json();
-    if (!res.ok) {
-      console.error('[Meta CAPI] API error:', res.status, result);
-      return { success: false, status: res.status, error: result };
-    }
-
+  if (!pixelId || !accessToken) {
     return {
-      success: true,
-      events_received: result.events_received,
-      fbtrace_id: result.fbtrace_id,
-      event_id: eventId
+      success: false,
+      skipped: true,
+      reason: 'META_PIXEL_ID and META_CAPI_ACCESS_TOKEN must be configured on the tracking server'
     };
-  } catch (err) {
-    console.error('[Meta CAPI] Network error:', err.message);
-    return { success: false, error: err.message };
   }
+
+  const contents = normalizedContents(customData.contents);
+  const normalizedCustomData = compact({
+    value: Number.isFinite(Number(customData.value)) ? Number(customData.value) : undefined,
+    currency: customData.currency || undefined,
+    order_id: customData.order_id || undefined,
+    num_items: Number.isFinite(Number(customData.num_items)) ? Number(customData.num_items) : undefined,
+    content_ids: Array.isArray(customData.content_ids) ? customData.content_ids.map(String).filter(Boolean) : undefined,
+    content_type: customData.content_type || (contents.length ? 'product' : undefined),
+    contents: contents.length ? contents : undefined,
+    store: customData.store || 'lb',
+    whatsapp_reference: customData.whatsapp_reference || undefined,
+    utm_source: customData.utm_source || undefined,
+    utm_medium: customData.utm_medium || undefined,
+    utm_campaign: customData.utm_campaign || undefined,
+    utm_content: customData.utm_content || undefined,
+    utm_term: customData.utm_term || undefined,
+    ad_id: customData.ad_id || undefined
+  });
+
+  const userData = compact({
+    em: hashValue(customer.email),
+    ph: hashValue(customer.phone),
+    fn: hashValue(customer.first_name),
+    ln: hashValue(customer.last_name),
+    ct: hashValue(customer.city),
+    zp: hashValue(customer.zip),
+    country: hashValue(customer.country),
+    external_id: hashValue(customer.external_id),
+    client_ip_address: clientIp || undefined,
+    client_user_agent: clientUserAgent || undefined,
+    fbc: fbc || undefined,
+    fbp: fbp || undefined
+  });
+
+  const body = {
+    data: [{
+      event_name: eventName,
+      event_time: eventTime,
+      event_id: eventId,
+      action_source: actionSource,
+      event_source_url: eventSourceUrl || undefined,
+      user_data: userData,
+      custom_data: normalizedCustomData
+    }]
+  };
+
+  if (testEventCode) body.test_event_code = testEventCode;
+
+  const response = await fetch(
+    `https://graph.facebook.com/${META_GRAPH_VERSION}/${pixelId}/events?access_token=${encodeURIComponent(accessToken)}`,
+    {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(body)
+    }
+  );
+
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(`Meta CAPI rejected ${eventName}: ${result?.error?.message || response.status}`);
+  }
+
+  return { success: true, result };
 }

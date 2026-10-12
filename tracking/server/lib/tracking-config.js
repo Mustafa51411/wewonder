@@ -1,0 +1,22 @@
+export const STORE = 'lb';
+
+// Keep the custom event names in one place so a later switch to Meta standard
+// events is a one-line configuration change rather than a theme-wide rewrite.
+export const EVENT_NAMES = Object.freeze({
+  PAGE_VIEW: 'PageView',
+  VIEW_CONTENT: 'ViewContent',
+  ADD_TO_CART: 'WW_AddToCart',
+  CHECKOUT: 'WW_Checkout',
+  PAYMENT: 'WW_Payment',
+  WHATSAPP: 'WW_WhatsApp',
+  PURCHASE: 'WW_Order'
+});
+
+export const BROWSER_EVENTS = new Set([
+  EVENT_NAMES.PAGE_VIEW,
+  EVENT_NAMES.VIEW_CONTENT,
+  EVENT_NAMES.ADD_TO_CART,
+  EVENT_NAMES.CHECKOUT,
+  EVENT_NAMES.PAYMENT,
+  EVENT_NAMES.WHATSAPP
+]);

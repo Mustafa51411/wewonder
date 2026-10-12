@@ -118,7 +118,7 @@ export function isEventProcessed(eventId) {
   return processedEvents.has(String(eventId));
 }
 
-export function markEventProcessed(eventId) {
+export function markEventProcessedSync(eventId) {
   if (!eventId) return;
   processedEvents.add(String(eventId));
   // Keep memory cache size bounded (max 5000 events)
@@ -126,6 +126,16 @@ export function markEventProcessed(eventId) {
     const first = processedEvents.values().next().value;
     processedEvents.delete(first);
   }
+}
+
+// Async aliases let API routes use the same interface when this module is later
+// backed by an external KV store.
+export async function hasProcessedEvent(eventId) {
+  return isEventProcessed(eventId);
+}
+
+export async function markEventProcessed(eventId) {
+  markEventProcessedSync(eventId);
 }
 
 /**
