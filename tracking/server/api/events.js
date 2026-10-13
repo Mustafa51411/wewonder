@@ -39,7 +39,8 @@ export default async function handler(req, res) {
       fbc: safeText(payload.fbc, 512),
       fbp: safeText(payload.fbp, 512),
       customer: payload.customer || {},
-      customData
+      customData,
+      testEventCode: safeText(payload.test_event_code, 200)
     });
 
     if (!result.success) {

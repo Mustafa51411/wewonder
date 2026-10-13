@@ -37,11 +37,12 @@ export async function sendMetaEvent({
   fbc,
   fbp,
   customer = {},
-  customData = {}
+  customData = {},
+  testEventCode
 }) {
   const pixelId = process.env.META_PIXEL_ID;
   const accessToken = process.env.META_CAPI_ACCESS_TOKEN;
-  const testEventCode = process.env.META_TEST_EVENT_CODE || process.env.TEST_EVENT_CODE;
+  const resolvedTestEventCode = testEventCode || process.env.META_TEST_EVENT_CODE || process.env.TEST_EVENT_CODE;
 
   if (!pixelId || !accessToken) {
     return {
@@ -97,7 +98,7 @@ export async function sendMetaEvent({
     }]
   };
 
-  if (testEventCode) body.test_event_code = testEventCode;
+  if (resolvedTestEventCode) body.test_event_code = resolvedTestEventCode;
 
   const response = await fetch(
     `https://graph.facebook.com/${META_GRAPH_VERSION}/${pixelId}/events?access_token=${encodeURIComponent(accessToken)}`,

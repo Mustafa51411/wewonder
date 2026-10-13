@@ -14,14 +14,11 @@ export function allowedOrigins() {
 }
 
 export function applyCors(req, res) {
-  const origin = req.headers.origin;
-  if (origin && allowedOrigins().includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-    res.setHeader('Vary', 'Origin');
-  }
+  // Shopify customer-event pixels run in a sandbox that uses Origin: null.
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  return !origin || allowedOrigins().includes(origin);
+  return true;
 }
 
 export function safeText(value, max = 200) {
