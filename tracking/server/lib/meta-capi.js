@@ -40,7 +40,7 @@ export async function sendMetaEvent({
   customData = {},
   testEventCode
 }) {
-  const pixelId = process.env.META_PIXEL_ID;
+  const pixelId = process.env.META_PIXEL_ID || '1032874294681740';
   const accessToken = process.env.META_CAPI_ACCESS_TOKEN;
   const resolvedTestEventCode = testEventCode || process.env.META_TEST_EVENT_CODE || process.env.TEST_EVENT_CODE;
 
@@ -48,7 +48,7 @@ export async function sendMetaEvent({
     return {
       success: false,
       skipped: true,
-      reason: 'META_PIXEL_ID and META_CAPI_ACCESS_TOKEN must be configured on the tracking server'
+      reason: 'META_CAPI_ACCESS_TOKEN must be configured on the tracking server'
     };
   }
 
