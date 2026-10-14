@@ -62,6 +62,7 @@ export async function sendMetaEvent({
     content_type: customData.content_type || (contents.length ? 'product' : undefined),
     contents: contents.length ? contents : undefined,
     store: customData.store || 'lb',
+    ref: customData.ref || undefined,
     whatsapp_reference: customData.whatsapp_reference || undefined,
     utm_source: customData.utm_source || undefined,
     utm_medium: customData.utm_medium || undefined,

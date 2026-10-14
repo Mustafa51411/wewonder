@@ -1,162 +1,103 @@
-{% comment %}
-  WeeWonders Universal Attribution & WhatsApp Tracking Snippet
-  - Captures and preserves fbc, fbp, and UTMs into Shopify Cart Attributes (SOW Task 3)
-  - Generates WhatsApp reference codes and links attribution to draft orders (SOW Task 5)
-{% endcomment %}
+{% comment %} WhatsApp attribution for Meta and Shopify draft-order matching. {% endcomment %}
 <script>
-(function() {
+(function () {
   'use strict';
 
   var STORE = 'lb';
-  // Keep this URL explicit. It must be the same deployed tracking host as the custom pixel.
   var TRACKING_SERVER_URL = 'https://weewonders-lb-tracking.vercel.app';
+  var urlParams = new URLSearchParams(window.location.search);
 
   function getCookie(name) {
     var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
     return match ? decodeURIComponent(match[3]) : null;
   }
-
   function setCookie(name, value, days) {
-    var expires = '';
-    if (days) {
-      var d = new Date();
-      d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
-      expires = '; expires=' + d.toUTCString();
-    }
-    var domain = window.location.hostname.includes('.') ? '; domain=.' + window.location.hostname.replace(/^www\./, '') : '';
-    document.cookie = name + '=' + encodeURIComponent(value) + expires + '; path=/' + domain + '; SameSite=Lax';
+    var until = new Date(Date.now() + days * 86400000).toUTCString();
+    document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + until + '; path=/; SameSite=Lax';
+  }
+  function buildAttribution() {
+    var result = {};
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (key) {
+      var value = urlParams.get(key);
+      if (value) {
+        result[key] = value;
+        try { sessionStorage.setItem('ww_' + key, value); } catch (_) {}
+      } else {
+        try { value = sessionStorage.getItem('ww_' + key); } catch (_) {}
+        if (value) result[key] = value;
+      }
+    });
+    return result;
   }
 
-  // 1. Capture UTMs & Click IDs
-  var urlParams = new URLSearchParams(window.location.search);
-  var fbclid = urlParams.get('fbclid');
   var fbc = getCookie('_fbc');
   var fbp = getCookie('_fbp');
-
+  var fbclid = urlParams.get('fbclid');
   if (!fbc && fbclid) {
     fbc = 'fb.1.' + Date.now() + '.' + fbclid;
     setCookie('_fbc', fbc, 90);
   }
+  var attribution = buildAttribution();
 
-  var utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
-  var utms = {};
-  var hasUtms = false;
-
-  utmKeys.forEach(function(k) {
-    var val = urlParams.get(k);
-    if (val) {
-      utms[k] = val;
-      hasUtms = true;
-      try { sessionStorage.setItem('ww_' + k, val); } catch (_) {}
-    } else {
-      try {
-        var saved = sessionStorage.getItem('ww_' + k);
-        if (saved) utms[k] = saved;
-      } catch (_) {}
-    }
-  });
-
-  // 2. Persist fbc, fbp & UTMs into Shopify Cart Attributes
-  function syncCartAttributes() {
-    var cartAttrs = {};
-    if (fbc) cartAttrs['_fbc'] = fbc;
-    if (fbp) cartAttrs['_fbp'] = fbp;
-    Object.keys(utms).forEach(function(k) {
-      if (utms[k]) cartAttrs[k] = utms[k];
-    });
-
-    if (Object.keys(cartAttrs).length > 0) {
-      try {
-        fetch('/cart/update.js', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest'
-          },
-          body: JSON.stringify({ attributes: cartAttrs })
-        }).catch(function() {});
-      } catch (_) {}
-    }
-  }
-
-  // Sync on page load (delayed slightly to avoid blocking critical render)
-  if (document.readyState === 'complete') {
-    setTimeout(syncCartAttributes, 500);
-  } else {
-    window.addEventListener('load', function() {
-      setTimeout(syncCartAttributes, 500);
-    });
-  }
-
-  // 3. WhatsApp Reference Code Generator & Click Tracking
-  function generateRefCode() {
+  function generateRef() {
     var chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
-    var code = 'W';
-    for (var i = 0; i < 4; i++) {
-      code += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return code;
+    var ref = 'W';
+    for (var i = 0; i < 6; i += 1) ref += chars.charAt(Math.floor(Math.random() * chars.length));
+    return ref;
   }
-
-  function handleWhatsAppClick(e) {
-    var link = e.target.closest('a[href*="wa.me"], a[href*="whatsapp.com"], [data-whatsapp-btn], [data-whatsapp-order]');
-    if (!link) return;
-
-    var refCode = generateRefCode();
-    var waEventId = 'wa_' + refCode + '_' + Date.now();
-
-    // Attach reference code to WhatsApp URL
+  function cartData() {
+    return fetch('/cart.js', { credentials: 'same-origin' })
+      .then(function (response) { return response.ok ? response.json() : {}; })
+      .then(function (cart) {
+        var items = Array.isArray(cart.items) ? cart.items : [];
+        var contents = items.map(function (item) {
+          return { id: String(item.product_id || item.variant_id || ''), quantity: Number(item.quantity || 1), item_price: Number(item.final_price || item.price || 0) / 100 };
+        }).filter(function (item) { return item.id; });
+        return { value: Number(cart.total_price || 0) / 100, currency: cart.currency || 'USD', num_items: items.reduce(function (total, item) { return total + Number(item.quantity || 0); }, 0), content_ids: contents.map(function (item) { return item.id; }), contents: contents };
+      }).catch(function () { return { value: 0, currency: 'USD', num_items: 0, content_ids: [], contents: [] }; });
+  }
+  function updateCartRef(ref) {
+    return fetch('/cart/update.js', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ attributes: { wa_ref: ref } }), keepalive: true }).catch(function () {});
+  }
+  function whatsappUrl(link, ref) {
     var href = link.getAttribute('href') || '';
-    if (href) {
-      var refTag = ' [Ref: ' + refCode + ']';
-      if (href.includes('text=')) {
-        href = href.replace(/([?&]text=)([^&]*)/, function(match, p1, p2) {
-          return p1 + p2 + encodeURIComponent(refTag);
-        });
-      } else {
-        var sep = href.includes('?') ? '&' : '?';
-        href = href + sep + 'text=' + encodeURIComponent('Hi WeeWonders' + refTag);
-      }
-      link.setAttribute('href', href);
-    }
-
-    // Save wa_ref attribute in cart
-    try {
-      fetch('/cart/update.js', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({ attributes: { 'wa_ref': refCode } })
-      }).catch(function() {});
-    } catch (_) {}
-
-    // Track Meta Browser Event
-    if (typeof window.fbq === 'function') {
-      try {
-        window.fbq('trackCustom', 'WW_WhatsApp', { ref_code: refCode }, { eventID: waEventId });
-      } catch (_) {}
-    }
-
-    // Forward to server tracking endpoint if available
-    if (!TRACKING_SERVER_URL.includes('REPLACE-WITH')) {
-      try {
-        fetch(TRACKING_SERVER_URL.replace(/\/+$/, '') + '/api/whatsapp-ref', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            reference: refCode,
-            fbc: fbc,
-            fbp: fbp,
-            attribution: utms,
-            landing_url: window.location.href,
-            event_id: waEventId
-          }),
-          keepalive: true
-        }).catch(function() {});
-      } catch (_) {}
+    var tag = ' [Ref: ' + ref + ']';
+    if (href.indexOf('text=') >= 0) return href.replace(/([?&]text=)([^&]*)/, function (_, prefix, text) { return prefix + text + encodeURIComponent(tag); });
+    return href + (href.indexOf('?') >= 0 ? '&' : '?') + 'text=' + encodeURIComponent('Hi WeeWonders' + tag);
+  }
+  function publishWhatsApp(ref, ts, cart) {
+    if (window.Shopify && Shopify.analytics && typeof Shopify.analytics.publish === 'function') {
+      Shopify.analytics.publish('ww_whatsapp', { ref: ref, ts: ts, value: cart.value, currency: cart.currency, content_ids: cart.content_ids, num_items: cart.num_items });
     }
   }
+  function storeClick(ref, ts, cart) {
+    return fetch(TRACKING_SERVER_URL.replace(/\/+$/, '') + '/api/wa-click', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, keepalive: true,
+      body: JSON.stringify({ ref: ref, ts: ts, fbc: fbc, fbp: fbp, attribution: attribution, fbclid: fbclid, ad_id: urlParams.get('ad_id'), cart: cart, store: STORE, page_url: window.location.href })
+    });
+  }
+  function openWhatsApp(link, href) {
+    if (link.target === '_blank') {
+      var popup = window.open(href, '_blank', 'noopener');
+      if (popup) return;
+    }
+    window.location.assign(href);
+  }
 
-  document.addEventListener('click', handleWhatsAppClick, true);
-})();
+  document.addEventListener('click', function (event) {
+    var link = event.target.closest('a[href*="wa.me"], a[href*="whatsapp.com"], [data-whatsapp-btn], [data-whatsapp-order]');
+    if (!link || link.dataset.wwTrackingPending === 'true') return;
+    event.preventDefault();
+    link.dataset.wwTrackingPending = 'true';
+    var ref = generateRef();
+    var ts = Date.now();
+    var href = whatsappUrl(link, ref);
+    cartData().then(function (cart) {
+      publishWhatsApp(ref, ts, cart);
+      // The old direct fbq WW_WhatsApp call is intentionally removed. The
+      // installed custom pixel owns the browser/server event and deduplication.
+      return Promise.allSettled([updateCartRef(ref), storeClick(ref, ts, cart)]);
+    }).finally(function () { openWhatsApp(link, href); });
+  }, true);
+}());
 </script>

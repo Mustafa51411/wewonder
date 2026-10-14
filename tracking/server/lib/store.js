@@ -49,7 +49,7 @@ loadLocalData();
 /**
  * Check if external KV (e.g. Vercel KV / Upstash) is configured
  */
-function hasExternalKV() {
+export function hasExternalKV() {
   return Boolean(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN);
 }
 
@@ -66,7 +66,10 @@ async function kvFetch(command, ...args) {
 /**
  * Store WhatsApp reference attribution
  */
-export async function saveWhatsAppRef(code, attributionData) {
+export async function saveWhatsAppRef(code, attributionData, store = 'lb') {
+  if (!hasExternalKV()) {
+    throw new Error('Persistent storage is not configured');
+  }
   const normalizedCode = String(code).trim().toUpperCase();
   const entry = {
     ...attributionData,
@@ -74,17 +77,9 @@ export async function saveWhatsAppRef(code, attributionData) {
     updated_at: new Date().toISOString()
   };
 
-  memoryStore.set(normalizedCode, entry);
-  saveLocalData();
-
-  if (hasExternalKV()) {
-    try {
-      // 30 days TTL (2592000 seconds)
-      await kvFetch('set', `waref:${normalizedCode}`, JSON.stringify(entry), 'EX', '2592000');
-    } catch (err) {
-      console.warn('[Store] External KV set error:', err.message);
-    }
-  }
+  // 30 days TTL (2592000 seconds). Serverless memory and local files are not
+  // used as a fallback because they cannot satisfy attribution retention.
+  await kvFetch('set', `waref:${store}:${normalizedCode}`, JSON.stringify(entry), 'EX', '2592000');
 
   return entry;
 }
@@ -92,22 +87,15 @@ export async function saveWhatsAppRef(code, attributionData) {
 /**
  * Get WhatsApp reference attribution
  */
-export async function getWhatsAppRef(code) {
+export async function getWhatsAppRef(code, store = 'lb') {
   if (!code) return null;
+  if (!hasExternalKV()) return null;
   const normalizedCode = String(code).trim().toUpperCase();
-
-  if (hasExternalKV()) {
-    try {
-      const remote = await kvFetch('get', `waref:${normalizedCode}`);
-      if (remote) {
-        return typeof remote === 'string' ? JSON.parse(remote) : remote;
-      }
-    } catch (err) {
-      console.warn('[Store] External KV get error:', err.message);
-    }
+  const remote = await kvFetch('get', `waref:${store}:${normalizedCode}`);
+  if (remote) {
+    return typeof remote === 'string' ? JSON.parse(remote) : remote;
   }
-
-  return memoryStore.get(normalizedCode) || null;
+  return null;
 }
 
 /**
