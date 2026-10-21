@@ -1,18 +1,11 @@
-const DEFAULT_ORIGINS = [
-  'https://weewonderslb.com',
-  'https://www.weewonderslb.com',
-  'https://9bff48.myshopify.com'
-];
+import { STORE } from './tracking-config.js';
+
+const DEFAULT_ORIGINS = ['https://weewonderssa.com', 'https://www.weewonderssa.com', 'https://weewonderslb.com', 'https://www.weewonderslb.com'];
 
 export function allowedOrigins() {
-  return (process.env.CAPI_ALLOWED_ORIGINS || '')
-    .split(',')
-    .map((origin) => origin.trim())
-    .filter(Boolean)
-    .concat(DEFAULT_ORIGINS)
-    .filter((origin, index, values) => values.indexOf(origin) === index);
+  return (process.env.CAPI_ALLOWED_ORIGINS || '').split(',').map((origin) => origin.trim()).filter(Boolean)
+    .concat(DEFAULT_ORIGINS).filter((origin, index, all) => all.indexOf(origin) === index);
 }
-
 export function applyCors(req, res) {
   // Shopify customer-event pixels run in a sandbox that uses Origin: null.
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -21,25 +14,15 @@ export function applyCors(req, res) {
   res.setHeader('Access-Control-Max-Age', '86400');
   return true;
 }
-
-export function safeText(value, max = 200) {
-  return typeof value === 'string' ? value.trim().slice(0, max) : '';
-}
-
+export function safeText(value, max = 200) { return typeof value === 'string' ? value.trim().slice(0, max) : ''; }
 // Meta treats fbc/fbp as opaque identifiers. Do not lowercase, trim, decode,
 // rebuild, or otherwise transform an identifier received from the browser.
-export function safeClickId(value, max = 512) {
-  return typeof value === 'string' && value.length <= max ? value : '';
-}
-
+export function safeClickId(value, max = 512) { return typeof value === 'string' && value.length <= max ? value : ''; }
+// CHANGE: campaign_id, adset_id and placement added (the pixel now captures them).
 export function safeAttribution(input = {}) {
-  return Object.fromEntries(
-    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'ad_id', 'fbclid']
-      .map((key) => [key, safeText(input[key], 180)])
-      .filter(([, value]) => value)
-  );
+  return Object.fromEntries(['utm_source','utm_medium','utm_campaign','utm_content','utm_term','campaign_id','adset_id','ad_id','placement','fbclid']
+    .map((key) => [key, safeText(input[key], 180)]).filter(([, value]) => value));
 }
+export function clientIp(req) { return safeText(req.headers['x-forwarded-for']?.split(',')[0] || req.socket?.remoteAddress, 64); }
+export { STORE };
 
-export function clientIp(req) {
-  return safeText(req.headers['x-forwarded-for']?.split(',')[0] || req.socket?.remoteAddress, 64);
-}

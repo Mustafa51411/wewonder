@@ -1,42 +1,21 @@
 import { applyCors, clientIp, safeAttribution, safeClickId, safeText } from '../lib/security.js';
 import { hasExternalKV, saveWhatsAppRef } from '../lib/store.js';
-
+import { resolveStore } from '../lib/tracking-config.js';
 const REFERENCE_PATTERN = /^[A-Z0-9_-]{6,96}$/i;
-
 export default async function handler(req, res) {
   applyCors(req, res);
   if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   if (!hasExternalKV()) return res.status(503).json({ error: 'Persistent storage is not configured' });
-
-  const body = req.body || {};
-  const reference = safeText(body.ref || body.reference, 96);
-  if (!REFERENCE_PATTERN.test(reference)) {
-    return res.status(400).json({ error: 'A valid ref is required' });
-  }
-
+  const body = req.body || {}; const ref = safeText(body.ref || body.reference, 96);
+  if (!REFERENCE_PATTERN.test(ref)) return res.status(400).json({ error: 'A valid ref is required' });
   const cart = body.cart && typeof body.cart === 'object' ? body.cart : {};
+  // CHANGE: store is taken from the request (store field, then page URL, then cart currency). It was hardcoded to 'sa'.
+  const store = resolveStore({ declared: body.store, url: body.page_url || body.landing_url, currency: cart.currency });
   try {
-    await saveWhatsAppRef(reference, {
-      created_at: new Date(Number(body.ts) || Date.now()).toISOString(),
-      landing_url: safeText(body.page_url || body.landing_url, 2048),
-      fbc: safeClickId(body.fbc),
-      fbp: safeClickId(body.fbp),
-      client_ip_address: clientIp(req),
-      client_user_agent: safeText(req.headers['user-agent'], 512),
-      attribution: safeAttribution({ ...(body.attribution || {}), fbclid: body.fbclid, ad_id: body.ad_id }),
-      cart: {
-        value: Number.isFinite(Number(cart.value)) ? Number(cart.value) : 0,
-        currency: safeText(cart.currency, 12),
-        num_items: Math.max(0, Number(cart.num_items || 0)),
-        content_ids: Array.isArray(cart.content_ids) ? cart.content_ids.map(String).filter(Boolean).slice(0, 100) : [],
-        contents: Array.isArray(cart.contents) ? cart.contents.slice(0, 100) : []
-      },
-      store: 'lb'
-    }, 'lb');
-    return res.status(200).json({ ok: true, ref: reference.toUpperCase(), retention_days: 30 });
-  } catch (error) {
-    console.error('WhatsApp click storage failed:', error.message);
-    return res.status(502).json({ error: 'Unable to store WhatsApp click' });
-  }
+    await saveWhatsAppRef(ref, { created_at: new Date(Number(body.ts) || Date.now()).toISOString(), landing_url: safeText(body.page_url || body.landing_url, 2048), fbc: safeClickId(body.fbc), fbp: safeClickId(body.fbp), client_ip_address: clientIp(req), client_user_agent: safeText(req.headers['user-agent'], 512), attribution: safeAttribution({ ...(body.attribution || {}), fbclid: body.fbclid, ad_id: body.ad_id }), cart: { value: Number(cart.value || 0), currency: safeText(cart.currency, 12), num_items: Number(cart.num_items || 0), content_ids: Array.isArray(cart.content_ids) ? cart.content_ids.map(String).filter(Boolean).slice(0,100) : [], contents: Array.isArray(cart.contents) ? cart.contents.slice(0,100) : [] }, store }, store);
+    console.log(`[wa-click] saved ref=${ref.toUpperCase()} store=${store} fbc=${body.fbc ? 'y' : 'n'} fbp=${body.fbp ? 'y' : 'n'}`);
+    return res.status(200).json({ ok: true, ref: ref.toUpperCase(), store, retention_days: 30 });
+  } catch (error) { return res.status(502).json({ error: 'Unable to store WhatsApp click' }); }
 }
+

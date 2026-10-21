@@ -1,56 +1,35 @@
-import { BROWSER_EVENTS } from '../lib/tracking-config.js';
+import { BROWSER_EVENTS, resolveStore } from '../lib/tracking-config.js';
 import { sendMetaEvent } from '../lib/meta-capi.js';
-import { hasProcessedEvent, markEventProcessed } from '../lib/store.js';
+import { isEventProcessed, markEventProcessed } from '../lib/store.js';
 import { applyCors, clientIp, safeAttribution, safeClickId, safeText } from '../lib/security.js';
 
 export default async function handler(req, res) {
   applyCors(req, res);
-
-  if (req.method === 'OPTIONS') {
-    return res.status(204).end();
-  }
-
+  if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
-
   const payload = req.body || {};
   const eventName = safeText(payload.event_name, 80);
   const eventId = safeText(payload.event_id, 160);
-
   if (!BROWSER_EVENTS.has(eventName)) return res.status(400).json({ error: 'Unsupported browser event' });
   if (!eventId) return res.status(400).json({ error: 'event_id is required' });
-
-  if (await hasProcessedEvent(eventId)) return res.status(200).json({ ok: true, deduplicated: true });
-
+  if (isEventProcessed(eventId)) return res.status(200).json({ ok: true, deduplicated: true });
+  // CHANGE: the store comes from the request, not a hardcoded constant.
+  const customIn = payload.custom_data && typeof payload.custom_data === 'object' ? payload.custom_data : {};
+  const store = resolveStore({ declared: customIn.store, url: payload.event_source_url, currency: customIn.currency });
   try {
-    const attribution = safeAttribution(payload.attribution);
-    const customData = {
-      ...(payload.custom_data || {}),
-      ...attribution,
-      store: 'lb'
-    };
-
-    const result = await sendMetaEvent({
-      eventName,
-      eventId,
-      eventTime: Number(payload.event_time) || Math.floor(Date.now() / 1000),
-      eventSourceUrl: safeText(payload.event_source_url, 2048),
-      clientIp: clientIp(req),
-      clientUserAgent: safeText(req.headers['user-agent'], 512),
-      fbc: safeClickId(payload.fbc),
-      fbp: safeClickId(payload.fbp),
-      customer: payload.customer || {},
-      customData,
-      testEventCode: safeText(payload.test_event_code, 200)
-    });
-
+    const result = await sendMetaEvent({ eventName, eventId, eventTime: Number(payload.event_time) || Math.floor(Date.now() / 1000),
+      eventSourceUrl: safeText(payload.event_source_url, 2048), clientIp: clientIp(req), clientUserAgent: safeText(req.headers['user-agent'], 512),
+      fbc: safeClickId(payload.fbc), fbp: safeClickId(payload.fbp), customer: payload.customer || {},
+      customData: { ...customIn, ...safeAttribution(payload.attribution), store },
+      testEventCode: safeText(payload.test_event_code, 200) });
     if (!result.success) {
-      return res.status(503).json({ ok: false, configuration: result.reason });
+      console.error(`[events] FAILED ${eventName} ${eventId} store=${store}`, result.error);
+      return res.status(503).json({ ok: false, error: 'Meta rejected or could not receive the event' });
     }
-
-    await markEventProcessed(eventId);
+    // CHANGE: log every successful send with Meta's trace id, so any event can be found later.
+    console.log(`[events] ok ${eventName} ${eventId} store=${store} fbc=${payload.fbc ? 'y' : 'n'} fbp=${payload.fbp ? 'y' : 'n'} received=${result.events_received} trace=${result.fbtrace_id}`);
+    markEventProcessed(eventId);
     return res.status(200).json({ ok: true });
-  } catch (error) {
-    console.error('CAPI browser event failed:', error.message);
-    return res.status(502).json({ error: 'Unable to forward event' });
-  }
+  } catch (error) { console.error('CAPI browser event failed:', error.message); return res.status(502).json({ error: 'Unable to forward event' }); }
 }
+
