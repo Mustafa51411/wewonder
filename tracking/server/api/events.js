@@ -1,7 +1,7 @@
 import { BROWSER_EVENTS } from '../lib/tracking-config.js';
 import { sendMetaEvent } from '../lib/meta-capi.js';
 import { hasProcessedEvent, markEventProcessed } from '../lib/store.js';
-import { applyCors, clientIp, safeAttribution, safeText } from '../lib/security.js';
+import { applyCors, clientIp, safeAttribution, safeClickId, safeText } from '../lib/security.js';
 
 export default async function handler(req, res) {
   applyCors(req, res);
@@ -36,8 +36,8 @@ export default async function handler(req, res) {
       eventSourceUrl: safeText(payload.event_source_url, 2048),
       clientIp: clientIp(req),
       clientUserAgent: safeText(req.headers['user-agent'], 512),
-      fbc: safeText(payload.fbc, 512),
-      fbp: safeText(payload.fbp, 512),
+      fbc: safeClickId(payload.fbc),
+      fbp: safeClickId(payload.fbp),
       customer: payload.customer || {},
       customData,
       testEventCode: safeText(payload.test_event_code, 200)

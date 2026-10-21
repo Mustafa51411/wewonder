@@ -3,12 +3,16 @@ import crypto from 'node:crypto';
 const META_GRAPH_VERSION = 'v22.0';
 
 export function sha256(value) {
-  return crypto.createHash('sha256').update(String(value || '').trim().toLowerCase()).digest('hex');
+  return crypto.createHash('sha256').update(String(value || '')).digest('hex');
 }
 
-function hashValue(value) {
-  return value ? sha256(value) : undefined;
+function hashValue(value, normalizer = (input) => String(input || '').trim().toLowerCase()) {
+  const normalized = normalizer(value);
+  return normalized ? sha256(normalized) : undefined;
 }
+
+const digits = (value) => String(value || '').replace(/\D/g, '').replace(/^0+/, '');
+const compactLower = (value) => String(value || '').trim().toLowerCase().replace(/\s+/g, '');
 
 function compact(object) {
   return Object.fromEntries(Object.entries(object).filter(([, value]) => value !== undefined && value !== null && value !== ''));
@@ -74,11 +78,11 @@ export async function sendMetaEvent({
 
   const userData = compact({
     em: hashValue(customer.email),
-    ph: hashValue(customer.phone),
+    ph: hashValue(customer.phone, digits),
     fn: hashValue(customer.first_name),
     ln: hashValue(customer.last_name),
-    ct: hashValue(customer.city),
-    zp: hashValue(customer.zip),
+    ct: hashValue(customer.city, compactLower),
+    zp: hashValue(customer.zip, compactLower),
     country: hashValue(customer.country),
     external_id: hashValue(customer.external_id),
     client_ip_address: clientIp || undefined,

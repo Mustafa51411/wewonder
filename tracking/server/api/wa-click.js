@@ -1,4 +1,4 @@
-import { applyCors, safeAttribution, safeText } from '../lib/security.js';
+import { applyCors, clientIp, safeAttribution, safeClickId, safeText } from '../lib/security.js';
 import { hasExternalKV, saveWhatsAppRef } from '../lib/store.js';
 
 const REFERENCE_PATTERN = /^[A-Z0-9_-]{6,96}$/i;
@@ -20,8 +20,10 @@ export default async function handler(req, res) {
     await saveWhatsAppRef(reference, {
       created_at: new Date(Number(body.ts) || Date.now()).toISOString(),
       landing_url: safeText(body.page_url || body.landing_url, 2048),
-      fbc: safeText(body.fbc, 512),
-      fbp: safeText(body.fbp, 512),
+      fbc: safeClickId(body.fbc),
+      fbp: safeClickId(body.fbp),
+      client_ip_address: clientIp(req),
+      client_user_agent: safeText(req.headers['user-agent'], 512),
       attribution: safeAttribution({ ...(body.attribution || {}), fbclid: body.fbclid, ad_id: body.ad_id }),
       cart: {
         value: Number.isFinite(Number(cart.value)) ? Number(cart.value) : 0,

@@ -98,6 +98,19 @@ export async function getWhatsAppRef(code, store = 'lb') {
   return null;
 }
 
+export async function saveCheckoutAttribution(checkoutToken, attributionData, store = 'lb') {
+  if (!hasExternalKV()) throw new Error('Persistent storage is not configured');
+  const token = String(checkoutToken || '');
+  if (!token) throw new Error('checkout_token is required');
+  await kvFetch('set', `checkout:${store}:${token}`, JSON.stringify({ ...attributionData, updated_at: new Date().toISOString() }), 'EX', '604800');
+}
+
+export async function getCheckoutAttribution(checkoutToken, store = 'lb') {
+  if (!checkoutToken || !hasExternalKV()) return null;
+  const remote = await kvFetch('get', `checkout:${store}:${String(checkoutToken)}`);
+  return remote ? (typeof remote === 'string' ? JSON.parse(remote) : remote) : null;
+}
+
 /**
  * Event deduplication: check and mark
  */
@@ -138,4 +151,15 @@ export function markOrderProcessed(orderId) {
   if (!orderId) return;
   processedOrders.add(String(orderId));
   saveLocalData();
+}
+
+export async function reserveOrder(orderId, store = 'lb') {
+  if (!orderId) return false;
+  if (!hasExternalKV()) return !isOrderProcessed(orderId);
+  const result = await kvFetch('set', `order:${store}:${orderId}`, 'processing', 'NX', 'EX', '2592000');
+  return result === 'OK';
+}
+
+export async function releaseOrder(orderId, store = 'lb') {
+  if (orderId && hasExternalKV()) await kvFetch('del', `order:${store}:${orderId}`);
 }
