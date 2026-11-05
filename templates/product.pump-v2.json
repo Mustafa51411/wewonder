@@ -133,9 +133,156 @@
         "trust_3": "WhatsApp 7 days",
         "trust_4": "Risk-free"
       }
+    },
+    "ww_doctors_7BMrEf": {
+      "type": "ww-doctors",
+      "name": "WW Doctors videos",
+      "settings": {
+        "heading": "See what doctors say about our pump."
+      }
+    },
+    "ww_reel_VCeV4Y": {
+      "type": "ww-reel",
+      "name": "WW Photo reel",
+      "settings": {
+        "seconds": 70
+      }
+    },
+    "weewonders_whatsapp_wall_Nymgan": {
+      "type": "weewonders-whatsapp-wall",
+      "blocks": {
+        "screenshot_K8aWmW": {
+          "type": "screenshot",
+          "settings": {
+            "name": "",
+            "caption": ""
+          }
+        },
+        "screenshot_EVXcXr": {
+          "type": "screenshot",
+          "settings": {
+            "name": "",
+            "caption": ""
+          }
+        },
+        "screenshot_PFkD3J": {
+          "type": "screenshot",
+          "settings": {
+            "name": "",
+            "caption": ""
+          }
+        },
+        "screenshot_qHqCkL": {
+          "type": "screenshot",
+          "settings": {
+            "name": "",
+            "caption": ""
+          }
+        }
+      },
+      "block_order": [
+        "screenshot_K8aWmW",
+        "screenshot_EVXcXr",
+        "screenshot_PFkD3J",
+        "screenshot_qHqCkL"
+      ],
+      "name": "WhatsApp Wall",
+      "settings": {
+        "eyebrow": "From our WhatsApp",
+        "heading": "4,000+ mothers. This is what they send us.",
+        "subheading": "Real messages from real mothers across Lebanon — unedited, shared with their permission.",
+        "privacy_note": "Shared with each mother's permission. Names, numbers and photos cropped for privacy.",
+        "show_cta": true,
+        "cta_heading": "Have a question before you order?",
+        "cta_text": "Message us like these moms did — 9am to 9pm, 7 days a week, Arabic & English.",
+        "cta_button": "Chat on WhatsApp",
+        "whatsapp_url": "https://wa.me/",
+        "bg": "#ffffff",
+        "pad_top": 56,
+        "pad_bottom": 56
+      }
+    },
+    "ww_rule_MjtaJr": {
+      "type": "ww-rule",
+      "name": "WW The simple rule",
+      "settings": {
+        "lede": "The simple rule",
+        "h_a": "Empty consistently,",
+        "h_b": "so milk keeps coming",
+        "neg_badge": "😣",
+        "neg_alt": "Half-emptied breast: milk not emptied, low supply next time",
+        "neg_s1": "Half emptied",
+        "neg_s2": "Body reads it as: not needed",
+        "neg_res": "Less milk",
+        "pos_badge": "🙂‍↕️",
+        "pos_alt": "Fully emptied breast: milk fully emptied, high supply next time",
+        "pos_s1": "Fully emptied",
+        "pos_s2": "Body reads it as: keep up",
+        "pos_res": "More milk"
+      }
+    },
+    "ww_difference_LYJXzr": {
+      "type": "ww-difference",
+      "name": "WW The Difference",
+      "settings": {
+        "h_a": "The WeeWonders",
+        "h_b": "Difference",
+        "other_title": "Other pumps",
+        "wee_title": "WeeWonders",
+        "wee_sub": "Pump",
+        "pairs": "Your day revolves around it|Hands-free, it works on its own\nOne size, never actually yours|4 sizes + a tool to find yours\nToo weak to do the job|Soft on you, strong enough for the milk\nNever feels like it actually finished|Empties fully, so no milk is left behind"
+      }
+    },
+    "ww_steps_CxVbwg": {
+      "type": "ww-steps",
+      "name": "WW How it works (steps)",
+      "settings": {
+        "h_a": "Five steps, then",
+        "h_b": "hands-free"
+      }
+    },
+    "ww_warranty_UQHa8L": {
+      "type": "ww-warranty",
+      "name": "WW Warranty badge",
+      "settings": {
+        "big": "6",
+        "small": "Month warranty",
+        "bold": "6-month full warranty",
+        "rest": "on the product.",
+        "line2": "If it breaks, you return it."
+      }
+    },
+    "ww_offer_bottom_riaPD8": {
+      "type": "ww-offer-bottom",
+      "name": "WW Bottom offer",
+      "settings": {
+        "h_a": "Give your milk",
+        "h_b": "a way out",
+        "button": "Order yours now",
+        "chip_1": "6-month warranty",
+        "chip_2": "Free sizing kit",
+        "chip_3": "48h delivery"
+      }
+    },
+    "ww_faq_TcwtHC": {
+      "type": "ww-faq",
+      "name": "WW FAQ",
+      "settings": {
+        "h_a": "Questions",
+        "h_b": "mothers ask"
+      }
     }
   },
   "order": [
-    "ww_product_UGy4NT"
+    "ww_product_UGy4NT",
+    "ww_doctors_7BMrEf",
+    "ww_reel_VCeV4Y",
+    "weewonders_whatsapp_wall_Nymgan",
+    "ww_rule_MjtaJr",
+    "ww_difference_LYJXzr",
+    "ww_steps_CxVbwg",
+    "ww_warranty_UQHa8L",
+    "ww_offer_bottom_riaPD8",
+    "ww_faq_TcwtHC"
   ]
 }
