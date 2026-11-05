@@ -1,402 +1,58 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
-    "ww-product": {
+    "ww_product_UGy4NT": {
       "type": "ww-product",
-      "blocks": {
-        "g_1": {
-          "type": "gallery",
-          "settings": {}
-        },
-        "g_2": {
-          "type": "gallery",
-          "settings": {}
-        },
-        "g_3": {
-          "type": "gallery",
-          "settings": {}
-        },
-        "g_4": {
-          "type": "gallery",
-          "settings": {}
-        },
-        "g_5": {
-          "type": "gallery",
-          "settings": {}
-        },
-        "g_6": {
-          "type": "gallery",
-          "settings": {}
-        },
-        "g_7": {
-          "type": "gallery",
-          "settings": {}
-        },
-        "g_8": {
-          "type": "gallery",
-          "settings": {}
-        },
-        "g_9": {
-          "type": "gallery",
-          "settings": {}
-        },
-        "g_10": {
-          "type": "gallery",
-          "settings": {}
-        },
-        "g_11": {
-          "type": "gallery",
-          "settings": {}
-        },
-        "offer_1": {
-          "type": "offer",
-          "settings": {}
-        },
-        "offer_2": {
-          "type": "offer",
-          "settings": {
-            "variant_title": "Single Pump",
-            "name": "Single Pump",
-            "flag": "",
-            "badge": "Save $10",
-            "was_price": "$110",
-            "gifts": "sizing|+ FREE Sizing Kit|4 sizes + a tool to find your fit|FREE\nbags|+ FREE Storage Bags||$12\npillow|+ FREE Breastfeeding Pillow||$14\ndelivery|+ FREE Delivery||FREE"
-          }
-        },
-        "gift_storage": {
-          "type": "bundle_gift",
-          "settings": {
-            "product": "milk-storage-box",
-            "label": "Storage Bags",
-            "applies_to": "both"
-          }
-        },
-        "gift_warmer": {
-          "type": "bundle_gift",
-          "settings": {
-            "product": "bottle-warmer",
-            "label": "Bottle Warmer",
-            "applies_to": "double"
-          }
-        },
-        "gift_pillow": {
-          "type": "bundle_gift",
-          "settings": {
-            "product": "breastfeeding-pillow",
-            "label": "Breastfeeding Pillow",
-            "applies_to": "single"
-          }
-        }
-      },
-      "block_order": [
-        "g_1",
-        "g_2",
-        "g_3",
-        "g_4",
-        "g_5",
-        "g_6",
-        "g_7",
-        "g_8",
-        "g_9",
-        "g_10",
-        "g_11",
-        "offer_1",
-        "offer_2",
-        "gift_storage",
-        "gift_warmer",
-        "gift_pillow"
-      ],
-      "settings": {}
-    },
-    "ww-doctors": {
-      "type": "ww-doctors",
-      "blocks": {
-        "d_1": {
-          "type": "doctor",
-          "settings": {
-            "name": "Dr. Elite Sokhn",
-            "topic": "Breastfeeding and work"
-          }
-        },
-        "d_2": {
-          "type": "doctor",
-          "settings": {
-            "name": "Dr. Malak Koteich",
-            "topic": "Moms breastfeeding experiences"
-          }
-        },
-        "d_3": {
-          "type": "doctor",
-          "settings": {
-            "name": "Dr. Thuraya Alameddine",
-            "topic": "Nipple pain and pumping"
-          }
-        },
-        "d_4": {
-          "type": "doctor",
-          "settings": {
-            "name": "Dr. Farah Reslan",
-            "topic": "Why I chose WeeWonders"
-          }
-        }
-      },
-      "block_order": [
-        "d_1",
-        "d_2",
-        "d_3",
-        "d_4"
-      ],
-      "settings": {}
-    },
-    "ww-different": {
-      "type": "ww-different",
-      "settings": {}
-    },
-    "ww-reel": {
-      "type": "ww-reel",
-      "blocks": {
-        "r_1": {
-          "type": "photo",
-          "settings": {
-            "alt": "Mom holding her baby while wearing the pump"
-          }
-        },
-        "r_2": {
-          "type": "photo",
-          "settings": {
-            "alt": "Mom slipping the pump into her jacket"
-          }
-        },
-        "r_3": {
-          "type": "photo",
-          "settings": {
-            "alt": "Mom wearing the pump under a striped dress while cooking"
-          }
-        },
-        "r_4": {
-          "type": "photo",
-          "settings": {
-            "alt": "Mom drinking coffee and scrolling her phone while pumping"
-          }
-        },
-        "r_5": {
-          "type": "photo",
-          "settings": {
-            "alt": "Mom placing the pump inside her top"
-          }
-        },
-        "r_6": {
-          "type": "photo",
-          "settings": {
-            "alt": "Mom wearing two pumps while playing with her baby"
-          }
-        }
-      },
-      "block_order": [
-        "r_1",
-        "r_2",
-        "r_3",
-        "r_4",
-        "r_5",
-        "r_6"
-      ],
-      "settings": {}
-    },
-    "ww-reviews": {
-      "type": "ww-reviews",
-      "blocks": {
-        "s_1": {
-          "type": "screenshot",
-          "settings": {
-            "alt": "Real WeeWonders customer feedback on WhatsApp"
-          }
-        },
-        "s_2": {
-          "type": "screenshot",
-          "settings": {
-            "alt": "Real WeeWonders customer feedback on WhatsApp"
-          }
-        },
-        "s_3": {
-          "type": "screenshot",
-          "settings": {
-            "alt": "Real WeeWonders customer feedback on WhatsApp"
-          }
-        },
-        "s_4": {
-          "type": "screenshot",
-          "settings": {
-            "alt": "Real WeeWonders customer feedback on WhatsApp"
-          }
-        },
-        "s_5": {
-          "type": "screenshot",
-          "settings": {
-            "alt": "Real WeeWonders customer feedback on Instagram"
-          }
-        }
-      },
-      "block_order": [
-        "s_1",
-        "s_2",
-        "s_3",
-        "s_4",
-        "s_5"
-      ],
-      "settings": {}
-    },
-    "ww-rule": {
-      "type": "ww-rule",
-      "settings": {}
-    },
-    "ww-difference": {
-      "type": "ww-difference",
-      "settings": {}
-    },
-    "ww-steps": {
-      "type": "ww-steps",
-      "blocks": {
-        "p_1": {
-          "type": "step",
-          "settings": {
-            "title": "Assemble",
-            "text": "Clicks together in seconds."
-          }
-        },
-        "p_2": {
-          "type": "step",
-          "settings": {
-            "title": "Find your fit",
-            "text": "Pick your size with the tool."
-          }
-        },
-        "p_3": {
-          "type": "step",
-          "settings": {
-            "title": "Slip it in",
-            "text": "Hidden in your bra."
-          }
-        },
-        "p_4": {
-          "type": "step",
-          "settings": {
-            "title": "Start",
-            "text": "Pick a mode and level."
-          }
-        },
-        "p_5": {
-          "type": "step",
-          "settings": {
-            "title": "Pour",
-            "text": "Straight into your bags."
-          }
-        }
-      },
-      "block_order": [
-        "p_1",
-        "p_2",
-        "p_3",
-        "p_4",
-        "p_5"
-      ],
-      "settings": {}
-    },
-    "ww-warranty": {
-      "type": "ww-warranty",
-      "settings": {}
-    },
-    "ww-offer-bottom": {
-      "type": "ww-offer-bottom",
-      "blocks": {
-        "o1": {
-          "type": "offer",
-          "settings": {}
-        },
-        "o2": {
-          "type": "offer",
-          "settings": {
-            "variant_title": "Single Pump",
-            "name": "Single Pump",
-            "flag": "",
-            "badge": "Save $10",
-            "was_price": "$110",
-            "summary": "Free sizing kit, storage bags, breastfeeding pillow and delivery"
-          }
-        }
-      },
-      "block_order": [
-        "o1",
-        "o2"
-      ],
-      "settings": {}
-    },
-    "ww-faq": {
-      "type": "ww-faq",
-      "blocks": {
-        "f_1": {
-          "type": "faq",
-          "settings": {
-            "q": "Single or Double?",
-            "a": "<p>Single pumps one side, lighter and cheaper. Double pumps both at once and halves your time, which is why most mothers who pump often choose it.</p>"
-          }
-        },
-        "f_2": {
-          "type": "faq",
-          "settings": {
-            "q": "Will it tank my supply?",
-            "a": "<p>Cheap pumps do, because pain and poor fit make you tense and the session ends before the breast is empty. WeeWonders removes the pain and lets a full session finish, so it empties fully and your supply holds.</p>"
-          }
-        },
-        "f_3": {
-          "type": "faq",
-          "settings": {
-            "q": "Which flange size fits me?",
-            "a": "<p>Every box has 17, 19, 21 and 24mm plus a sizing tool. Unsure? Send a photo on WhatsApp and we’ll help you fit it.</p>"
-          }
-        },
-        "f_4": {
-          "type": "faq",
-          "settings": {
-            "q": "What if it breaks?",
-            "a": "<p>Six-month warranty, handled in Lebanon. Message us and replacement parts ship in a couple of days.</p>"
-          }
-        },
-        "f_5": {
-          "type": "faq",
-          "settings": {
-            "q": "Is it really discreet?",
-            "a": "<p>Under 50dB and fully in-bra, no tubes or cords. Hidden under your top and quiet in a normal room.</p>"
-          }
-        },
-        "f_6": {
-          "type": "faq",
-          "settings": {
-            "q": "How fast is delivery?",
-            "a": "<p>Tracked delivery across Lebanon in 48 hours, with WhatsApp support 7 days a week.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "f_1",
-        "f_2",
-        "f_3",
-        "f_4",
-        "f_5",
-        "f_6"
-      ],
-      "settings": {}
+      "name": "WW Product (top)",
+      "settings": {
+        "show_topbar": false,
+        "topbar_text": "Free sizing kit in every box • Delivery in 48 hours • 6-month warranty • WhatsApp support 7 days",
+        "show_nav": false,
+        "nav_how": "How it works",
+        "nav_reviews": "Reviews",
+        "nav_faq": "FAQ",
+        "stamp_big": "6",
+        "stamp_small": "Month warranty",
+        "rating": "4.8",
+        "rating_note": "Loved by thousands of Lebanese mothers",
+        "heading": "Made to fit your body and your day",
+        "product_name": "The WeeWonders Wearable Breast Pump",
+        "promise": "Without the pain, the long pumping hours, or the complicated setup.",
+        "ksp_1": "Pump while you do everything else",
+        "ksp_2": "100% leak-proof",
+        "ksp_3": "Less pain from day one",
+        "ksp_4": "Battery that lasts you all day",
+        "spec_1_big": "5–6",
+        "spec_1_small": "sessions / charge",
+        "spec_2_big": "180 ml",
+        "spec_2_small": "leak-proof cup",
+        "spec_3_big": "4 modes",
+        "spec_3_small": "12 levels each",
+        "atc_label": "Add to cart",
+        "after_add": "cart",
+        "wa_label": "Order on WhatsApp",
+        "wa_phone": "96181670851",
+        "wa_message": "Hi, I want to order the WeeWonders pump",
+        "show_sticky_whatsapp": true,
+        "sticky_whatsapp_label": "Order on WhatsApp",
+        "guarantee_title": "6-month warranty",
+        "guarantee_text": "If it stops working or something goes wrong, we’ve got you covered.",
+        "trust_1": "48h delivery",
+        "trust_2": "6-month warranty",
+        "trust_3": "WhatsApp 7 days",
+        "trust_4": "Risk-free"
+      }
     }
   },
   "order": [
-    "ww-product",
-    "ww-doctors",
-    "ww-different",
-    "ww-reel",
-    "ww-reviews",
-    "ww-rule",
-    "ww-difference",
-    "ww-steps",
-    "ww-warranty",
-    "ww-offer-bottom",
-    "ww-faq"
+    "ww_product_UGy4NT"
   ]
 }
