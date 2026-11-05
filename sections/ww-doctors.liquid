@@ -8,11 +8,23 @@
 <div class="center"><h2>{{ section.settings.heading }}</h2></div>
 <div class="vids">
 {%- assign di = 0 -%}
+{%- assign doctor_names = "Dr. Elite Sokhn|Dr. Malak Koteich|Dr. Thuraya Alameddine|Dr. Farah Reslan" | split: "|" -%}
+{%- assign doctor_topics = "Breastfeeding and work|Moms breastfeeding experiences|Nipple pain and pumping|Why I chose WeeWonders" | split: "|" -%}
+{%- if section.blocks.size == 0 -%}
+  {%- for doctor_name in doctor_names -%}
+    <figure class="vid dvid">
+      <div class="vframe"><video preload="none" playsinline poster="{{ posters[forloop.index0] }}" src="{{ vids[forloop.index0] }}" aria-label="{{ doctor_name | escape }}"></video><button class="vplay" type="button" aria-label="Play video from {{ doctor_name | escape }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button></div>
+      <figcaption class="cap"><span class="pain">{{ doctor_topics[forloop.index0] }}</span><b>{{ doctor_name }}</b><span class="stars">★★★★★</span></figcaption>
+    </figure>
+  {%- endfor -%}
+{%- endif -%}
 {%- for b in section.blocks -%}
   {%- assign vsrc = b.settings.video.sources | where: 'format', 'mp4' | last -%}
+  {%- assign doctor_name = b.settings.name | default: doctor_names[di] | default: 'WeeWonders expert' -%}
+  {%- assign doctor_topic = b.settings.topic | default: doctor_topics[di] -%}
   <figure class="vid dvid" {{ b.shopify_attributes }}>
     <div class="vframe"><video preload="none" playsinline poster="{%- if b.settings.poster != blank -%}{{ b.settings.poster | image_url: width: 600 }}{%- else -%}{{ posters[di] }}{%- endif -%}" src="{%- if vsrc != blank -%}{{ vsrc.url }}{%- else -%}{{ vids[di] }}{%- endif -%}" aria-label="{{ b.settings.name | escape }}"></video><button class="vplay" type="button" aria-label="Play video from {{ b.settings.name | escape }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button></div>
-    <figcaption class="cap"><span class="pain">{{ b.settings.topic }}</span><b>{{ b.settings.name }}</b><span class="stars">★★★★★</span></figcaption>
+    <figcaption class="cap"><span class="pain">{{ doctor_topic }}</span><b>{{ doctor_name }}</b><span class="stars">★★★★★</span></figcaption>
   </figure>
   {%- assign di = di | plus: 1 -%}
 {%- endfor -%}

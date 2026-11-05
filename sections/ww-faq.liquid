@@ -4,7 +4,13 @@
 <section class="section" style="background:var(--sky-soft)" id="faq"><div class="wrap">
 <div class="center"><h2><span class="hl">{{ section.settings.h_a }}</span> {{ section.settings.h_b }}</h2></div>
 <div class="faq">
-{%- for b in section.blocks -%}<details {{ b.shopify_attributes }}><summary>{{ b.settings.q }}<span class="pm">+</span></summary>{{ b.settings.a }}</details>{%- endfor -%}
+{%- if section.blocks.size == 0 -%}
+  {%- assign faq_questions = "Single or Double?|Will it tank my supply?|Which flange size fits me?|What if it breaks?|Is it really discreet?|How fast is delivery?" | split: "|" -%}
+  {%- assign faq_answers = "Single pumps one side; double pumps both at once and halves your time.|A comfortable, consistent routine helps you complete your pumping session.|Every box has 17, 19, 21 and 24mm plus a sizing tool.|Your pump includes a six-month warranty handled in Lebanon.|It is fully in-bra, quiet and has no tubes or cords.|Tracked delivery across Lebanon takes 48 hours with WhatsApp support seven days a week." | split: "|" -%}
+  {%- for question in faq_questions -%}<details><summary>{{ question }}<span class="pm">+</span></summary><p>{{ faq_answers[forloop.index0] }}</p></details>{%- endfor -%}
+{%- else -%}
+  {%- for b in section.blocks -%}<details {{ b.shopify_attributes }}><summary>{{ b.settings.q }}<span class="pm">+</span></summary>{{ b.settings.a }}</details>{%- endfor -%}
+{%- endif -%}
 </div></div></section>
 </div>
 {% schema %}

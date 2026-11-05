@@ -27,6 +27,15 @@
  <div class="rgifts"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>{{ b.settings.summary }}</span></div></div>
  {%- assign oi = oi | plus: 1 -%}
 {%- endfor -%}
+{%- if section.blocks.size == 0 -%}
+  {%- for ov in product.variants limit: 2 -%}
+    {%- assign offer_image = ov.featured_image | default: product.featured_image -%}
+    <div class="ocard{% if forloop.first %} sel{% endif %}" role="radio" aria-checked="{% if forloop.first %}true{% else %}false{% endif %}" tabindex="0" data-name="{{ ov.title | escape }}" data-price="{{ ov.price | money_without_trailing_zeros }}" onclick="pickR(this)">
+      <div class="ohead"><span class="oradio"></span>{%- if offer_image != blank -%}<img class="oimg" width="76" height="76" loading="lazy" src="{{ offer_image | image_url: width: 200 }}" alt="{{ ov.title | escape }}">{%- endif -%}<div class="otitle"><span class="oname">{{ ov.title }}</span><span class="obadge">{{ section.settings.default_badge }}</span></div><div class="oprice"><span class="onow">{{ ov.price | money_without_trailing_zeros }}</span></div></div>
+      <div class="rgifts"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><span>{{ section.settings.default_summary }}</span></div>
+    </div>
+  {%- endfor -%}
+{%- endif -%}
 </div>
 <div style="margin-top:24px"><a href="#ww-top" class="btn btn-atc btn-lg" style="max-width:520px;margin:0 auto" onclick="var a=document.getElementById('atc');if(a){a.scrollIntoView({behavior:'smooth',block:'center'});return false;}"><span>{{ section.settings.button }}</span></a></div>
 <div class="rep-summary">
@@ -59,6 +68,18 @@ document.querySelectorAll('.roffer .ocard').forEach(function(c){c.addEventListen
    "id": "button",
    "label": "Button label",
    "default": "Order yours now"
+  },
+  {
+   "type": "text",
+   "id": "default_badge",
+   "label": "Fallback offer badge",
+   "default": "Free gifts included"
+  },
+  {
+   "type": "text",
+   "id": "default_summary",
+   "label": "Fallback offer summary",
+   "default": "Free sizing kit, gifts and delivery"
   },
   {
    "type": "text",

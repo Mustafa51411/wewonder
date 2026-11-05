@@ -327,6 +327,7 @@
     </div>
 
     <div class="ww-wa__track" data-ww-track tabindex="0" aria-label="WhatsApp messages from customers">
+      {%- assign ww_default_messages = "I have more milk now and I can finally pump while doing everything else.|The sizing kit made the difference. It is comfortable and so easy to use.|I use it every day at work. Quiet, hands-free and no leaks.|My baby is happier and I am no longer stuck next to the pump." | split: "|" -%}
       {%- for block in section.blocks -%}
         <figure class="ww-wa__card" data-ww-card {{ block.shopify_attributes }}>
           {%- assign shot_alt = block.settings.name | default: 'WeeWonders customer' | append: ' — WhatsApp message' -%}
@@ -357,7 +358,7 @@
             </div>
           {%- else -%}
             <div class="ww-wa__shot ww-wa__message" aria-label="WhatsApp testimonial placeholder">
-              <span class="ww-wa__bubble">Add a testimonial message in this block.</span>
+              <span class="ww-wa__bubble">{{ ww_default_messages[forloop.index0] | default: 'Add a testimonial message in this block.' }}</span>
             </div>
           {%- endif -%}
           {%- if block.settings.name != blank or block.settings.caption != blank -%}
