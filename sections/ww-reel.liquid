@@ -1,0 +1,54 @@
+<link rel="stylesheet" href="{{ 'ww-pdp.css' | asset_url }}">
+<style>@font-face{font-family:Gordita;src:url({{ 'Gordita-Regular.woff2' | asset_url }}) format("woff2");font-weight:400;font-display:swap}@font-face{font-family:Gordita;src:url({{ 'Gordita-Medium.woff2' | asset_url }}) format("woff2");font-weight:500;font-display:swap}@font-face{font-family:Gordita;src:url({{ 'Gordita-Bold.woff2' | asset_url }}) format("woff2");font-weight:700;font-display:swap}@font-face{font-family:Gordita;src:url({{ 'Gordita-Black.woff2' | asset_url }}) format("woff2");font-weight:800 900;font-display:swap}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<div class="ww-pdp">
+<section class="reel" aria-label="WeeWonders moms">
+<style>.ww-pdp .rtrack{animation-duration:{{ section.settings.seconds }}s}@media(max-width:900px){.ww-pdp .rtrack{animation-duration:{{ section.settings.seconds | times: 0.953 | round: 1 }}s } }</style>
+<div class="rtrack">
+{%- for pass in (1..2) -%}{%- for b in section.blocks -%}
+ {%- assign ri = forloop.index -%}
+ <div class="rtile"{% if pass == 2 %} aria-hidden="true"{% endif %} {% if pass == 1 %}{{ b.shopify_attributes }}{% endif %}><img src="{%- if b.settings.image != blank -%}{{ b.settings.image | image_url: width: 700 }}{%- else -%}{{ 'ww-reel-' | append: ri | append: '.jpg' | asset_url }}{%- endif -%}" alt="{% if pass == 1 %}{{ b.settings.alt | escape }}{% endif %}" loading="lazy"></div>
+{%- endfor -%}{%- endfor -%}
+</div></section>
+</div>
+{% schema %}
+{
+ "name": "WW Photo reel",
+ "settings": [
+  {
+   "type": "range",
+   "id": "seconds",
+   "label": "Seconds for one full loop (higher = slower)",
+   "min": 30,
+   "max": 140,
+   "step": 5,
+   "default": 70
+  }
+ ],
+ "blocks": [
+  {
+   "type": "photo",
+   "name": "Photo",
+   "settings": [
+    {
+     "type": "image_picker",
+     "id": "image",
+     "label": "Photo",
+     "info": "Portrait photos work best"
+    },
+    {
+     "type": "text",
+     "id": "alt",
+     "label": "Description (for accessibility)",
+     "default": "Mom wearing the pump"
+    }
+   ]
+  }
+ ],
+ "presets": [
+  {
+   "name": "WW Photo reel"
+  }
+ ]
+}
+{% endschema %}

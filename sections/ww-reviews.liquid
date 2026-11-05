@@ -1,0 +1,126 @@
+<link rel="stylesheet" href="{{ 'ww-pdp.css' | asset_url }}">
+<style>@font-face{font-family:Gordita;src:url({{ 'Gordita-Regular.woff2' | asset_url }}) format("woff2");font-weight:400;font-display:swap}@font-face{font-family:Gordita;src:url({{ 'Gordita-Medium.woff2' | asset_url }}) format("woff2");font-weight:500;font-display:swap}@font-face{font-family:Gordita;src:url({{ 'Gordita-Bold.woff2' | asset_url }}) format("woff2");font-weight:700;font-display:swap}@font-face{font-family:Gordita;src:url({{ 'Gordita-Black.woff2' | asset_url }}) format("woff2");font-weight:800 900;font-display:swap}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<div class="ww-pdp">
+<section class="section" id="reviews" style="background:linear-gradient(180deg,var(--sky-soft) 0%,#fff 42%)"><div class="wrap">
+<div class="center"><h2>{{ section.settings.h_a }} <span class="hl">{{ section.settings.h_b }}</span></h2></div>
+<div class="shots-wrap"><button class="sarr prev" type="button" aria-label="Previous">‹</button><button class="sarr next" type="button" aria-label="Next">›</button><div class="shots" tabindex="0">
+{%- for b in section.blocks -%}<div class="shot" {{ b.shopify_attributes }}><img src="{%- if b.settings.image != blank -%}{{ b.settings.image | image_url: width: 800 }}{%- else -%}{{ 'ww-shot-' | append: forloop.index | append: '.webp' | asset_url }}{%- endif -%}" alt="{{ b.settings.alt | escape }}" loading="lazy"></div>{%- endfor -%}
+</div></div>
+{%- if section.settings.show_stats -%}<div class="stats"><div class="stat"><b class="cu" data-target="{{ section.settings.n1 }}">0</b><span>{{ section.settings.l1 }}</span>{% if section.settings.note != blank %}<small>{{ section.settings.note }}</small>{% endif %}</div><div class="stat"><b class="cu" data-target="{{ section.settings.n2 }}">0</b><span>{{ section.settings.l2 }}</span>{% if section.settings.note != blank %}<small>{{ section.settings.note }}</small>{% endif %}</div><div class="stat"><b class="cu" data-target="{{ section.settings.n3 }}">0</b><span>{{ section.settings.l3 }}</span>{% if section.settings.note != blank %}<small>{{ section.settings.note }}</small>{% endif %}</div><div class="stat"><b class="cu" data-target="{{ section.settings.n4 }}">0</b><span>{{ section.settings.l4 }}</span>{% if section.settings.note != blank %}<small>{{ section.settings.note }}</small>{% endif %}</div></div>{%- endif -%}
+</div></section>
+<script>
+(function(){var w=document.querySelector('.shots-wrap');if(!w)return;var s=w.querySelector('.shots'),p=w.querySelector('.prev'),n=w.querySelector('.next');
+function step(){var f=s.querySelector('.shot');return f?f.getBoundingClientRect().width+16:300;}
+function upd(){p.disabled=s.scrollLeft<4;n.disabled=s.scrollLeft+s.clientWidth>=s.scrollWidth-4;}
+p.addEventListener('click',function(){s.scrollBy({left:-step()*3,behavior:'smooth'});});n.addEventListener('click',function(){s.scrollBy({left:step()*3,behavior:'smooth'});});
+s.addEventListener('scroll',upd,{passive:true});window.addEventListener('resize',upd);upd();
+var els=document.querySelectorAll('.cu');if(!('IntersectionObserver' in window)){els.forEach(function(e){e.textContent=e.dataset.target+'%';});return;}
+var io=new IntersectionObserver(function(en){en.forEach(function(x){if(!x.isIntersecting)return;var el=x.target,t=parseInt(el.dataset.target,10),st=null;function f(ts){if(!st)st=ts;var q=Math.min((ts-st)/1100,1);el.textContent=Math.round((1-Math.pow(1-q,3))*t)+'%';if(q<1)requestAnimationFrame(f);}requestAnimationFrame(f);io.unobserve(el);});},{threshold:.6});
+els.forEach(function(e){io.observe(e);});})();
+</script>
+</div>
+{% schema %}
+{
+ "name": "WW Reviews carousel",
+ "settings": [
+  {
+   "type": "text",
+   "id": "h_a",
+   "label": "Heading (plain part)",
+   "default": "Hear it from"
+  },
+  {
+   "type": "text",
+   "id": "h_b",
+   "label": "Heading (highlighted)",
+   "default": "WeeWonders Moms"
+  },
+  {
+   "type": "checkbox",
+   "id": "show_stats",
+   "label": "Show the numbers row",
+   "default": true
+  },
+  {
+   "type": "number",
+   "id": "n1",
+   "label": "Number 1 (%)",
+   "default": 94
+  },
+  {
+   "type": "text",
+   "id": "l1",
+   "label": "Label 1",
+   "default": "Comfortable all day"
+  },
+  {
+   "type": "number",
+   "id": "n2",
+   "label": "Number 2 (%)",
+   "default": 91
+  },
+  {
+   "type": "text",
+   "id": "l2",
+   "label": "Label 2",
+   "default": "Smoother flow"
+  },
+  {
+   "type": "number",
+   "id": "n3",
+   "label": "Number 3 (%)",
+   "default": 89
+  },
+  {
+   "type": "text",
+   "id": "l3",
+   "label": "Label 3",
+   "default": "More confident"
+  },
+  {
+   "type": "number",
+   "id": "n4",
+   "label": "Number 4 (%)",
+   "default": 92
+  },
+  {
+   "type": "text",
+   "id": "l4",
+   "label": "Label 4",
+   "default": "Prefer it to old pump"
+  },
+  {
+   "type": "text",
+   "id": "note",
+   "label": "Small note under each number (leave empty for none)",
+   "default": ""
+  }
+ ],
+ "blocks": [
+  {
+   "type": "screenshot",
+   "name": "Testimonial screenshot",
+   "settings": [
+    {
+     "type": "image_picker",
+     "id": "image",
+     "label": "Screenshot",
+     "info": "Cropped chat only, any height"
+    },
+    {
+     "type": "text",
+     "id": "alt",
+     "label": "Description",
+     "default": "Real WeeWonders customer feedback on WhatsApp"
+    }
+   ]
+  }
+ ],
+ "presets": [
+  {
+   "name": "WW Reviews carousel"
+  }
+ ]
+}
+{% endschema %}
