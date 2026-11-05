@@ -118,6 +118,25 @@
     width: 100%;
     height: auto;
   }
+  #ww-wa-{{ sid }} .ww-wa__message {
+    min-height: 188px;
+    display: flex;
+    align-items: flex-end;
+    padding: 18px;
+    background: #efeae2;
+    line-height: 1.45;
+  }
+  #ww-wa-{{ sid }} .ww-wa__bubble {
+    margin-left: auto;
+    max-width: 88%;
+    border-radius: 9px 0 9px 9px;
+    padding: 10px 12px;
+    background: #d9fdd3;
+    color: #26342a;
+    font-size: 14px;
+    line-height: 1.45;
+    box-shadow: 0 1px 1px rgba(0,0,0,.08);
+  }
   #ww-wa-{{ sid }} .ww-wa__zoomtag {
     position: absolute;
     right: 10px;
@@ -332,9 +351,13 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
               </span>
             </button>
+          {%- elsif block.settings.message != blank -%}
+            <div class="ww-wa__shot ww-wa__message" aria-label="WhatsApp message from {{ block.settings.name | default: 'customer' | escape }}">
+              <span class="ww-wa__bubble" dir="auto">{{ block.settings.message | escape }}</span>
+            </div>
           {%- else -%}
-            <div class="ww-wa__shot" style="cursor:default; padding:60px 0; text-align:center; line-height:1.4; color:#8a99aa; font-size:13px;">
-              Upload a WhatsApp<br>screenshot in this block
+            <div class="ww-wa__shot ww-wa__message" aria-label="WhatsApp testimonial placeholder">
+              <span class="ww-wa__bubble">Add a testimonial message in this block.</span>
             </div>
           {%- endif -%}
           {%- if block.settings.name != blank or block.settings.caption != blank -%}
@@ -562,6 +585,12 @@
           "id": "image",
           "label": "Screenshot",
           "info": "Crop to the key exchange (4–8 bubbles). Blur or crop numbers, last names and profile photos."
+        },
+        {
+          "type": "textarea",
+          "id": "message",
+          "label": "Editable message fallback",
+          "info": "Shown as a WhatsApp-style message until a screenshot is uploaded."
         },
         {
           "type": "text",
