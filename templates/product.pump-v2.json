@@ -11,6 +11,89 @@
   "sections": {
     "ww_product_UGy4NT": {
       "type": "ww-product",
+      "blocks": {
+        "gallery_tT6Gx3": {
+          "type": "gallery",
+          "settings": {}
+        },
+        "gallery_njrBgL": {
+          "type": "gallery",
+          "settings": {}
+        },
+        "gallery_9yDCUg": {
+          "type": "gallery",
+          "settings": {}
+        },
+        "gallery_6XcCWi": {
+          "type": "gallery",
+          "settings": {}
+        },
+        "gallery_bXFKWD": {
+          "type": "gallery",
+          "settings": {}
+        },
+        "gallery_ENtzhY": {
+          "type": "gallery",
+          "settings": {}
+        },
+        "gallery_wjdrpR": {
+          "type": "gallery",
+          "settings": {}
+        },
+        "gallery_nGzWBP": {
+          "type": "gallery",
+          "settings": {}
+        },
+        "gallery_Ge4xp7": {
+          "type": "gallery",
+          "settings": {}
+        },
+        "gallery_iATPwk": {
+          "type": "gallery",
+          "settings": {}
+        },
+        "gallery_zQ7Uwb": {
+          "type": "gallery",
+          "settings": {}
+        },
+        "offer_QYKgq9": {
+          "type": "offer",
+          "settings": {
+            "variant_title": "Double Pump Set",
+            "name": "Double Pump Set",
+            "flag": "Most popular",
+            "badge": "Save $50",
+            "was_price": "$220",
+            "gifts": "sizing|+ FREE Sizing Kit|4 sizes + a tool to find your fit|FREE\nbags|+ FREE Storage Bags (50 pcs)||$12\nwarmer|+ FREE Fast Bottle Warmer||$40\ndelivery|+ FREE Delivery||FREE"
+          }
+        },
+        "offer_c4ibpi": {
+          "type": "offer",
+          "settings": {
+            "variant_title": "Single Pump",
+            "name": "Double Pump SetSingle Pump",
+            "flag": "Most popular",
+            "badge": "Save $10",
+            "was_price": "$220$110",
+            "gifts": "sizing|+ FREE Sizing Kit|4 sizes + a tool to find your fit|FREE\nbags|+ FREE Storage Bags (50 pcs)||$12\npillow|+ FREE Breastfeeding Pillow||$14\ndelivery|+ FREE Delivery||FREE"
+          }
+        }
+      },
+      "block_order": [
+        "gallery_tT6Gx3",
+        "gallery_njrBgL",
+        "gallery_9yDCUg",
+        "gallery_6XcCWi",
+        "gallery_bXFKWD",
+        "gallery_ENtzhY",
+        "gallery_wjdrpR",
+        "gallery_nGzWBP",
+        "gallery_Ge4xp7",
+        "gallery_iATPwk",
+        "gallery_zQ7Uwb",
+        "offer_QYKgq9",
+        "offer_c4ibpi"
+      ],
       "name": "WW Product (top)",
       "settings": {
         "show_topbar": false,
