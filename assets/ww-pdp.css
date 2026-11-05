@@ -57,6 +57,7 @@
 .ww-pdp .head{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 .ww-pdp .head .wrap{display:flex;align-items:center;justify-content:space-between;padding:12px 20px}
 .ww-pdp .head img{height:28px;width:auto}
+.ww-pdp .ww-brand-text{color:var(--navy);font-size:18px;font-weight:800;letter-spacing:-.7px;white-space:nowrap}
 .ww-pdp .head nav{display:flex;gap:24px;font-weight:600;font-size:.92rem}
 .ww-pdp .head nav a{color:var(--ink)}
 .ww-pdp .head .rate{display:flex;align-items:center;gap:6px;font-weight:700;color:var(--navy)}

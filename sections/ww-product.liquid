@@ -4,7 +4,13 @@
 
 <div class="ww-pdp">
 
-{%- assign gal_urls = "https://weewonderslb.com/cdn/shop/files/6.png|https://weewonderslb.com/cdn/shop/files/7.png|https://weewonderslb.com/cdn/shop/files/8.png|https://weewonderslb.com/cdn/shop/files/9.png|https://weewonderslb.com/cdn/shop/files/Weewonders_creatives_38.png|https://weewonderslb.com/cdn/shop/files/10.png|https://weewonderslb.com/cdn/shop/files/12_0fad5665-d03c-4bb4-ae42-5c3effb65151.png|https://weewonderslb.com/cdn/shop/files/13_bab21d68-f4cc-4d48-be4a-a1aa1e804296.png|https://weewonderslb.com/cdn/shop/files/14_07f0a9a4-c05f-4df2-97e8-2f196a4a0084.png|https://weewonderslb.com/cdn/shop/files/weewonders-single-pump_fd9fad37-a530-4faa-977a-3d77a3e072a9.png|https://weewonderslb.com/cdn/shop/files/weewonders-double-pump_a9f8d57f-1a65-45fb-8019-ac995d0303f4.png" | split: "|" -%}
+{%- assign fallback_gallery_image = product.featured_image -%}
+{%- for block in section.blocks -%}
+  {%- if block.type == 'gallery' and block.settings.image != blank -%}
+    {%- assign fallback_gallery_image = block.settings.image -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
 {%- assign wa_num = section.settings.wa_phone | remove: '+' | remove: ' ' | remove: '-' | remove: '(' | remove: ')' -%}
 {%- capture wa_default_msg -%}{{ section.settings.wa_message }}: {{ product.title }} - Double Pump Set{%- endcapture -%}
 
@@ -18,7 +24,7 @@
     {%- if section.settings.logo != blank -%}
       <img width="200" height="69" src="{{ section.settings.logo | image_url: width: 400 }}" alt="{{ shop.name | escape }}">
     {%- else -%}
-      <img width="200" height="69" src="{{ 'ww-logo.webp' | asset_url }}" alt="WeeWonders">
+      <span class="ww-brand-text">{{ shop.name }}</span>
     {%- endif -%}
     <nav>
       <a href="#how">{{ section.settings.nav_how | default: "How it works" }}</a>
@@ -34,9 +40,9 @@
   <div class="wrap">
     <div class="gallery">
       <div class="g-main">
-        {%- comment -%} The gallery script replaces this with the first editable gallery block.
-          Keep a real fallback URL here so the hero still renders if JavaScript is unavailable. {%- endcomment -%}
-        <img width="1200" height="960" loading="eager" fetchpriority="high" id="mainimg" src="{{ gal_urls[0] }}" alt="{{ product.title | escape }}">
+        {%- if fallback_gallery_image != blank -%}
+          <img width="1200" height="960" loading="eager" fetchpriority="high" id="mainimg" src="{{ fallback_gallery_image | image_url: width: 1400 }}" alt="{{ product.title | escape }}">
+        {%- endif -%}
         <div class="g-nav g-prev" onclick="galStep(-1)">‹</div>
         <div class="g-nav g-next" onclick="galStep(1)">›</div>
         <div class="stamp s1">
@@ -50,11 +56,13 @@
       {%- assign gi = 0 -%}
       {%- for b in section.blocks -%}
         {%- if b.type == 'gallery' -%}
-          {%- capture gsrc -%}{%- if b.settings.image != blank -%}{{ b.settings.image | image_url: width: 1400 }}{%- else -%}{{ gal_urls[gi] }}{%- endif -%}{%- endcapture -%}
-          <button {% if gi == 0 %}class="active"{% endif %} onclick="galSet({{ gi }})" aria-label="Photo {{ gi | plus: 1 }}" data-src="{{ gsrc | strip }}" {{ b.shopify_attributes }}>
-            <img width="300" height="300" loading="{% if gi < 6 %}eager{% else %}lazy{% endif %}" src="{%- if b.settings.image != blank -%}{{ b.settings.image | image_url: width: 300 }}{%- else -%}{{ gal_urls[gi] }}{%- endif -%}" alt="">
-          </button>
-          {%- assign gi = gi | plus: 1 -%}
+          {%- assign gallery_image = b.settings.image | default: product.images[gi] | default: product.featured_image -%}
+          {%- if gallery_image != blank -%}
+            <button {% if gi == 0 %}class="active"{% endif %} onclick="galSet({{ gi }})" aria-label="Photo {{ gi | plus: 1 }}" data-src="{{ gallery_image | image_url: width: 1400 }}" {{ b.shopify_attributes }}>
+              <img width="300" height="300" loading="{% if gi < 6 %}eager{% else %}lazy{% endif %}" src="{{ gallery_image | image_url: width: 300 }}" alt="{{ product.title | escape }}">
+            </button>
+            {%- assign gi = gi | plus: 1 -%}
+          {%- endif -%}
         {%- endif -%}
       {%- endfor -%}
       </div>
@@ -109,9 +117,6 @@
             {%- assign ov = product.variants.first -%}
           {%- endif -%}
 
-          {%- assign oimg = 'ww-offer-double.png' -%}
-          {%- unless oi == 0 -%}{%- assign oimg = 'ww-offer-single.png' -%}{%- endunless -%}
-
           <div class="ocard{% if oi == 0 %} sel{% endif %}" role="radio" aria-checked="{% if oi == 0 %}true{% else %}false{% endif %}" tabindex="0" data-name="{{ b.settings.name | escape }}" data-price="{{ ov.price | money_without_trailing_zeros }}" data-variant-id="{{ ov.id }}" data-available="{{ ov.available }}" onclick="pickO(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();pickO(this)}" {{ b.shopify_attributes }}>
             {%- if b.settings.flag != blank -%}
               <span class="flag">
@@ -121,7 +126,8 @@
             {%- endif -%}
             <div class="ohead">
               <span class="oradio"></span>
-              <img class="oimg" width="76" height="76" loading="eager" src="{%- if b.settings.image != blank -%}{{ b.settings.image | image_url: width: 200 }}{%- elsif ov.featured_image != blank -%}{{ ov.featured_image | image_url: width: 200 }}{%- else -%}{{ oimg | asset_url }}{%- endif -%}" alt="{{ b.settings.name | escape }}">
+              {%- assign offer_image = b.settings.image | default: ov.featured_image | default: product.featured_image -%}
+              {%- if offer_image != blank -%}<img class="oimg" width="76" height="76" loading="eager" src="{{ offer_image | image_url: width: 200 }}" alt="{{ b.settings.name | escape }}">{%- endif -%}
               <div class="otitle"><span class="oname">{{ b.settings.name }}</span><span class="obadge">{{ b.settings.badge }}</span></div>
               <div class="oprice"><span class="onow">{{ ov.price | money_without_trailing_zeros }}</span><span class="owas">{{ b.settings.was_price }}</span></div>
             </div>
