@@ -1,10 +1,4 @@
 <link rel="stylesheet" href="{{ 'ww-pdp.css' | asset_url }}">
-<style>
-@font-face{font-family:Gordita;src:url({{ 'Gordita-Regular.woff2' | asset_url }}) format("woff2");font-weight:400;font-display:swap}
-@font-face{font-family:Gordita;src:url({{ 'Gordita-Medium.woff2' | asset_url }}) format("woff2");font-weight:500;font-display:swap}
-@font-face{font-family:Gordita;src:url({{ 'Gordita-Bold.woff2' | asset_url }}) format("woff2");font-weight:700;font-display:swap}
-@font-face{font-family:Gordita;src:url({{ 'Gordita-Black.woff2' | asset_url }}) format("woff2");font-weight:800 900;font-display:swap}
-</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
@@ -40,8 +34,9 @@
   <div class="wrap">
     <div class="gallery">
       <div class="g-main">
-        {%- assign initial_img = product.featured_image | default: gal_urls[0] -%}
-        <img width="1200" height="960" loading="eager" fetchpriority="high" id="mainimg" src="{{ initial_img | image_url: width: 1400 }}" alt="{{ product.title | escape }}">
+        {%- comment -%} The gallery script replaces this with the first editable gallery block.
+          Keep a real fallback URL here so the hero still renders if JavaScript is unavailable. {%- endcomment -%}
+        <img width="1200" height="960" loading="eager" fetchpriority="high" id="mainimg" src="{{ gal_urls[0] }}" alt="{{ product.title | escape }}">
         <div class="g-nav g-prev" onclick="galStep(-1)">‹</div>
         <div class="g-nav g-next" onclick="galStep(1)">›</div>
         <div class="stamp s1">
@@ -171,7 +166,7 @@
         {%- endfor -%}
       </div>
 
-      <button class="btn btn-atc btn-lg" id="atc" type="button" onclick="addToCart(this)">
+      <button class="btn btn-atc btn-lg" id="atc" type="button" onclick="addToCart(this)" data-label="{{ section.settings.atc_label | escape }}" data-sold-out-label="Sold out">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 016 0v2"/></svg>
         <span>{{ section.settings.atc_label }}</span>
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M14 6l6 6-6 6"/></svg>
@@ -247,8 +242,17 @@
     galSet(gi + d);
   };
 
-  if (thumbs.length && main && !main.getAttribute('src')) {
-    main.src = thumbs[0].getAttribute('data-src');
+  if (thumbs.length && main) {
+    galSet(0);
+  }
+
+  function setAddButtonState(offer) {
+    var atc = document.getElementById('atc');
+    if (!atc) return;
+    var label = atc.querySelector('span') || atc;
+    var available = offer && offer.dataset.available === 'true';
+    atc.disabled = !available;
+    label.textContent = available ? atc.dataset.label : atc.dataset.soldOutLabel;
   }
 
   window.pickO = function(el) {
@@ -258,6 +262,7 @@
     });
     el.classList.add('sel');
     el.setAttribute('aria-checked', 'true');
+    setAddButtonState(el);
 
     var barPrice = document.getElementById('barprice');
     if (barPrice && barPrice.childNodes[0]) barPrice.childNodes[0].textContent = el.dataset.price;
@@ -282,7 +287,7 @@
 
   window.addToCart = function(btn) {
     var sel = document.querySelector('#offer .ocard.sel') || document.querySelector('#offer .ocard');
-    if (!sel) return;
+    if (!sel || sel.dataset.available !== 'true') return;
     var id = parseInt(sel.dataset.variantId, 10);
     if (!id) return;
     var label = btn.querySelector('span') || btn;
@@ -351,6 +356,7 @@
   };
 
   var bar = document.getElementById('buybar');
+  setAddButtonState(document.querySelector('#offer .ocard.sel') || document.querySelector('#offer .ocard'));
   window.addEventListener('scroll', function() {
     if (bar) bar.classList.toggle('show', window.scrollY > 640);
   }, { passive: true });
