@@ -13,6 +13,9 @@
 {%- endfor -%}
 {%- assign wa_num = section.settings.wa_phone | remove: '+' | remove: ' ' | remove: '-' | remove: '(' | remove: ')' -%}
 {%- capture wa_default_msg -%}{{ section.settings.wa_message }}: {{ product.title }} - Double Pump Set{%- endcapture -%}
+{%- assign fallback_storage_gift = all_products[section.settings.storage_gift_handle] -%}
+{%- assign fallback_warmer_gift = all_products[section.settings.warmer_gift_handle] -%}
+{%- assign fallback_pillow_gift = all_products[section.settings.pillow_gift_handle] -%}
 
 {%- if section.settings.show_topbar -%}
   <div class="topbar">{{ section.settings.topbar_text }}</div>
@@ -161,8 +164,10 @@
 
       {%- comment -%} Real bundle gift items from theme blocks {%- endcomment -%}
       <div id="bundle-gift-data" hidden>
+        {%- assign configured_bundle_gifts = 0 -%}
         {%- for b in section.blocks -%}
           {%- if b.type == 'bundle_gift' and b.settings.product != blank -%}
+            {%- assign configured_bundle_gifts = configured_bundle_gifts | plus: 1 -%}
             {%- assign gp = b.settings.product -%}
             {%- assign gv = gp.selected_or_first_available_variant -%}
             {%- if gv != blank -%}
@@ -170,6 +175,11 @@
             {%- endif -%}
           {%- endif -%}
         {%- endfor -%}
+        {%- if configured_bundle_gifts == 0 -%}
+          {%- if fallback_storage_gift != blank -%}{%- assign storage_variant = fallback_storage_gift.selected_or_first_available_variant -%}{%- if storage_variant != blank -%}<span data-bundle-gift data-applies-to="both" data-variant-id="{{ storage_variant.id }}" data-product-title="{{ fallback_storage_gift.title | escape }}"></span>{%- endif -%}{%- endif -%}
+          {%- if fallback_warmer_gift != blank -%}{%- assign warmer_variant = fallback_warmer_gift.selected_or_first_available_variant -%}{%- if warmer_variant != blank -%}<span data-bundle-gift data-applies-to="double" data-variant-id="{{ warmer_variant.id }}" data-product-title="{{ fallback_warmer_gift.title | escape }}"></span>{%- endif -%}{%- endif -%}
+          {%- if fallback_pillow_gift != blank -%}{%- assign pillow_variant = fallback_pillow_gift.selected_or_first_available_variant -%}{%- if pillow_variant != blank -%}<span data-bundle-gift data-applies-to="single" data-variant-id="{{ pillow_variant.id }}" data-product-title="{{ fallback_pillow_gift.title | escape }}"></span>{%- endif -%}{%- endif -%}
+        {%- endif -%}
       </div>
 
       <button class="btn btn-atc btn-lg" id="atc" type="button" onclick="addToCart(this)" data-label="{{ section.settings.atc_label | escape }}" data-sold-out-label="Sold out">
@@ -634,6 +644,31 @@
    "id": "trust_4",
    "label": "Trust 4",
    "default": "Risk-free"
+  },
+  {
+   "type": "header",
+   "content": "Fallback free-gift products"
+  },
+  {
+   "type": "text",
+   "id": "storage_gift_handle",
+   "label": "Storage bags product handle",
+   "default": "milk-storage-box",
+   "info": "Used only when no Free bundle gift blocks have been added."
+  },
+  {
+   "type": "text",
+   "id": "warmer_gift_handle",
+   "label": "Bottle warmer product handle",
+   "default": "bottle-warmer",
+   "info": "Included with the Double Pump offer."
+  },
+  {
+   "type": "text",
+   "id": "pillow_gift_handle",
+   "label": "Breastfeeding pillow product handle",
+   "default": "breastfeeding-pillow",
+   "info": "Included with the Single Pump offer."
   }
  ],
  "blocks": [

@@ -5,7 +5,7 @@
 <style>.ww-pdp .rtrack{animation-duration:{{ section.settings.seconds }}s}@media(max-width:900px){.ww-pdp .rtrack{animation-duration:{{ section.settings.seconds | times: 0.953 | round: 1 }}s } }</style>
 <div class="rtrack">
 {%- if section.blocks.size == 0 -%}
- {%- for pass in (1..2) -%}{%- for ri in (1..6) -%}<div class="rtile"{% if pass == 2 %} aria-hidden="true"{% endif %}><img src="{{ 'ww-reel-' | append: ri | append: '.jpg' | asset_url }}" alt="WeeWonders mom" loading="lazy"></div>{%- endfor -%}{%- endfor -%}
+ {%- for pass in (1..2) -%}{%- for ri in (1..6) -%}{%- assign fallback_image_key = 'reel_image_' | append: ri -%}{%- assign fallback_image = section.settings[fallback_image_key] -%}<div class="rtile"{% if pass == 2 %} aria-hidden="true"{% endif %}><img src="{%- if fallback_image != blank -%}{{ fallback_image | image_url: width: 700 }}{%- else -%}{{ 'ww-reel-' | append: ri | append: '.jpg' | asset_url }}{%- endif -%}" alt="WeeWonders mom" loading="lazy"></div>{%- endfor -%}{%- endfor -%}
 {%- else -%}
 {%- for pass in (1..2) -%}{%- for b in section.blocks -%}
  {%- assign ri = forloop.index -%}
@@ -18,14 +18,48 @@
 {
  "name": "WW Photo reel",
  "settings": [
-  {
-   "type": "range",
+ {
+  "type": "range",
    "id": "seconds",
    "label": "Seconds for one full loop (higher = slower)",
    "min": 30,
    "max": 140,
    "step": 5,
-   "default": 70
+  "default": 70
+  },
+  {
+   "type": "header",
+   "content": "Default reel photos"
+  },
+  {
+   "type": "image_picker",
+   "id": "reel_image_1",
+   "label": "Photo 1"
+  },
+  {
+   "type": "image_picker",
+   "id": "reel_image_2",
+   "label": "Photo 2"
+  },
+  {
+   "type": "image_picker",
+   "id": "reel_image_3",
+   "label": "Photo 3"
+  },
+  {
+   "type": "image_picker",
+   "id": "reel_image_4",
+   "label": "Photo 4"
+  },
+  {
+   "type": "image_picker",
+   "id": "reel_image_5",
+   "label": "Photo 5"
+  },
+  {
+   "type": "image_picker",
+   "id": "reel_image_6",
+   "label": "Photo 6"
   }
  ],
  "blocks": [
