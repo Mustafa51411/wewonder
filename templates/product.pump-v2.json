@@ -71,10 +71,10 @@
           "type": "offer",
           "settings": {
             "variant_title": "Single Pump",
-            "name": "Double Pump SetSingle Pump",
-            "flag": "Most popular",
+            "name": "Single Pump",
+            "flag": "",
             "badge": "Save $10",
-            "was_price": "$220$110",
+            "was_price": "$110",
             "gifts": "sizing|+ FREE Sizing Kit|4 sizes + a tool to find your fit|FREE\nbags|+ FREE Storage Bags (50 pcs)||$12\npillow|+ FREE Breastfeeding Pillow||$14\ndelivery|+ FREE Delivery||FREE"
           }
         }
