@@ -69,6 +69,12 @@
     font-weight: 700;
     margin: 0 0 10px;
   }
+  #ww-wa-{{ sid }} .ww-wa__heading-mark {
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    background: linear-gradient(transparent 62%, #b7e5f8 62%);
+    padding: 0 .08em;
+  }
   #ww-wa-{{ sid }} .ww-wa__sub {
     color: #56677b;
     font-size: 15.5px;
@@ -235,6 +241,45 @@
     color: #ffffff;
   }
 
+  /* ---- customer outcome numbers ---- */
+  #ww-wa-{{ sid }} .ww-wa__stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    max-width: 950px;
+    margin: 28px auto 8px;
+    text-align: center;
+  }
+  #ww-wa-{{ sid }} .ww-wa__stat { min-width: 0; }
+  #ww-wa-{{ sid }} .ww-wa__stat-number {
+    display: block;
+    color: var(--ww-navy);
+    font-size: clamp(30px, 4vw, 50px);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -.04em;
+  }
+  #ww-wa-{{ sid }} .ww-wa__stat-label {
+    display: inline;
+    color: var(--ww-blue);
+    font-size: clamp(12px, 1.45vw, 16px);
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    background: linear-gradient(transparent 76%, #9fddf6 76%);
+  }
+  #ww-wa-{{ sid }} .ww-wa__stat-note {
+    display: block;
+    margin-top: 10px;
+    color: #718091;
+    font-size: 13px;
+    line-height: 1.35;
+  }
+  @media (max-width: 749px) {
+    #ww-wa-{{ sid }} .ww-wa__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 34px 14px; margin-top: 34px; }
+  }
+
   /* ---- footer row: privacy note + arrows ---- */
   #ww-wa-{{ sid }} .ww-wa__foot {
     display: flex;
@@ -318,8 +363,10 @@
           <span>{{ section.settings.eyebrow | escape }}</span>
         </span>
       {%- endif -%}
-      {%- if section.settings.heading != blank -%}
-        <h2 class="ww-wa__heading" dir="auto">{{ section.settings.heading | escape }}</h2>
+      {%- assign heading_plain = section.settings.heading_plain | default: 'Hear it from' -%}
+      {%- assign heading_highlight = section.settings.heading_highlight | default: 'WeeWonders Moms' -%}
+      {%- if heading_plain != blank or heading_highlight != blank -%}
+        <h2 class="ww-wa__heading" dir="auto">{{ heading_plain | escape }} <span class="ww-wa__heading-mark">{{ heading_highlight | escape }}</span></h2>
       {%- endif -%}
       {%- if section.settings.subheading != blank -%}
         <p class="ww-wa__sub" dir="auto">{{ section.settings.subheading }}</p>
@@ -388,6 +435,26 @@
         </div>
       {%- endif -%}
     </div>
+
+    {%- if section.settings.show_stats != false -%}
+      <div class="ww-wa__stats" aria-label="{{ section.settings.stats_aria_label | default: 'Customer reported results' | escape }}">
+        {%- for index in (1..4) -%}
+          {%- assign number_key = 'stat_' | append: index | append: '_number' -%}
+          {%- assign label_key = 'stat_' | append: index | append: '_label' -%}
+          {%- case index -%}
+            {%- when 1 -%}{%- assign default_number = 94 -%}{%- assign default_label = 'Comfortable all day' -%}
+            {%- when 2 -%}{%- assign default_number = 91 -%}{%- assign default_label = 'Smoother flow' -%}
+            {%- when 3 -%}{%- assign default_number = 89 -%}{%- assign default_label = 'More confident' -%}
+            {%- else -%}{%- assign default_number = 92 -%}{%- assign default_label = 'Prefer it to old pump' -%}
+          {%- endcase -%}
+          <div class="ww-wa__stat">
+            <strong class="ww-wa__stat-number">{{ section.settings[number_key] | default: default_number }}%</strong>
+            <span class="ww-wa__stat-label">{{ section.settings[label_key] | default: default_label }}</span>
+            {%- if section.settings.show_stats_note != false -%}<small class="ww-wa__stat-note">{{ section.settings.stats_note | default: 'self-reported, confirmed' | escape }}</small>{%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
 
     <div class="ww-wa__foot">
       {%- if section.settings.privacy_note != blank -%}
@@ -494,6 +561,18 @@
       "default": "4,000+ mothers. This is what they send us."
     },
     {
+      "type": "text",
+      "id": "heading_plain",
+      "label": "Headline (plain part)",
+      "default": "Hear it from"
+    },
+    {
+      "type": "text",
+      "id": "heading_highlight",
+      "label": "Headline (highlighted part)",
+      "default": "WeeWonders Moms"
+    },
+    {
       "type": "textarea",
       "id": "subheading",
       "label": "Subheading",
@@ -504,6 +583,82 @@
       "id": "privacy_note",
       "label": "Privacy note (small print)",
       "default": "Shared with each mother's permission. Names, numbers and photos cropped for privacy."
+    },
+    {
+      "type": "header",
+      "content": "Customer outcome numbers"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stats",
+      "label": "Show customer outcome numbers",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "stats_aria_label",
+      "label": "Numbers accessibility label",
+      "default": "Customer reported results"
+    },
+    {
+      "type": "number",
+      "id": "stat_1_number",
+      "label": "Number 1 (%)",
+      "default": 94
+    },
+    {
+      "type": "text",
+      "id": "stat_1_label",
+      "label": "Number 1 label",
+      "default": "Comfortable all day"
+    },
+    {
+      "type": "number",
+      "id": "stat_2_number",
+      "label": "Number 2 (%)",
+      "default": 91
+    },
+    {
+      "type": "text",
+      "id": "stat_2_label",
+      "label": "Number 2 label",
+      "default": "Smoother flow"
+    },
+    {
+      "type": "number",
+      "id": "stat_3_number",
+      "label": "Number 3 (%)",
+      "default": 89
+    },
+    {
+      "type": "text",
+      "id": "stat_3_label",
+      "label": "Number 3 label",
+      "default": "More confident"
+    },
+    {
+      "type": "number",
+      "id": "stat_4_number",
+      "label": "Number 4 (%)",
+      "default": 92
+    },
+    {
+      "type": "text",
+      "id": "stat_4_label",
+      "label": "Number 4 label",
+      "default": "Prefer it to old pump"
+    },
+    {
+      "type": "text",
+      "id": "stats_note",
+      "label": "Small note below each number",
+      "default": "self-reported, confirmed"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_stats_note",
+      "label": "Show the small note below each number",
+      "default": true
     },
     {
       "type": "header",
