@@ -17,7 +17,7 @@
 {%- assign fallback_warmer_gift = all_products[section.settings.warmer_gift_handle] -%}
 {%- assign fallback_pillow_gift = all_products[section.settings.pillow_gift_handle] -%}
 
-{%- if section.settings.show_topbar -%}
+{%- if section.settings.hide_announcement_bar != true -%}
   <div class="topbar">{{ section.settings.topbar_text }}</div>
 {%- endif -%}
 
@@ -393,8 +393,8 @@
   },
   {
    "type": "checkbox",
-   "id": "show_topbar",
-   "label": "Show announcement bar",
+   "id": "hide_announcement_bar",
+   "label": "Hide announcement bar",
    "default": false
   },
   {
