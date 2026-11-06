@@ -85,15 +85,15 @@
 .ww-pdp .buy .rate{display:flex;align-items:center;gap:9px;font-weight:700;color:var(--navy);font-size:.94rem;flex-wrap:wrap}
 .ww-pdp .buy .rate .en{color:var(--muted);font-weight:600;font-size:.85rem;border-left:1px solid var(--line);padding-left:9px}
 .ww-pdp .buy .plabel{font-weight:800;color:var(--muted);font-size:.85rem;margin:12px 0 2px}
-.ww-pdp .buy h1{font-size:clamp(1.95rem,3.5vw,2.75rem);font-weight:800}
+.ww-pdp .buy h1{font-size:clamp(2.1rem,3.8vw,3rem);font-weight:900;letter-spacing:-.025em}
 .ww-pdp .h1-light{font-weight:500;letter-spacing:0}
 .ww-pdp .buy .promise{font-size:1.06rem;color:var(--muted);margin-top:8px;max-width:44ch}
 .ww-pdp .ksp{list-style:none;margin:18px 0 20px;display:flex;flex-direction:column;gap:12px}
-.ww-pdp .ksp li{display:flex;gap:11px;align-items:center;font-weight:500;color:var(--navy);font-size:1.06rem}
+.ww-pdp .ksp li{display:flex;gap:11px;align-items:center;font-weight:600;color:var(--navy);font-size:1.18rem;line-height:1.35}
 .ww-pdp .ksp li .ic{flex:0 0 30px;width:30px;height:30px;display:grid;place-items:center;color:var(--blue)}
 .ww-pdp .specrow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:15px 0;margin-bottom:20px}
-.ww-pdp .specrow b{font-family:var(--fd);color:var(--navy);display:block;font-size:1.04rem;line-height:1.1}
-.ww-pdp .specrow small{color:var(--muted);font-size:.79rem}
+.ww-pdp .specrow b{font-family:var(--fd);color:var(--navy);display:block;font-size:1.18rem;line-height:1.1}
+.ww-pdp .specrow small{color:var(--muted);font-size:.92rem}
 .ww-pdp .variants{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:14px}
 .ww-pdp .variant{border:2px solid var(--line);border-radius:18px;padding:15px 17px;cursor:pointer;position:relative;transition:border-color .15s,background .15s,box-shadow .15s,transform .15s;
     background:linear-gradient(160deg,#fff 0%,var(--mist) 120%);display:flex;flex-wrap:wrap;gap:14px;align-items:center;box-shadow:0 10px 24px -20px rgba(26,43,60,.35)}
