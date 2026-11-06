@@ -578,4 +578,7 @@
 .ww-wa-float svg{width:30px;height:30px}
 @media(max-width:980px){
   .ww-wa-float{right:16px;bottom:calc(88px + env(safe-area-inset-bottom));width:54px;height:54px}
+  /* The store's WhatsApp app widget is injected outside this section. Keep it
+     clear of the mobile sticky price and add-to-cart bar. */
+  .whatsapp-floating-button{bottom:calc(88px + env(safe-area-inset-bottom))!important}
 }

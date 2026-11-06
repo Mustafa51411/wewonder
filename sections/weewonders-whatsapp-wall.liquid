@@ -106,6 +106,20 @@
     overflow: hidden;
     box-shadow: 0 10px 26px rgba(31, 42, 55, .07);
   }
+  /* Keep every mobile testimonial card the same visual height. Without this,
+     one tall uploaded screenshot makes the entire horizontal rail tall and
+     leaves a large empty area before the outcome numbers. */
+  @media (max-width: 749px) {
+    #ww-wa-{{ sid }} .ww-wa__track { padding-bottom: 14px; }
+    #ww-wa-{{ sid }} .ww-wa__shot {
+      aspect-ratio: 5 / 4;
+      overflow: hidden;
+    }
+    #ww-wa-{{ sid }} .ww-wa__shot img {
+      height: 100%;
+      object-fit: cover;
+    }
+  }
   @media (min-width: 750px) {
     #ww-wa-{{ sid }} .ww-wa__card { scroll-snap-align: start; }
   }
