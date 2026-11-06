@@ -539,6 +539,7 @@
 .ww-pdp .ksp li{font-size:18px!important;font-weight:600!important;line-height:1.4!important}
 .ww-pdp .specrow b{font-size:18px!important;font-weight:800!important}
 .ww-pdp .specrow small{font-size:15px!important}
+.ww-pdp .fm-headline,.ww-pdp .fm-headline .hl-solid,.ww-pdp .diff h2,.ww-pdp h2:has(.dfx),.ww-pdp .diff .dfx{font-weight:900!important}
 .ww-pdp .reel{overflow:hidden;padding:0;margin:0;background:var(--paper)}
 .ww-pdp .rtrack{display:flex;width:max-content;animation:reel 70s linear infinite}
 .ww-pdp .reel:hover .rtrack{animation-play-state:paused}
