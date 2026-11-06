@@ -238,9 +238,9 @@
         "cta_text": "",
         "cta_button": "Chat on WhatsApp",
         "whatsapp_url": "https://wa.me/96181670851",
-        "bg": "#ffffff",
-        "pad_top": 56,
-        "pad_bottom": 56
+        "bg": "#F5EFE6",
+        "pad_top": 36,
+        "pad_bottom": 0
       }
     },
     "ww_rule_MjtaJr": {
