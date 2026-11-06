@@ -232,14 +232,14 @@
         "eyebrow": "From our WhatsApp",
         "heading": "Hear it from WeeWonders Moms.",
         "subheading": "",
-        "privacy_note": "Shared with each mother's permission. Names, numbers and photos cropped for privacy.",
+        "privacy_note": "",
         "show_cta": false,
         "cta_heading": "",
         "cta_text": "",
         "cta_button": "Chat on WhatsApp",
         "whatsapp_url": "https://wa.me/96181670851",
         "bg": "#F5EFE6",
-        "pad_top": 36,
+        "pad_top": 52,
         "pad_bottom": 0
       }
     },
