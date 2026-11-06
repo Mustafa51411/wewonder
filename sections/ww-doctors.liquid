@@ -11,9 +11,21 @@
 {%- assign doctor_names = "Dr. Elite Sokhn|Dr. Malak Koteich|Dr. Thuraya Alameddine|Dr. Farah Reslan" | split: "|" -%}
 {%- assign doctor_topics = "Breastfeeding and work|Moms breastfeeding experiences|Nipple pain and pumping|Why I chose WeeWonders" | split: "|" -%}
 {%- if section.blocks.size == 0 -%}
-  {%- for doctor_name in doctor_names -%}
+  {%- for doctor_index in (1..4) -%}
+    {%- assign doctor_offset = forloop.index0 -%}
+    {%- assign name_key = 'doctor_' | append: doctor_index | append: '_name' -%}
+    {%- assign topic_key = 'doctor_' | append: doctor_index | append: '_topic' -%}
+    {%- assign video_key = 'doctor_' | append: doctor_index | append: '_video' -%}
+    {%- assign poster_key = 'doctor_' | append: doctor_index | append: '_poster' -%}
+    {%- assign doctor_name = section.settings[name_key] | default: doctor_names[doctor_offset] -%}
+    {%- assign doctor_topic = section.settings[topic_key] | default: doctor_topics[doctor_offset] -%}
+    {%- assign configured_video = section.settings[video_key] -%}
+    {%- assign configured_video_source = configured_video.sources | where: 'format', 'mp4' | last -%}
+    {%- assign configured_poster = section.settings[poster_key] -%}
+    {%- capture doctor_topic_repeat -%}{{ doctor_topic }}|{{ doctor_topic }}|{{ doctor_topic }}|{{ doctor_topic }}{%- endcapture -%}
+    {%- assign doctor_topics = doctor_topic_repeat | split: '|' -%}
     <figure class="vid dvid">
-      <div class="vframe"><video preload="none" playsinline poster="{{ posters[forloop.index0] }}" src="{{ vids[forloop.index0] }}" aria-label="{{ doctor_name | escape }}"></video><button class="vplay" type="button" aria-label="Play video from {{ doctor_name | escape }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button></div>
+      <div class="vframe"><video preload="none" playsinline poster="{%- if configured_poster != blank -%}{{ configured_poster | image_url: width: 600 }}{%- else -%}{{ posters[doctor_offset] }}{%- endif -%}" src="{%- if configured_video_source != blank -%}{{ configured_video_source.url }}{%- else -%}{{ vids[doctor_offset] }}{%- endif -%}" aria-label="{{ doctor_name | escape }}"></video><button class="vplay" type="button" aria-label="Play video from {{ doctor_name | escape }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button></div>
       <figcaption class="cap"><span class="pain">{{ doctor_topics[forloop.index0] }}</span><b>{{ doctor_name }}</b><span class="stars">★★★★★</span></figcaption>
     </figure>
   {%- endfor -%}
@@ -45,7 +57,24 @@ v.addEventListener('play',function(){f.classList.add('playing');});v.addEventLis
    "id": "heading",
    "label": "Heading",
    "default": "See what doctors say about our pump."
-  }
+  },
+  { "type": "header", "content": "Visible doctor videos" },
+  { "type": "text", "id": "doctor_1_name", "label": "Video 1 name", "default": "Dr. Elite Sokhn" },
+  { "type": "text", "id": "doctor_1_topic", "label": "Video 1 topic", "default": "Breastfeeding and work" },
+  { "type": "video", "id": "doctor_1_video", "label": "Video 1 upload" },
+  { "type": "image_picker", "id": "doctor_1_poster", "label": "Video 1 thumbnail" },
+  { "type": "text", "id": "doctor_2_name", "label": "Video 2 name", "default": "Dr. Malak Koteich" },
+  { "type": "text", "id": "doctor_2_topic", "label": "Video 2 topic", "default": "Moms breastfeeding experiences" },
+  { "type": "video", "id": "doctor_2_video", "label": "Video 2 upload" },
+  { "type": "image_picker", "id": "doctor_2_poster", "label": "Video 2 thumbnail" },
+  { "type": "text", "id": "doctor_3_name", "label": "Video 3 name", "default": "Dr. Thuraya Alameddine" },
+  { "type": "text", "id": "doctor_3_topic", "label": "Video 3 topic", "default": "Nipple pain and pumping" },
+  { "type": "video", "id": "doctor_3_video", "label": "Video 3 upload" },
+  { "type": "image_picker", "id": "doctor_3_poster", "label": "Video 3 thumbnail" },
+  { "type": "text", "id": "doctor_4_name", "label": "Video 4 name", "default": "Dr. Farah Reslan" },
+  { "type": "text", "id": "doctor_4_topic", "label": "Video 4 topic", "default": "Why I chose WeeWonders" },
+  { "type": "video", "id": "doctor_4_video", "label": "Video 4 upload" },
+  { "type": "image_picker", "id": "doctor_4_poster", "label": "Video 4 thumbnail" }
  ],
  "blocks": [
   {
