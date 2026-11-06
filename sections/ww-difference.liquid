@@ -1,6 +1,27 @@
 <link rel="stylesheet" href="{{ 'ww-pdp.css' | asset_url }}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <div class="ww-pdp">
+{%- if section.settings.show_feature_intro -%}
+<section class="section"><div class="wrap adv">
+  <div class="float-stage">
+    <svg class="fstar s1" viewBox="-8 -8 116 116" fill="none" aria-hidden="true"><path d="M50 4C54 34 66 46 96 50 66 54 54 66 50 96 46 66 34 54 4 50 34 46 46 34 50 4Z" fill="var(--sky)" transform="translate(-8 9)"/><path d="M50 4C54 34 66 46 96 50 66 54 54 66 50 96 46 66 34 54 4 50 34 46 46 34 50 4Z" stroke="var(--navy)" stroke-width="3" stroke-linejoin="round"/></svg>
+    <svg class="fstar s2" viewBox="-8 -8 116 116" fill="none" aria-hidden="true"><path d="M50 4C54 34 66 46 96 50 66 54 54 66 50 96 46 66 34 54 4 50 34 46 46 34 50 4Z" fill="var(--sky)" transform="translate(-8 9)"/><path d="M50 4C54 34 66 46 96 50 66 54 54 66 50 96 46 66 34 54 4 50 34 46 46 34 50 4Z" stroke="var(--navy)" stroke-width="3" stroke-linejoin="round"/></svg>
+    <svg class="fstar s3" viewBox="-8 -8 116 116" fill="none" aria-hidden="true"><path d="M50 4C54 34 66 46 96 50 66 54 54 66 50 96 46 66 34 54 4 50 34 46 46 34 50 4Z" fill="var(--sky)" transform="translate(-8 9)"/><path d="M50 4C54 34 66 46 96 50 66 54 54 66 50 96 46 66 34 54 4 50 34 46 46 34 50 4Z" stroke="var(--navy)" stroke-width="3" stroke-linejoin="round"/></svg>
+    <img class="fpump" loading="lazy" src="{%- if section.settings.feature_image != blank -%}{{ section.settings.feature_image | image_url: width: 900 }}{%- else -%}{{ 'ww-pump.png' | asset_url }}{%- endif -%}" alt="{{ section.settings.feature_image_alt | escape }}">
+    <div class="fshadow"></div>
+  </div>
+  <div>
+    <h2>{{ section.settings.feature_heading }} <span class="hl">{{ section.settings.feature_highlight }}</span></h2>
+    <div class="adv-list" style="margin-top:22px">
+      {%- for index in (1..4) -%}
+        {%- assign title_key = 'feature_' | append: index | append: '_title' -%}
+        {%- assign text_key = 'feature_' | append: index | append: '_text' -%}
+        <div class="adv-item"><div class="i" aria-hidden="true">{%- case index -%}{%- when 1 -%}↔{%- when 2 -%}◖)) {%- when 3 -%}◈{%- else -%}◉{%- endcase -%}</div><div><b>{{ section.settings[title_key] }}</b><small>{{ section.settings[text_key] }}</small></div></div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div></section>
+{%- endif -%}
 <section class="section diff"><div class="wrap">
 <div class="center"><h2>{{ section.settings.h_a }} <span class="hl-solid dfx">{{ section.settings.h_b }}</span></h2></div>
 <div class="dsplit">
@@ -18,6 +39,87 @@
 {
  "name": "WW The Difference",
  "settings": [
+  {
+   "type": "header",
+   "content": "What makes this one different?"
+  },
+  {
+   "type": "checkbox",
+   "id": "show_feature_intro",
+   "label": "Show feature intro",
+   "default": true
+  },
+  {
+   "type": "image_picker",
+   "id": "feature_image",
+   "label": "Feature intro pump image"
+  },
+  {
+   "type": "text",
+   "id": "feature_image_alt",
+   "label": "Feature intro image description",
+   "default": "WeeWonders wearable breast pump"
+  },
+  {
+   "type": "text",
+   "id": "feature_heading",
+   "label": "Feature intro heading",
+   "default": "What makes this one"
+  },
+  {
+   "type": "text",
+   "id": "feature_highlight",
+   "label": "Feature intro highlighted word",
+   "default": "different?"
+  },
+  {
+   "type": "text",
+   "id": "feature_1_title",
+   "label": "Feature 1 title",
+   "default": "Sized to you"
+  },
+  {
+   "type": "text",
+   "id": "feature_1_text",
+   "label": "Feature 1 description",
+   "default": "Comes with 4 flange sizes + a tool, so you never guess your size."
+  },
+  {
+   "type": "text",
+   "id": "feature_2_title",
+   "label": "Feature 2 title",
+   "default": "Whisper quiet"
+  },
+  {
+   "type": "text",
+   "id": "feature_2_text",
+   "label": "Feature 2 description",
+   "default": "Under 50dB, no one hears it."
+  },
+  {
+   "type": "text",
+   "id": "feature_3_title",
+   "label": "Feature 3 title",
+   "default": "Leak-proof"
+  },
+  {
+   "type": "text",
+   "id": "feature_3_text",
+   "label": "Feature 3 description",
+   "default": "Seals even upside down."
+  },
+  {
+   "type": "text",
+   "id": "feature_4_title",
+   "label": "Feature 4 title",
+   "default": "Truly hands-free"
+  },
+  {
+   "type": "text",
+   "id": "feature_4_text",
+   "label": "Feature 4 description",
+   "default": "Wear it while you do anything else."
+  },
   {
    "type": "text",
    "id": "h_a",
