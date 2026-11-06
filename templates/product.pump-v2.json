@@ -48,14 +48,6 @@
           "type": "gallery",
           "settings": {}
         },
-        "gallery_iATPwk": {
-          "type": "gallery",
-          "settings": {}
-        },
-        "gallery_zQ7Uwb": {
-          "type": "gallery",
-          "settings": {}
-        },
         "offer_QYKgq9": {
           "type": "offer",
           "settings": {
@@ -89,8 +81,6 @@
         "gallery_wjdrpR",
         "gallery_nGzWBP",
         "gallery_Ge4xp7",
-        "gallery_iATPwk",
-        "gallery_zQ7Uwb",
         "offer_QYKgq9",
         "offer_c4ibpi"
       ],
@@ -103,7 +93,7 @@
         "nav_reviews": "Reviews",
         "nav_faq": "FAQ",
         "stamp_big": "6",
-        "stamp_small": "Month warranty",
+        "stamp_small": "month warranty",
         "rating": "4.8",
         "rating_note": "Loved by thousands of Lebanese mothers",
         "heading": "Made to fit your body and your day",
