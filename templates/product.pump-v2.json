@@ -131,18 +131,14 @@
         "trust_1": "48h delivery",
         "trust_2": "6-month warranty",
         "trust_3": "WhatsApp 7 days",
-        "trust_4": "Risk-free"
+        "trust_4": "Risk-free",
+        "storage_gift_handle": "milk-storage-box",
+        "warmer_gift_handle": "bottle-warmer",
+        "pillow_gift_handle": "breastfeeding-pillow"
       }
     },
     "ww_doctors_7BMrEf": {
       "type": "ww-doctors",
-      "blocks": {
-        "doctor_1": { "type": "doctor", "settings": { "name": "Dr. Elite Sokhn", "topic": "Breastfeeding and work" } },
-        "doctor_2": { "type": "doctor", "settings": { "name": "Dr. Malak Koteich", "topic": "Moms breastfeeding experiences" } },
-        "doctor_3": { "type": "doctor", "settings": { "name": "Dr. Thuraya Alameddine", "topic": "Nipple pain and pumping" } },
-        "doctor_4": { "type": "doctor", "settings": { "name": "Dr. Farah Reslan", "topic": "Why I chose WeeWonders" } }
-      },
-      "block_order": ["doctor_1", "doctor_2", "doctor_3", "doctor_4"],
       "name": "WW Doctors videos",
       "settings": {
         "heading": "See what doctors say about our pump."
@@ -150,15 +146,6 @@
     },
     "ww_reel_VCeV4Y": {
       "type": "ww-reel",
-      "blocks": {
-        "photo_1": { "type": "photo", "settings": { "alt": "Mom holding her baby while wearing the pump" } },
-        "photo_2": { "type": "photo", "settings": { "alt": "Mom slipping the pump into her jacket" } },
-        "photo_3": { "type": "photo", "settings": { "alt": "Mom wearing the pump under a striped dress while cooking" } },
-        "photo_4": { "type": "photo", "settings": { "alt": "Mom drinking coffee and scrolling her phone while pumping" } },
-        "photo_5": { "type": "photo", "settings": { "alt": "Mom placing the pump inside her top" } },
-        "photo_6": { "type": "photo", "settings": { "alt": "Mom wearing two pumps while playing with her baby" } }
-      },
-      "block_order": ["photo_1", "photo_2", "photo_3", "photo_4", "photo_5", "photo_6"],
       "name": "WW Photo reel",
       "settings": {
         "seconds": 70
@@ -167,56 +154,90 @@
     "weewonders_whatsapp_wall_Nymgan": {
       "type": "weewonders-whatsapp-wall",
       "blocks": {
+        "screenshot_RFkWDX": {
+          "type": "screenshot",
+          "settings": {
+            "image": "shopify://shop_images/IMG_2819_d13e36b5-e050-469b-8a3a-d049fc825455.jpg",
+            "message": "",
+            "name": "",
+            "caption": ""
+          }
+        },
+        "screenshot_xzUjwX": {
+          "type": "screenshot",
+          "settings": {
+            "image": "shopify://shop_images/IMG_2827.jpg",
+            "message": "",
+            "name": "",
+            "caption": ""
+          }
+        },
         "screenshot_K8aWmW": {
           "type": "screenshot",
           "settings": {
-            "name": "Sara",
-            "caption": "Beirut",
-            "message": "I have more milk now and I can finally pump while doing everything else."
+            "image": "shopify://shop_images/Screenshot_2026-09-21_at_6.08.11_PM.png",
+            "message": "",
+            "name": "",
+            "caption": ""
           }
         },
         "screenshot_EVXcXr": {
           "type": "screenshot",
           "settings": {
-            "name": "Nour",
-            "caption": "Tripoli",
-            "message": "The sizing kit made the difference. It is comfortable and so easy to use."
+            "image": "shopify://shop_images/IMG_2828_2dd26d31-35f4-4b3d-b37b-62b03b9aadf5.jpg",
+            "message": "",
+            "name": "",
+            "caption": ""
           }
         },
         "screenshot_PFkD3J": {
           "type": "screenshot",
           "settings": {
-            "name": "Maya",
-            "caption": "Mount Lebanon",
-            "message": "I use it every day at work. Quiet, hands-free and no leaks."
+            "image": "shopify://shop_images/IMG_2832_3dad368b-1cfa-47e9-9912-fee26f2ecb36.jpg",
+            "message": "",
+            "name": "",
+            "caption": ""
           }
         },
         "screenshot_qHqCkL": {
           "type": "screenshot",
           "settings": {
-            "name": "Rana",
-            "caption": "Beirut",
-            "message": "My baby is happier and I am no longer stuck next to the pump."
+            "image": "shopify://shop_images/Untitled_design_12.png",
+            "message": "",
+            "name": "",
+            "caption": ""
+          }
+        },
+        "screenshot_43aU4Y": {
+          "type": "screenshot",
+          "settings": {
+            "image": "shopify://shop_images/IMG_2822_1.jpg",
+            "message": "",
+            "name": "",
+            "caption": ""
           }
         }
       },
       "block_order": [
+        "screenshot_RFkWDX",
+        "screenshot_xzUjwX",
         "screenshot_K8aWmW",
         "screenshot_EVXcXr",
         "screenshot_PFkD3J",
-        "screenshot_qHqCkL"
+        "screenshot_qHqCkL",
+        "screenshot_43aU4Y"
       ],
       "name": "WhatsApp Wall",
       "settings": {
         "eyebrow": "From our WhatsApp",
-        "heading": "4,000+ mothers. This is what they send us.",
-        "subheading": "Real messages from real mothers across Lebanon — unedited, shared with their permission.",
+        "heading": "Hear it from WeeWonders Moms.",
+        "subheading": "",
         "privacy_note": "Shared with each mother's permission. Names, numbers and photos cropped for privacy.",
-        "show_cta": true,
-        "cta_heading": "Have a question before you order?",
-        "cta_text": "Message us like these moms did — 9am to 9pm, 7 days a week, Arabic & English.",
+        "show_cta": false,
+        "cta_heading": "",
+        "cta_text": "",
         "cta_button": "Chat on WhatsApp",
-        "whatsapp_url": "https://wa.me/",
+        "whatsapp_url": "https://wa.me/96181670851",
         "bg": "#ffffff",
         "pad_top": 56,
         "pad_bottom": 56
@@ -241,11 +262,6 @@
         "pos_res": "More milk"
       }
     },
-    "ww_different_qK8Mvt": {
-      "type": "ww-different",
-      "name": "WW Different (floating pump)",
-      "settings": {}
-    },
     "ww_difference_LYJXzr": {
       "type": "ww-difference",
       "name": "WW The Difference",
@@ -260,14 +276,6 @@
     },
     "ww_steps_CxVbwg": {
       "type": "ww-steps",
-      "blocks": {
-        "step_1": { "type": "step", "settings": { "title": "Assemble", "text": "Clicks together in seconds." } },
-        "step_2": { "type": "step", "settings": { "title": "Find your fit", "text": "Pick your size with the tool." } },
-        "step_3": { "type": "step", "settings": { "title": "Slip it in", "text": "Hidden in your bra." } },
-        "step_4": { "type": "step", "settings": { "title": "Start", "text": "Pick a mode and level." } },
-        "step_5": { "type": "step", "settings": { "title": "Pour", "text": "Straight into your bags." } }
-      },
-      "block_order": ["step_1", "step_2", "step_3", "step_4", "step_5"],
       "name": "WW How it works (steps)",
       "settings": {
         "h_a": "Five steps, then",
@@ -287,16 +295,13 @@
     },
     "ww_offer_bottom_riaPD8": {
       "type": "ww-offer-bottom",
-      "blocks": {
-        "bottom_offer_1": { "type": "offer", "settings": { "variant_title": "Double Pump Set", "name": "Double Pump Set", "flag": "Most popular", "badge": "Save $50", "was_price": "$220", "summary": "Free sizing kit, storage bags, bottle warmer and delivery" } },
-        "bottom_offer_2": { "type": "offer", "settings": { "variant_title": "Single Pump", "name": "Single Pump", "badge": "Save $10", "was_price": "$110", "summary": "Free sizing kit, storage bags, breastfeeding pillow and delivery" } }
-      },
-      "block_order": ["bottom_offer_1", "bottom_offer_2"],
       "name": "WW Bottom offer",
       "settings": {
         "h_a": "Give your milk",
         "h_b": "a way out",
         "button": "Order yours now",
+        "default_badge": "Free gifts included",
+        "default_summary": "Free sizing kit, gifts and delivery",
         "chip_1": "6-month warranty",
         "chip_2": "Free sizing kit",
         "chip_3": "48h delivery"
@@ -304,15 +309,6 @@
     },
     "ww_faq_TcwtHC": {
       "type": "ww-faq",
-      "blocks": {
-        "faq_1": { "type": "faq", "settings": { "q": "Single or Double?", "a": "<p>Single pumps one side, lighter and cheaper. Double pumps both at once and halves your time, which is why most mothers who pump often choose it.</p>" } },
-        "faq_2": { "type": "faq", "settings": { "q": "Will it tank my supply?", "a": "<p>WeeWonders is designed to support a comfortable full session, so you can keep your pumping routine consistent.</p>" } },
-        "faq_3": { "type": "faq", "settings": { "q": "Which flange size fits me?", "a": "<p>Every box has 17, 19, 21 and 24mm plus a sizing tool. Unsure? Send a photo on WhatsApp and we will help you fit it.</p>" } },
-        "faq_4": { "type": "faq", "settings": { "q": "What if it breaks?", "a": "<p>Six-month warranty, handled in Lebanon. Message us and replacement parts ship in a couple of days.</p>" } },
-        "faq_5": { "type": "faq", "settings": { "q": "Is it really discreet?", "a": "<p>Under 50dB and fully in-bra, with no tubes or cords.</p>" } },
-        "faq_6": { "type": "faq", "settings": { "q": "How fast is delivery?", "a": "<p>Tracked delivery across Lebanon in 48 hours, with WhatsApp support 7 days a week.</p>" } }
-      },
-      "block_order": ["faq_1", "faq_2", "faq_3", "faq_4", "faq_5", "faq_6"],
       "name": "WW FAQ",
       "settings": {
         "h_a": "Questions",
@@ -326,7 +322,6 @@
     "ww_reel_VCeV4Y",
     "weewonders_whatsapp_wall_Nymgan",
     "ww_rule_MjtaJr",
-    "ww_different_qK8Mvt",
     "ww_difference_LYJXzr",
     "ww_steps_CxVbwg",
     "ww_warranty_UQHa8L",
