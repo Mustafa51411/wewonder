@@ -173,14 +173,14 @@
             {%- assign gp = b.settings.product -%}
             {%- assign gv = gp.selected_or_first_available_variant -%}
             {%- if gv != blank -%}
-              <span data-bundle-gift data-applies-to="{{ b.settings.applies_to }}" data-variant-id="{{ gv.id }}" data-product-title="{{ gp.title | escape }}"></span>
+              <span data-bundle-gift data-applies-to="{{ b.settings.applies_to }}" data-variant-id="{{ gv.id }}" data-product-title="{{ gp.title | escape }}" data-available="{{ gv.available }}"></span>
             {%- endif -%}
           {%- endif -%}
         {%- endfor -%}
         {%- if configured_bundle_gifts == 0 -%}
-          {%- if fallback_storage_gift != blank -%}{%- assign storage_variant = fallback_storage_gift.selected_or_first_available_variant -%}{%- if storage_variant != blank -%}<span data-bundle-gift data-applies-to="both" data-variant-id="{{ storage_variant.id }}" data-product-title="{{ fallback_storage_gift.title | escape }}"></span>{%- endif -%}{%- endif -%}
-          {%- if fallback_warmer_gift != blank -%}{%- assign warmer_variant = fallback_warmer_gift.selected_or_first_available_variant -%}{%- if warmer_variant != blank -%}<span data-bundle-gift data-applies-to="double" data-variant-id="{{ warmer_variant.id }}" data-product-title="{{ fallback_warmer_gift.title | escape }}"></span>{%- endif -%}{%- endif -%}
-          {%- if fallback_pillow_gift != blank -%}{%- assign pillow_variant = fallback_pillow_gift.selected_or_first_available_variant -%}{%- if pillow_variant != blank -%}<span data-bundle-gift data-applies-to="single" data-variant-id="{{ pillow_variant.id }}" data-product-title="{{ fallback_pillow_gift.title | escape }}"></span>{%- endif -%}{%- endif -%}
+          {%- if fallback_storage_gift != blank -%}{%- assign storage_variant = fallback_storage_gift.selected_or_first_available_variant -%}{%- if storage_variant != blank -%}<span data-bundle-gift data-applies-to="both" data-variant-id="{{ storage_variant.id }}" data-product-title="{{ fallback_storage_gift.title | escape }}" data-available="{{ storage_variant.available }}"></span>{%- endif -%}{%- endif -%}
+          {%- if fallback_warmer_gift != blank -%}{%- assign warmer_variant = fallback_warmer_gift.selected_or_first_available_variant -%}{%- if warmer_variant != blank -%}<span data-bundle-gift data-applies-to="double" data-variant-id="{{ warmer_variant.id }}" data-product-title="{{ fallback_warmer_gift.title | escape }}" data-available="{{ warmer_variant.available }}"></span>{%- endif -%}{%- endif -%}
+          {%- if fallback_pillow_gift != blank -%}{%- assign pillow_variant = fallback_pillow_gift.selected_or_first_available_variant -%}{%- if pillow_variant != blank -%}<span data-bundle-gift data-applies-to="single" data-variant-id="{{ pillow_variant.id }}" data-product-title="{{ fallback_pillow_gift.title | escape }}" data-available="{{ pillow_variant.available }}"></span>{%- endif -%}{%- endif -%}
         {%- endif -%}
       </div>
 
