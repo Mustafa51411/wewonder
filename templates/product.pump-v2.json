@@ -250,6 +250,13 @@
         "pad_bottom": 0
       }
     },
+    "ww_reel_VCeV4Y": {
+      "type": "ww-reel",
+      "name": "WW Photo reel",
+      "settings": {
+        "seconds": 70
+      }
+    },
     "ww_rule_MjtaJr": {
       "type": "ww-rule",
       "name": "WW The simple rule",
@@ -267,13 +274,6 @@
         "pos_s1": "Fully emptied",
         "pos_s2": "Body reads it as: keep up",
         "pos_res": "More milk"
-      }
-    },
-    "ww_reel_VCeV4Y": {
-      "type": "ww-reel",
-      "name": "WW Photo reel",
-      "settings": {
-        "seconds": 70
       }
     },
     "ww_difference_LYJXzr": {
@@ -326,7 +326,7 @@
         "h_a": "Give your milk",
         "h_b": "a way out",
         "button": "Order yours now",
-        "default_badge": "Free gifts included",
+        "default_badge": "",
         "default_summary": "Free sizing kit, gifts and delivery",
         "chip_1": "6-month warranty",
         "chip_2": "Free sizing kit",
