@@ -144,13 +144,6 @@
         "doctor_4_topic": "Why I chose WeeWonders"
       }
     },
-    "ww_reel_VCeV4Y": {
-      "type": "ww-reel",
-      "name": "WW Photo reel",
-      "settings": {
-        "seconds": 70
-      }
-    },
     "weewonders_whatsapp_wall_Nymgan": {
       "type": "weewonders-whatsapp-wall",
       "blocks": {
@@ -276,6 +269,13 @@
         "pos_res": "More milk"
       }
     },
+    "ww_reel_VCeV4Y": {
+      "type": "ww-reel",
+      "name": "WW Photo reel",
+      "settings": {
+        "seconds": 70
+      }
+    },
     "ww_difference_LYJXzr": {
       "type": "ww-difference",
       "name": "WW The Difference",
@@ -357,8 +357,8 @@
   "order": [
     "ww_product_UGy4NT",
     "ww_doctors_7BMrEf",
-    "ww_reel_VCeV4Y",
     "weewonders_whatsapp_wall_Nymgan",
+    "ww_reel_VCeV4Y",
     "ww_rule_MjtaJr",
     "ww_difference_LYJXzr",
     "ww_steps_CxVbwg",
