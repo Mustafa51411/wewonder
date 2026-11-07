@@ -535,24 +535,24 @@
 .ww-pdp .dwee .dpump .fstar.s2{left:-8%;top:30%;width:13%}
 .ww-pdp .dwee .dpump .fstar.s3{right:-6%;bottom:12%;width:10%}
 @media(max-width:640px){.ww-pdp .dwee .dpump{max-width:140px!important}}
-.ww-pdp .buy h1{font-size:clamp(34px,3.8vw,48px)!important;font-weight:900!important;letter-spacing:-.03em!important}
-.ww-pdp .ksp li{font-size:18px!important;font-weight:600!important;line-height:1.4!important}
-.ww-pdp .specrow b{font-size:18px!important;font-weight:800!important}
-.ww-pdp .specrow small{font-size:15px!important}
+.ww-pdp .buy h1{font-size:clamp(27.2px,3.04vw,38.4px)!important;font-weight:900!important;letter-spacing:-.03em!important}
+.ww-pdp .ksp li{font-size:14.4px!important;font-weight:600!important;line-height:1.4!important}
+.ww-pdp .specrow b{font-size:14.4px!important;font-weight:800!important}
+.ww-pdp .specrow small{font-size:12px!important}
 .ww-pdp .fm-headline,.ww-pdp .fm-headline .hl-solid,.ww-pdp .diff h2,.ww-pdp h2:has(.dfx),.ww-pdp .diff .dfx{font-weight:900!important}
 .ww-pdp .section h2,.ww-pdp .section h2 .hl,.ww-pdp .doctor-videos h2{font-weight:900!important}
 .ww-pdp .topbar{font-size:16px!important;padding:15px 16px!important}
-.ww-pdp .buy .rate{font-size:16px!important}
-.ww-pdp .buy .rate .en{font-size:14px!important}
-.ww-pdp .buy .pname{font-size:26px!important}
-.ww-pdp .buy .promise{font-size:18px!important;line-height:1.45!important}
-.ww-pdp .oname{font-size:20px!important}
-.ww-pdp .obadge{font-size:13px!important}
-.ww-pdp .onow{font-size:32px!important}
-.ww-pdp .owas{font-size:14px!important}
-.ww-pdp .ot{font-size:17px!important}
-.ww-pdp .ot small{font-size:14px!important}
-.ww-pdp .ov,.ww-pdp .ov.free{font-size:14px!important}
+.ww-pdp .buy .rate{font-size:12.8px!important}
+.ww-pdp .buy .rate .en{font-size:11.2px!important}
+.ww-pdp .buy .pname{font-size:20.8px!important}
+.ww-pdp .buy .promise{font-size:14.4px!important;line-height:1.45!important}
+.ww-pdp .oname{font-size:16px!important}
+.ww-pdp .obadge{font-size:10.4px!important}
+.ww-pdp .onow{font-size:25.6px!important}
+.ww-pdp .owas{font-size:11.2px!important}
+.ww-pdp .ot{font-size:13.6px!important}
+.ww-pdp .ot small{font-size:11.2px!important}
+.ww-pdp .ov,.ww-pdp .ov.free{font-size:11.2px!important}
 .ww-pdp .guarbox b{font-size:18px!important}
 .ww-pdp .guarbox small{font-size:15px!important}
 .ww-pdp .trust .t{font-size:14px!important}
