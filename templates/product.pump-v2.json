@@ -144,23 +144,28 @@
         "doctor_4_topic": "Why I chose WeeWonders"
       }
     },
-    "ww_rule_MjtaJr": {
-      "type": "ww-rule",
-      "name": "WW The simple rule",
+    "ww_difference_LYJXzr": {
+      "type": "ww-difference",
+      "name": "WW The Difference",
       "settings": {
-        "lede": "The simple rule",
-        "h_a": "Empty consistently,",
-        "h_b": "so milk keeps coming",
-        "neg_badge": "😣",
-        "neg_alt": "Half-emptied breast: milk not emptied, low supply next time",
-        "neg_s1": "Half emptied",
-        "neg_s2": "Body reads it as: not needed",
-        "neg_res": "Less milk",
-        "pos_badge": "🙂‍↕️",
-        "pos_alt": "Fully emptied breast: milk fully emptied, high supply next time",
-        "pos_s1": "Fully emptied",
-        "pos_s2": "Body reads it as: keep up",
-        "pos_res": "More milk"
+        "show_feature_intro": true,
+        "feature_image_alt": "WeeWonders wearable breast pump",
+        "feature_heading": "What makes this one",
+        "feature_highlight": "different?",
+        "feature_1_title": "Sized to you",
+        "feature_1_text": "Comes with 4 flange sizes + a tool, so you never guess your size.",
+        "feature_2_title": "Whisper quiet",
+        "feature_2_text": "Under 50dB, no one hears it.",
+        "feature_3_title": "Leak-proof",
+        "feature_3_text": "Seals even upside down.",
+        "feature_4_title": "Truly hands-free",
+        "feature_4_text": "Wear it while you do anything else.",
+        "h_a": "The WeeWonders",
+        "h_b": "Difference",
+        "other_title": "Other pumps",
+        "wee_title": "WeeWonders",
+        "wee_sub": "Pump",
+        "pairs": "Your day revolves around it|Hands-free, it works on its own\nOne size, never actually yours|4 sizes + a tool to find yours\nToo weak to do the job|Soft on you, strong enough for the milk\nNever feels like it actually finished|Empties fully, so no milk is left behind"
       }
     },
     "weewonders_whatsapp_wall_Nymgan": {
@@ -257,8 +262,8 @@
         "stat_3_label": "More confident",
         "stat_4_number": 92,
         "stat_4_label": "Prefer it to old pump",
-        "stats_note": "self-reported, confirmed",
-        "show_stats_note": true,
+        "stats_note": "",
+        "show_stats_note": false,
         "show_cta": false,
         "cta_heading": "",
         "cta_text": "",
@@ -276,28 +281,23 @@
         "seconds": 70
       }
     },
-    "ww_difference_LYJXzr": {
-      "type": "ww-difference",
-      "name": "WW The Difference",
+    "ww_rule_MjtaJr": {
+      "type": "ww-rule",
+      "name": "WW The simple rule",
       "settings": {
-        "show_feature_intro": true,
-        "feature_image_alt": "WeeWonders wearable breast pump",
-        "feature_heading": "What makes this one",
-        "feature_highlight": "different?",
-        "feature_1_title": "Sized to you",
-        "feature_1_text": "Comes with 4 flange sizes + a tool, so you never guess your size.",
-        "feature_2_title": "Whisper quiet",
-        "feature_2_text": "Under 50dB, no one hears it.",
-        "feature_3_title": "Leak-proof",
-        "feature_3_text": "Seals even upside down.",
-        "feature_4_title": "Truly hands-free",
-        "feature_4_text": "Wear it while you do anything else.",
-        "h_a": "The WeeWonders",
-        "h_b": "Difference",
-        "other_title": "Other pumps",
-        "wee_title": "WeeWonders",
-        "wee_sub": "Pump",
-        "pairs": "Your day revolves around it|Hands-free, it works on its own\nOne size, never actually yours|4 sizes + a tool to find yours\nToo weak to do the job|Soft on you, strong enough for the milk\nNever feels like it actually finished|Empties fully, so no milk is left behind"
+        "lede": "The simple rule",
+        "h_a": "Empty consistently,",
+        "h_b": "so milk keeps coming",
+        "neg_badge": "😣",
+        "neg_alt": "Half-emptied breast: milk not emptied, low supply next time",
+        "neg_s1": "Half emptied",
+        "neg_s2": "Body reads it as: not needed",
+        "neg_res": "Less milk",
+        "pos_badge": "🙂‍↕️",
+        "pos_alt": "Fully emptied breast: milk fully emptied, high supply next time",
+        "pos_s1": "Fully emptied",
+        "pos_s2": "Body reads it as: keep up",
+        "pos_res": "More milk"
       }
     },
     "ww_steps_CxVbwg": {
