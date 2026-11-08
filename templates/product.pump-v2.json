@@ -144,6 +144,25 @@
         "doctor_4_topic": "Why I chose WeeWonders"
       }
     },
+    "ww_rule_MjtaJr": {
+      "type": "ww-rule",
+      "name": "WW The simple rule",
+      "settings": {
+        "lede": "The simple rule",
+        "h_a": "Empty consistently,",
+        "h_b": "so milk keeps coming",
+        "neg_badge": "😣",
+        "neg_alt": "Half-emptied breast: milk not emptied, low supply next time",
+        "neg_s1": "Half emptied",
+        "neg_s2": "Body reads it as: not needed",
+        "neg_res": "Less milk",
+        "pos_badge": "🙂‍↕️",
+        "pos_alt": "Fully emptied breast: milk fully emptied, high supply next time",
+        "pos_s1": "Fully emptied",
+        "pos_s2": "Body reads it as: keep up",
+        "pos_res": "More milk"
+      }
+    },
     "weewonders_whatsapp_wall_Nymgan": {
       "type": "weewonders-whatsapp-wall",
       "blocks": {
@@ -257,25 +276,6 @@
         "seconds": 70
       }
     },
-    "ww_rule_MjtaJr": {
-      "type": "ww-rule",
-      "name": "WW The simple rule",
-      "settings": {
-        "lede": "The simple rule",
-        "h_a": "Empty consistently,",
-        "h_b": "so milk keeps coming",
-        "neg_badge": "😣",
-        "neg_alt": "Half-emptied breast: milk not emptied, low supply next time",
-        "neg_s1": "Half emptied",
-        "neg_s2": "Body reads it as: not needed",
-        "neg_res": "Less milk",
-        "pos_badge": "🙂‍↕️",
-        "pos_alt": "Fully emptied breast: milk fully emptied, high supply next time",
-        "pos_s1": "Fully emptied",
-        "pos_s2": "Body reads it as: keep up",
-        "pos_res": "More milk"
-      }
-    },
     "ww_difference_LYJXzr": {
       "type": "ww-difference",
       "name": "WW The Difference",
@@ -357,10 +357,10 @@
   "order": [
     "ww_product_UGy4NT",
     "ww_doctors_7BMrEf",
+    "ww_difference_LYJXzr",
     "weewonders_whatsapp_wall_Nymgan",
     "ww_reel_VCeV4Y",
     "ww_rule_MjtaJr",
-    "ww_difference_LYJXzr",
     "ww_steps_CxVbwg",
     "ww_warranty_UQHa8L",
     "ww_offer_bottom_riaPD8",
