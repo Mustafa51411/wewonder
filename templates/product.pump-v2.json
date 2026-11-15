@@ -69,6 +69,55 @@
             "was_price": "$110",
             "gifts": "sizing|+ FREE Sizing Kit|4 sizes + a tool to find your fit|FREE\nbags|+ FREE Storage Bags (50 pcs)||$12\npillow|+ FREE Breastfeeding Pillow||$14\ndelivery|+ FREE Delivery||FREE"
           }
+        },
+        "gift_sizing": {
+          "type": "bundle_gift",
+          "settings": {
+            "applies_to": "both",
+            "label": "+ FREE Sizing Kit",
+            "note": "4 sizes + a tool to find your fit",
+            "value": "FREE",
+            "icon": "sizing"
+          }
+        },
+        "gift_bags": {
+          "type": "bundle_gift",
+          "settings": {
+            "product": "milk-storage-box",
+            "applies_to": "both",
+            "label": "+ FREE Storage Bags (50 pcs)",
+            "value": "$12",
+            "icon": "bags"
+          }
+        },
+        "gift_warmer": {
+          "type": "bundle_gift",
+          "settings": {
+            "product": "bottle-warmer",
+            "applies_to": "double",
+            "label": "+ FREE Fast Bottle Warmer",
+            "value": "$40",
+            "icon": "warmer"
+          }
+        },
+        "gift_pillow": {
+          "type": "bundle_gift",
+          "settings": {
+            "product": "breastfeeding-pillow",
+            "applies_to": "single",
+            "label": "+ FREE Breastfeeding Pillow",
+            "value": "$14",
+            "icon": "pillow"
+          }
+        },
+        "gift_delivery": {
+          "type": "bundle_gift",
+          "settings": {
+            "applies_to": "both",
+            "label": "+ FREE Delivery",
+            "value": "FREE",
+            "icon": "delivery"
+          }
         }
       },
       "block_order": [
@@ -82,7 +131,12 @@
         "gallery_nGzWBP",
         "gallery_Ge4xp7",
         "offer_QYKgq9",
-        "offer_c4ibpi"
+        "offer_c4ibpi",
+        "gift_sizing",
+        "gift_bags",
+        "gift_warmer",
+        "gift_pillow",
+        "gift_delivery"
       ],
       "name": "WW Product (top)",
       "settings": {
