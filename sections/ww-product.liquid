@@ -16,10 +16,12 @@
 {%- assign fallback_storage_gift = all_products[section.settings.storage_gift_handle] -%}
 {%- assign fallback_warmer_gift = all_products[section.settings.warmer_gift_handle] -%}
 {%- assign fallback_pillow_gift = all_products[section.settings.pillow_gift_handle] -%}
-{%- comment -%} Free gifts come from the "Free gift" metaobject (Shopify admin > Content > Metaobjects) so the client can edit names and photos without touching the theme. When no entries exist yet, each offer card falls back to its own text list. {%- endcomment -%}
+{%- comment -%} Free gifts come from the "Free gift" metaobject (Shopify admin > Content > Metaobjects) so the client can edit names and photos without touching the theme. A product can also carry its own selection through the "Free gifts" product metafield (Product metafields on the product page): when that selection has rows applying to a card it wins, otherwise the shared list is used, and when neither exists each offer card falls back to its own text list. {%- endcomment -%}
 {%- assign ww_empty_entries = '' | split: '' -%}
 {%- assign ww_gift_entries = metaobjects.free_gift.values | default: ww_empty_entries -%}
 {%- assign ww_gift_count = ww_gift_entries | size -%}
+{%- assign ww_prod_entries = product.metafields.custom.free_gifts.value -%}
+{%- assign ww_prod_count = ww_prod_entries | size -%}
 
 {%- if section.settings.hide_announcement_bar != true -%}
   <div class="topbar">{{ section.settings.topbar_text }}</div>
@@ -149,23 +151,74 @@
               {%- assign ww_card_type = 'both' -%}
             {%- endif -%}
             <ul class="ogifts">
-            {%- if ww_gift_count > 0 -%}
-              {%- comment -%} Order rows by the Position field (blank = last). Each entry becomes a "0000:entry-handle" key so a plain string sort is enough. {%- endcomment -%}
-              {%- assign ww_keystr = '' -%}
-              {%- for ge in ww_gift_entries -%}
-                {%- assign gpos = ge.position.value | default: 0 | plus: 0 -%}
-                {%- if gpos > 0 -%}
-                  {%- if gpos > 8999 -%}{%- assign gpos = 9999 -%}{%- endif -%}
-                  {%- assign gpad = gpos | plus: 10000 | append: '' | slice: 1, 4 -%}
+            {%- comment -%} Pick the row source for this card: the product's own "Free gifts" selection first (when it has rows applying to this card), then the shared Free gift list, then the legacy textarea below. Rows are ordered by the Position field (blank = last); each becomes a "0000:entry-handle" key so a plain string sort is enough. {%- endcomment -%}
+            {%- assign ww_entries = nil -%}
+            {%- assign ww_keystr = '' -%}
+            {%- if ww_prod_count > 0 -%}
+              {%- for ge in ww_prod_entries -%}
+                {%- assign g_show = ge.applies_to.value | default: 'both' | downcase | strip -%}
+                {%- if g_show contains 'double' -%}
+                  {%- assign g_show = 'double' -%}
+                {%- elsif g_show contains 'single' -%}
+                  {%- assign g_show = 'single' -%}
                 {%- else -%}
-                  {%- assign gpad = '9999' -%}
+                  {%- assign g_show = 'both' -%}
                 {%- endif -%}
-                {%- assign ww_keystr = ww_keystr | append: gpad | append: ':' | append: ge.system.handle | append: '|' -%}
+                {%- if g_show == 'both' or g_show == ww_card_type or ww_card_type == 'both' -%}
+                  {%- assign g_title = ge.title.value | default: ge.name.value | default: ge.label.value | default: '' | strip -%}
+                  {%- if g_title != blank -%}
+                    {%- assign gpos = ge.position.value | default: 0 | plus: 0 -%}
+                    {%- if gpos > 0 -%}
+                      {%- if gpos > 8999 -%}{%- assign gpos = 9999 -%}{%- endif -%}
+                      {%- assign gpad = gpos | plus: 10000 | append: '' | slice: 1, 4 -%}
+                    {%- else -%}
+                      {%- assign gpad = '9999' -%}
+                    {%- endif -%}
+                    {%- assign ww_keystr = ww_keystr | append: gpad | append: ':' | append: ge.system.handle | append: '|' -%}
+                  {%- endif -%}
+                {%- endif -%}
               {%- endfor -%}
+              {%- if ww_keystr contains ':' -%}
+                {%- assign ww_entries = ww_prod_entries -%}
+              {%- else -%}
+                {%- assign ww_keystr = '' -%}
+              {%- endif -%}
+            {%- endif -%}
+            {%- if ww_entries == nil and ww_gift_count > 0 -%}
+              {%- for ge in ww_gift_entries -%}
+                {%- assign g_show = ge.applies_to.value | default: 'both' | downcase | strip -%}
+                {%- if g_show contains 'double' -%}
+                  {%- assign g_show = 'double' -%}
+                {%- elsif g_show contains 'single' -%}
+                  {%- assign g_show = 'single' -%}
+                {%- else -%}
+                  {%- assign g_show = 'both' -%}
+                {%- endif -%}
+                {%- if g_show == 'both' or g_show == ww_card_type or ww_card_type == 'both' -%}
+                  {%- assign g_title = ge.title.value | default: ge.name.value | default: ge.label.value | default: '' | strip -%}
+                  {%- if g_title != blank -%}
+                    {%- assign gpos = ge.position.value | default: 0 | plus: 0 -%}
+                    {%- if gpos > 0 -%}
+                      {%- if gpos > 8999 -%}{%- assign gpos = 9999 -%}{%- endif -%}
+                      {%- assign gpad = gpos | plus: 10000 | append: '' | slice: 1, 4 -%}
+                    {%- else -%}
+                      {%- assign gpad = '9999' -%}
+                    {%- endif -%}
+                    {%- assign ww_keystr = ww_keystr | append: gpad | append: ':' | append: ge.system.handle | append: '|' -%}
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}
+              {%- if ww_keystr contains ':' -%}
+                {%- assign ww_entries = ww_gift_entries -%}
+              {%- else -%}
+                {%- assign ww_keystr = '' -%}
+              {%- endif -%}
+            {%- endif -%}
+            {%- if ww_entries -%}
               {%- assign ww_keys = ww_keystr | split: '|' | sort -%}
               {%- for key in ww_keys -%}
                 {%- assign ww_kh = key | split: ':' | last -%}
-                {%- for ge in ww_gift_entries -%}
+                {%- for ge in ww_entries -%}
                 {%- if ge.system.handle == ww_kh -%}
                 {%- assign g_show = ge.applies_to.value | default: 'both' | downcase | strip -%}
                 {%- if g_show contains 'double' -%}
@@ -810,7 +863,7 @@
      "id": "gifts",
      "label": "Included gifts, one per line: icon | title | small note | value",
      "default": "sizing|+ FREE Sizing Kit|4 sizes + a tool to find your fit|FREE\nbags|+ FREE Storage Bags (50 pcs)||$12\nwarmer|+ FREE Fast Bottle Warmer||$40\ndelivery|+ FREE Delivery||FREE",
-     "info": "FALLBACK ONLY: ignored as soon as Free gift entries exist in Shopify admin > Content > Metaobjects. Icons: sizing, bags, warmer, pillow, delivery. Value: FREE or a price."
+     "info": "FALLBACK ONLY: shown when neither the product's 'Free gifts' metafield (Product metafields) nor any Free gift entries in Shopify admin > Content > Metaobjects apply. Icons: sizing, bags, warmer, pillow, delivery. Value: FREE or a price."
     }
    ]
   },
