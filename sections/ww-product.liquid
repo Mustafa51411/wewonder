@@ -311,7 +311,21 @@
                 {%- endfor -%}
               {%- endfor -%}
             {%- else -%}
-            {%- assign glines = b.settings.gifts | newline_to_br | split: '<br />' -%}
+            {%- comment -%} Last resort: the card's own gift list when it is still stored, otherwise a built-in list so a card is never empty. {%- endcomment -%}
+            {%- if b.settings.gifts != blank -%}
+              {%- assign ww_giftraw = b.settings.gifts -%}
+            {%- elsif ww_card_type == 'single' -%}
+              {%- capture ww_giftraw -%}sizing|+ FREE Sizing Kit|4 sizes + a tool to find your fit|FREE
+bags|+ FREE Storage Bags (50 pcs)||$12
+pillow|+ FREE Breastfeeding Pillow||$14
+delivery|+ FREE Delivery||FREE{%- endcapture -%}
+            {%- else -%}
+              {%- capture ww_giftraw -%}sizing|+ FREE Sizing Kit|4 sizes + a tool to find your fit|FREE
+bags|+ FREE Storage Bags (50 pcs)||$12
+warmer|+ FREE Fast Bottle Warmer||$40
+delivery|+ FREE Delivery||FREE{%- endcapture -%}
+            {%- endif -%}
+            {%- assign glines = ww_giftraw | newline_to_br | split: '<br />' -%}
             {%- for gl in glines -%}
               {%- assign gp = gl | strip | split: '|' -%}
               {%- if gp.size > 1 -%}
@@ -839,28 +853,28 @@
   },
   {
    "type": "header",
-   "content": "Fallback free-gift products"
+   "content": "Advanced: fallback gifts (leave as is)"
   },
   {
    "type": "text",
    "id": "storage_gift_handle",
    "label": "Storage bags product handle",
    "default": "milk-storage-box",
-   "info": "Used only when no Free bundle gift blocks have been added."
+   "info": "Safety net only: used when the page has no Free gift blocks — leave these three as they are."
   },
   {
    "type": "text",
    "id": "warmer_gift_handle",
    "label": "Bottle warmer product handle",
    "default": "bottle-warmer",
-   "info": "Included with the Double Pump offer."
+   "info": "Safety net only: used when the page has no Free gift blocks."
   },
   {
    "type": "text",
    "id": "pillow_gift_handle",
    "label": "Breastfeeding pillow product handle",
    "default": "breastfeeding-pillow",
-   "info": "Included with the Single Pump offer."
+   "info": "Safety net only: used when the page has no Free gift blocks."
   }
  ],
  "blocks": [
@@ -914,13 +928,6 @@
      "type": "image_picker",
      "id": "image",
      "label": "Offer photo"
-    },
-    {
-     "type": "textarea",
-     "id": "gifts",
-     "label": "Included gifts, one per line: icon | title | small note | value",
-     "default": "sizing|+ FREE Sizing Kit|4 sizes + a tool to find your fit|FREE\nbags|+ FREE Storage Bags (50 pcs)||$12\nwarmer|+ FREE Fast Bottle Warmer||$40\ndelivery|+ FREE Delivery||FREE",
-     "info": "LAST RESORT: shown only when no 'Free gift' block applies to this card, the product's 'Free gifts' metafield has no matching rows, and no Free gift entries in Shopify admin > Content > Metaobjects apply. Icons: sizing, bags, warmer, pillow, delivery. Value: FREE or a price."
     }
    ]
   },
