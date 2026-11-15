@@ -16,6 +16,10 @@
 {%- assign fallback_storage_gift = all_products[section.settings.storage_gift_handle] -%}
 {%- assign fallback_warmer_gift = all_products[section.settings.warmer_gift_handle] -%}
 {%- assign fallback_pillow_gift = all_products[section.settings.pillow_gift_handle] -%}
+{%- comment -%} Free gifts come from the "Free gift" metaobject (Shopify admin > Content > Metaobjects) so the client can edit names and photos without touching the theme. When no entries exist yet, each offer card falls back to its own text list. {%- endcomment -%}
+{%- assign ww_empty_entries = '' | split: '' -%}
+{%- assign ww_gift_entries = metaobjects.free_gift.values | default: ww_empty_entries -%}
+{%- assign ww_gift_count = ww_gift_entries | size -%}
 
 {%- if section.settings.hide_announcement_bar != true -%}
   <div class="topbar">{{ section.settings.topbar_text }}</div>
@@ -136,7 +140,50 @@
               <div class="otitle"><span class="oname">{{ b.settings.name }}</span><span class="obadge">{{ b.settings.badge }}</span></div>
               <div class="oprice"><span class="onow">{{ ov.price | money_without_trailing_zeros }}</span><span class="owas">{{ b.settings.was_price }}</span></div>
             </div>
+            {%- assign ww_card_name = b.settings.name | default: ov.title | downcase -%}
+            {%- if ww_card_name contains 'double' -%}
+              {%- assign ww_card_type = 'double' -%}
+            {%- elsif ww_card_name contains 'single' -%}
+              {%- assign ww_card_type = 'single' -%}
+            {%- else -%}
+              {%- assign ww_card_type = 'both' -%}
+            {%- endif -%}
             <ul class="ogifts">
+            {%- if ww_gift_count > 0 -%}
+              {%- for ge in ww_gift_entries -%}
+                {%- assign g_show = ge.applies_to.value | default: 'both' | downcase | strip -%}
+                {%- if g_show contains 'double' -%}
+                  {%- assign g_show = 'double' -%}
+                {%- elsif g_show contains 'single' -%}
+                  {%- assign g_show = 'single' -%}
+                {%- else -%}
+                  {%- assign g_show = 'both' -%}
+                {%- endif -%}
+                {%- if g_show == 'both' or g_show == ww_card_type or ww_card_type == 'both' -%}
+                  {%- assign g_title = ge.title.value | default: ge.name.value | default: ge.label.value | default: '' | strip -%}
+                  {%- if g_title != blank -%}
+                    {%- assign g_note = ge.note.value | default: '' | strip -%}
+                    {%- assign g_label = ge.value_label.value | default: 'FREE' | strip -%}
+                    {%- assign g_label_up = g_label | upcase -%}
+                    {%- assign g_photo = ge.photo.value -%}
+                    {%- assign g_img = g_photo.preview_image | default: g_photo -%}
+                    {%- assign g_icon = ge.icon.value | default: 'delivery' | strip | downcase -%}
+                    {%- case g_icon -%}
+                      {%- when 'sizing' -%}{%- assign g_asset = 'ww-gift-sizing.jpg' -%}
+                      {%- when 'bags' -%}{%- assign g_asset = 'ww-gift-bags.webp' -%}
+                      {%- when 'warmer' -%}{%- assign g_asset = 'ww-gift-warmer.jpg' -%}
+                      {%- when 'pillow' -%}{%- assign g_asset = 'ww-gift-pillow.jpg' -%}
+                      {%- else -%}{%- assign g_asset = 'ww-gift-delivery.png' -%}
+                    {%- endcase -%}
+                    <li>
+                      <span class="oc{% if g_icon == 'delivery' %} pad{% endif %}">{%- if g_img != blank -%}<img src="{{ g_img | image_url: width: 160 }}" alt="{{ g_title | escape }}" loading="lazy">{%- else -%}<img src="{{ g_asset | asset_url }}" alt="">{%- endif -%}</span>
+                      <span class="ot">{{ g_title }}{%- if g_note != blank -%}<small>{{ g_note }}</small>{%- endif -%}</span>
+                      {%- if g_label_up == 'FREE' -%}<span class="ov free">FREE</span>{%- else -%}<s class="ov">{{ g_label }}</s>{%- endif -%}
+                    </li>
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- else -%}
             {%- assign glines = b.settings.gifts | newline_to_br | split: '<br />' -%}
             {%- for gl in glines -%}
               {%- assign gp = gl | strip | split: '|' -%}
@@ -157,6 +204,7 @@
                 </li>
               {%- endif -%}
             {%- endfor -%}
+            {%- endif -%}
             </ul>
           </div>
           {%- assign oi = oi | plus: 1 -%}
@@ -744,7 +792,7 @@
      "id": "gifts",
      "label": "Included gifts, one per line: icon | title | small note | value",
      "default": "sizing|+ FREE Sizing Kit|4 sizes + a tool to find your fit|FREE\nbags|+ FREE Storage Bags (50 pcs)||$12\nwarmer|+ FREE Fast Bottle Warmer||$40\ndelivery|+ FREE Delivery||FREE",
-     "info": "Icons: sizing, bags, warmer, pillow, delivery. Value: FREE or a price."
+     "info": "FALLBACK ONLY: ignored as soon as Free gift entries exist in Shopify admin > Content > Metaobjects. Icons: sizing, bags, warmer, pillow, delivery. Value: FREE or a price."
     }
    ]
   },
