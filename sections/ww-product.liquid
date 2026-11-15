@@ -150,7 +150,23 @@
             {%- endif -%}
             <ul class="ogifts">
             {%- if ww_gift_count > 0 -%}
+              {%- comment -%} Order rows by the Position field (blank = last). Each entry becomes a "0000:entry-handle" key so a plain string sort is enough. {%- endcomment -%}
+              {%- assign ww_keystr = '' -%}
               {%- for ge in ww_gift_entries -%}
+                {%- assign gpos = ge.position.value | default: 0 | plus: 0 -%}
+                {%- if gpos > 0 -%}
+                  {%- if gpos > 8999 -%}{%- assign gpos = 9999 -%}{%- endif -%}
+                  {%- assign gpad = gpos | plus: 10000 | append: '' | slice: 1, 4 -%}
+                {%- else -%}
+                  {%- assign gpad = '9999' -%}
+                {%- endif -%}
+                {%- assign ww_keystr = ww_keystr | append: gpad | append: ':' | append: ge.system.handle | append: '|' -%}
+              {%- endfor -%}
+              {%- assign ww_keys = ww_keystr | split: '|' | sort -%}
+              {%- for key in ww_keys -%}
+                {%- assign ww_kh = key | split: ':' | last -%}
+                {%- for ge in ww_gift_entries -%}
+                {%- if ge.system.handle == ww_kh -%}
                 {%- assign g_show = ge.applies_to.value | default: 'both' | downcase | strip -%}
                 {%- if g_show contains 'double' -%}
                   {%- assign g_show = 'double' -%}
@@ -182,6 +198,8 @@
                     </li>
                   {%- endif -%}
                 {%- endif -%}
+                {%- endif -%}
+                {%- endfor -%}
               {%- endfor -%}
             {%- else -%}
             {%- assign glines = b.settings.gifts | newline_to_br | split: '<br />' -%}
