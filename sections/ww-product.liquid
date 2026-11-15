@@ -16,7 +16,7 @@
 {%- assign fallback_storage_gift = all_products[section.settings.storage_gift_handle] -%}
 {%- assign fallback_warmer_gift = all_products[section.settings.warmer_gift_handle] -%}
 {%- assign fallback_pillow_gift = all_products[section.settings.pillow_gift_handle] -%}
-{%- comment -%} Free gifts come from the "Free gift" metaobject (Shopify admin > Content > Metaobjects) so the client can edit names and photos without touching the theme. A product can also carry its own selection through the "Free gifts" product metafield (Product metafields on the product page): when that selection has rows applying to a card it wins, otherwise the shared list is used, and when neither exists each offer card falls back to its own text list. {%- endcomment -%}
+{%- comment -%} Free gift rows are rendered from the "Free gift" blocks in the theme editor first (Customize > click a Free gift block: pick the product and the Double/Single/Both card). When a card has no matching block, rows come from the product's own "Free gifts" product metafield, then from the shared "Free gift" metaobject list (Shopify admin > Content > Metaobjects), and finally from each offer card's own text list. {%- endcomment -%}
 {%- assign ww_empty_entries = '' | split: '' -%}
 {%- assign ww_gift_entries = metaobjects.free_gift.values | default: ww_empty_entries -%}
 {%- assign ww_gift_count = ww_gift_entries | size -%}
@@ -151,6 +151,62 @@
               {%- assign ww_card_type = 'both' -%}
             {%- endif -%}
             <ul class="ogifts">
+            {%- comment -%} FIRST CHOICE: the "Free gift" blocks added in the theme editor (Customize > click a Free gift block > pick the product and whether it shows on the Double card, the Single card or both). Every matching block becomes one row, in the order the blocks are listed. If no block matches this card, the older sources below are used instead. {%- endcomment -%}
+            {%- capture ww_block_html -%}
+              {%- for bb in section.blocks -%}
+                {%- if bb.type == 'bundle_gift' -%}
+                  {%- assign g_show = bb.settings.applies_to | default: 'both' | downcase | strip -%}
+                  {%- if g_show == 'both' or g_show == ww_card_type or ww_card_type == 'both' -%}
+                    {%- assign bgp = bb.settings.product -%}
+                    {%- assign g_title = bb.settings.label | default: '' | strip -%}
+                    {%- if g_title == blank and bgp != blank -%}
+                      {%- assign g_title = '+ FREE ' | append: bgp.title -%}
+                    {%- endif -%}
+                    {%- if g_title != blank -%}
+                      {%- assign g_note = bb.settings.note | default: '' | strip -%}
+                      {%- assign g_label = bb.settings.value | default: '' | strip -%}
+                      {%- if g_label == blank -%}
+                        {%- if bgp != blank and bgp.price > 0 -%}
+                          {%- assign g_label = bgp.price | money_without_trailing_zeros -%}
+                        {%- else -%}
+                          {%- assign g_label = 'FREE' -%}
+                        {%- endif -%}
+                      {%- endif -%}
+                      {%- assign g_label_up = g_label | upcase -%}
+                      {%- assign g_img = bb.settings.image -%}
+                      {%- assign g_icon = bb.settings.icon | default: '' | strip | downcase -%}
+                      {%- assign g_asset = 'ww-gift-delivery.png' -%}
+                      {%- assign g_pad = false -%}
+                      {%- case g_icon -%}
+                        {%- when 'sizing' -%}{%- assign g_asset = 'ww-gift-sizing.jpg' -%}
+                        {%- when 'bags' -%}{%- assign g_asset = 'ww-gift-bags.webp' -%}
+                        {%- when 'warmer' -%}{%- assign g_asset = 'ww-gift-warmer.jpg' -%}
+                        {%- when 'pillow' -%}{%- assign g_asset = 'ww-gift-pillow.jpg' -%}
+                        {%- when 'delivery' -%}{%- assign g_asset = 'ww-gift-delivery.png' -%}{%- assign g_pad = true -%}
+                      {%- endcase -%}
+                      {%- if g_img != blank -%}
+                        {%- assign g_src = g_img | image_url: width: 160 -%}
+                      {%- elsif g_icon != blank -%}
+                        {%- assign g_src = g_asset | asset_url -%}
+                      {%- elsif bgp != blank and bgp.featured_image != blank -%}
+                        {%- assign g_src = bgp.featured_image | image_url: width: 160 -%}
+                      {%- else -%}
+                        {%- assign g_src = g_asset | asset_url -%}
+                        {%- assign g_pad = true -%}
+                      {%- endif -%}
+                      <li>
+                        <span class="oc{% if g_pad %} pad{% endif %}"><img src="{{ g_src }}" alt="{{ g_title | escape }}" loading="lazy"></span>
+                        <span class="ot">{{ g_title }}{%- if g_note != blank -%}<small>{{ g_note }}</small>{%- endif -%}</span>
+                        {%- if g_label_up == 'FREE' -%}<span class="ov free">FREE</span>{%- else -%}<s class="ov">{{ g_label }}</s>{%- endif -%}
+                      </li>
+                    {%- endif -%}
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endcapture -%}
+            {%- if ww_block_html contains '<li' -%}
+            {{- ww_block_html -}}
+            {%- else -%}
             {%- comment -%} Pick the row source for this card: the product's own "Free gifts" selection first (when it has rows applying to this card), then the shared Free gift list, then the legacy textarea below. Rows are ordered by the Position field (blank = last); each becomes a "0000:entry-handle" key so a plain string sort is enough. {%- endcomment -%}
             {%- assign ww_entries = nil -%}
             {%- assign ww_keystr = '' -%}
@@ -275,6 +331,7 @@
                 </li>
               {%- endif -%}
             {%- endfor -%}
+            {%- endif -%}
             {%- endif -%}
             </ul>
           </div>
@@ -863,33 +920,24 @@
      "id": "gifts",
      "label": "Included gifts, one per line: icon | title | small note | value",
      "default": "sizing|+ FREE Sizing Kit|4 sizes + a tool to find your fit|FREE\nbags|+ FREE Storage Bags (50 pcs)||$12\nwarmer|+ FREE Fast Bottle Warmer||$40\ndelivery|+ FREE Delivery||FREE",
-     "info": "FALLBACK ONLY: shown when neither the product's 'Free gifts' metafield (Product metafields) nor any Free gift entries in Shopify admin > Content > Metaobjects apply. Icons: sizing, bags, warmer, pillow, delivery. Value: FREE or a price."
+     "info": "LAST RESORT: shown only when no 'Free gift' block applies to this card, the product's 'Free gifts' metafield has no matching rows, and no Free gift entries in Shopify admin > Content > Metaobjects apply. Icons: sizing, bags, warmer, pillow, delivery. Value: FREE or a price."
     }
    ]
   },
   {
    "type": "bundle_gift",
-   "name": "Free bundle gift",
+   "name": "Free gift",
    "settings": [
     {
      "type": "product",
      "id": "product",
-     "label": "Gift product"
-    },
-    {
-     "type": "image_picker",
-     "id": "image",
-     "label": "Optional card image override"
-    },
-    {
-     "type": "text",
-     "id": "label",
-     "label": "Gift label (optional)"
+     "label": "1. Gift product",
+     "info": "The free product shown in this row. Leave empty to make a text-only row (like the Sizing Kit or Delivery rows)."
     },
     {
      "type": "select",
      "id": "applies_to",
-     "label": "Include with",
+     "label": "2. Show on which card?",
      "default": "both",
      "options": [
       {
@@ -902,9 +950,64 @@
       },
       {
        "value": "both",
-       "label": "Both options"
+       "label": "Both cards"
       }
      ]
+    },
+    {
+     "type": "text",
+     "id": "label",
+     "label": "3. Row title",
+     "info": "Example: + FREE Storage Bags (50 pcs). Leave empty to use the product name."
+    },
+    {
+     "type": "text",
+     "id": "note",
+     "label": "4. Small note under the title",
+     "info": "Example: 4 sizes + a tool to find your fit. Leave empty for no note."
+    },
+    {
+     "type": "text",
+     "id": "value",
+     "label": "5. Value on the right",
+     "info": "Type FREE or a price like $12. Leave empty to use the product price (or FREE when it costs 0)."
+    },
+    {
+     "type": "select",
+     "id": "icon",
+     "label": "6. Icon",
+     "options": [
+      {
+       "value": "",
+       "label": "Product photo"
+      },
+      {
+       "value": "sizing",
+       "label": "Sizing kit"
+      },
+      {
+       "value": "bags",
+       "label": "Storage bags"
+      },
+      {
+       "value": "warmer",
+       "label": "Bottle warmer"
+      },
+      {
+       "value": "pillow",
+       "label": "Breastfeeding pillow"
+      },
+      {
+       "value": "delivery",
+       "label": "Delivery"
+      }
+     ]
+    },
+    {
+     "type": "image_picker",
+     "id": "image",
+     "label": "7. Custom photo (optional)",
+     "info": "Overrides the icon / product photo above."
     }
    ]
   }
