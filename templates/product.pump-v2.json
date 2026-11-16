@@ -55,8 +55,7 @@
             "name": "Double Pump Set",
             "flag": "Most popular",
             "badge": "Save $50",
-            "was_price": "$220",
-            "gifts": "sizing|+ FREE Sizing Kit|4 sizes + a tool to find your fit|FREE\nbags|+ FREE Storage Bags (50 pcs)||$12\nwarmer|+ FREE Fast Bottle Warmer||$40\ndelivery|+ FREE Delivery||FREE"
+            "was_price": "$220"
           }
         },
         "offer_c4ibpi": {
@@ -66,8 +65,7 @@
             "name": "Single Pump",
             "flag": "",
             "badge": "Save $10",
-            "was_price": "$110",
-            "gifts": "sizing|+ FREE Sizing Kit|4 sizes + a tool to find your fit|FREE\nbags|+ FREE Storage Bags (50 pcs)||$12\npillow|+ FREE Breastfeeding Pillow||$14\ndelivery|+ FREE Delivery||FREE"
+            "was_price": "$110"
           }
         },
         "gift_sizing": {
@@ -121,6 +119,11 @@
         }
       },
       "block_order": [
+        "gift_sizing",
+        "gift_bags",
+        "gift_warmer",
+        "gift_pillow",
+        "gift_delivery",
         "gallery_tT6Gx3",
         "gallery_njrBgL",
         "gallery_9yDCUg",
@@ -131,12 +134,7 @@
         "gallery_nGzWBP",
         "gallery_Ge4xp7",
         "offer_QYKgq9",
-        "offer_c4ibpi",
-        "gift_sizing",
-        "gift_bags",
-        "gift_warmer",
-        "gift_pillow",
-        "gift_delivery"
+        "offer_c4ibpi"
       ],
       "name": "WW Product (top)",
       "settings": {
