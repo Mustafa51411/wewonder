@@ -374,6 +374,16 @@ delivery|+ FREE Delivery||FREE{%- endcapture -%}
         {%- endif -%}
       </div>
 
+      <div class="ww-addons" id="ww-addons" aria-label="Add to your order, 15% off">
+        <div class="aot" id="ao-title">Add to your order with a <span class="aohl">special discount</span></div>
+        <div class="aohead">
+          <span class="aopill">15% off</span>
+          <div class="aonav"><button type="button" id="ao-prev" aria-label="Previous">&#8249;</button><button type="button" id="ao-next" aria-label="Next">&#8250;</button></div>
+        </div>
+        <div class="aotrack" id="ao-track"></div>
+        <div class="aosum" id="ao-sum"><span id="ao-sum-a"></span><span id="ao-sum-b"></span></div>
+      </div>
+
       <button class="btn btn-atc btn-lg" id="atc" type="button" onclick="addToCart(this)" data-label="{{ section.settings.atc_label | escape }}" data-sold-out-label="Sold out">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 016 0v2"/></svg>
         <span>{{ section.settings.atc_label }}</span>
@@ -534,6 +544,8 @@ delivery|+ FREE Delivery||FREE{%- endcapture -%}
       }
     });
 
+    if (window.WWAddons) { items = items.concat(window.WWAddons.items(bundleName, id)); }
+
     var root = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/';
     fetch(root + 'cart/add.js', {
       method: 'POST',
@@ -570,6 +582,119 @@ delivery|+ FREE Delivery||FREE{%- endcapture -%}
   window.addEventListener('scroll', function() {
     if (bar) bar.classList.toggle('show', window.scrollY > 640);
   }, { passive: true });
+})();
+</script>
+
+<script>
+(function(){
+  var OFF=0.15, IMG='?width=300';
+  var V={
+    pillow:[['Striped',53019505131817],['Animal',53019505164585],['Stars',53019505197353]],
+    cover:[['Green',53435726561577],['Baby Blue',53435726594345],['Blue',53435726627113],['Beige',53435726659881]],
+    holder:[['Checkered',53203572359465],['Black',53203572392233],['Beige',53203572425001],['Green',53203572457769]],
+    bag:[['Off White',53435612365097],['Navy Blue',53435612397865],['Dark Green',53435612430633]]
+  };
+  var CDN='https://cdn.shopify.com/s/files/1/0847/2120/5545/files/';
+  var P={
+    pillow:{h:'breastfeeding-pillow',t:'Breastfeeding Pillow',p:14,img:CDN+'Screenshot2026-04-20195447.png?v=1776706497',v:V.pillow},
+    warmer:{h:'bottle-warmer',t:'Fast Bottle Warmer',p:40,img:CDN+'ChatGPT_Image_Aug_6_2026_08_44_45_PM.png?v=1786038332',v:[['',48807430127913]]},
+    monitor:{h:'baby-monitor',t:'Baby Monitor',p:44,img:CDN+'c5f8a26a-9328-41e5-9284-ca9ca9cc063e_f313b296-6c62-4882-becc-955cb4e9a628.png?v=1787071365',v:[['',48901884412201]]},
+    noise:{h:'white-noise-machine',t:'White Noise Machine',p:40,img:CDN+'ChatGPTImageAug18_2026_08_12_32PM.png?v=1787073229',v:[['',50586094534953]]},
+    cover:{h:'baby-nursing-cover',t:'Nursing Cover',p:12,img:CDN+'Hb0e546c8235d4a52b4ed34e0837d221ej.jpg?v=1787074637',v:V.cover},
+    holder:{h:'baby-holder',t:'Baby Holder',p:28,img:CDN+'Screenshot_2026-05-24_190342.png?v=1779641788',v:V.holder},
+    brush:{h:'bottle-cleaning-brush',t:'Cleaning Bottle Brushes',p:16,img:CDN+'ChatGPT_Image_Aug_18_2026_09_04_25_PM.png?v=1787076272',v:[['',53329921540393]]},
+    bag:{h:'untitled-aug18_13-12-05',t:'Bag for Mom',p:38,img:CDN+'ChatGPTImageAug18_2026_06_03_54PM.png?v=1787068651',v:V.bag}
+  };
+  /* Only items that are NOT already free gifts in that set */
+  var LIST={single:['holder','monitor','cover','bag','brush','warmer','noise'],double:['holder','cover','bag','pillow','brush','warmer','noise']};
+  var gone={}; /* variant ids that are sold out (filled from the store at load) */
+  var state={}; /* key -> {on:bool, vi:number} */
+  var root=document.getElementById('ww-addons'); if(!root) return;
+  var track=document.getElementById('ao-track');
+  function money(n){n=Math.round(n*100)/100;return '$'+(n%1?n.toFixed(2):n);}
+  function disc(p){return Math.round(p*(1-OFF)*100)/100;}
+  function tier(){var s=document.querySelector('#offer .ocard.sel');var n=(s&&s.dataset.name||'').toLowerCase();return n.indexOf('double')>=0?'double':'single';}
+  function parentId(){var s=document.querySelector('#offer .ocard.sel');return s?String(s.dataset.variantId):'';}
+  function st(k){return state[k]||(state[k]={on:false,vi:0});}
+  function render(){
+    var t=tier(),h='';
+    avail(t).forEach(function(k){
+      var p=P[k],s=st(k),sel='';
+      if(vlist(k).length>1){if(gone[p.v[s.vi][1]])s.vi=vlist(k)[0];sel='<select class="aosel" data-k="'+k+'" aria-label="'+p.t+' option">'+vlist(k).map(function(i){return '<option value="'+i+'"'+(i===s.vi?' selected':'')+'>'+p.v[i][0]+'</option>';}).join('')+'</select>';}else if(gone[p.v[s.vi][1]]){s.vi=vlist(k)[0];}
+      h+='<label class="aoc'+(s.on?' on':'')+'" data-k="'+k+'"><input class="aock" type="checkbox" data-k="'+k+'"'+(s.on?' checked':'')+'><span class="aobox"></span>'
+        +'<span class="aoimg"><img loading="lazy" src="'+p.img+(p.img.indexOf('?')>0?'&':'?')+'width=300" alt="'+p.t+'"></span>'
+        +'<span class="aoname">'+p.t+'</span><span class="aopr"><em>'+money(disc(p.p))+'</em><s>'+money(p.p)+'</s></span>'+sel+'</label>';
+    });
+    track.innerHTML=h; summary(); updateWA(); updateBar(); fit();
+  }
+  function vlist(k){var a=P[k].v.map(function(v,i){return i;}).filter(function(i){return !gone[P[k].v[i][1]];});return a;}
+  function avail(t){return LIST[t].filter(function(k){return vlist(k).length>0;});}
+  function chosen(){var t=tier();return avail(t).filter(function(k){var s=st(k);if(gone[P[k].v[s.vi][1]]){s.vi=vlist(k)[0];}return s.on;});}
+  function summary(){
+    var c=chosen(),tot=0,sav=0;
+    c.forEach(function(k){tot+=disc(P[k].p);sav+=P[k].p-disc(P[k].p);});
+    var box=document.getElementById('ao-sum');
+    box.classList.toggle('show',c.length>0);
+    if(c.length){document.getElementById('ao-sum-a').textContent='Add-ons ('+c.length+'): +'+money(tot);document.getElementById('ao-sum-b').textContent='You save '+money(sav);}
+  }
+  function label(k){var p=P[k],s=st(k);return p.t+(p.v.length>1?' ('+p.v[s.vi][0]+')':'');}
+  function updateWA(){
+    var sel=document.querySelector('#offer .ocard.sel'); if(!sel) return;
+    var extra=chosen().map(label);
+    document.querySelectorAll('[data-whatsapp-order]').forEach(function(a){
+      var msg=(a.dataset.whatsappMessage||'Hi, I want to order the WeeWonders pump')+': '+(a.dataset.productTitle||'Wearable Breast Pump')+' - '+sel.dataset.name;
+      if(extra.length) msg+=' + add-ons (15% off): '+extra.join(', ');
+      a.href='https://api.whatsapp.com/send/?phone='+a.dataset.whatsappNumber+'&text='+encodeURIComponent(msg)+'&type=phone_number&app_absent=0';
+    });
+  }
+  track.addEventListener('change',function(e){
+    var k=e.target.dataset.k; if(!k) return;
+    if(e.target.classList.contains('aosel')){st(k).vi=+e.target.value;}
+    else{st(k).on=e.target.checked;var c=e.target.closest('.aoc');if(c)c.classList.toggle('on',st(k).on);
+      document.dispatchEvent(new CustomEvent('ww:addon-toggle',{detail:{key:k,title:P[k].t,on:st(k).on,price:disc(P[k].p),tier:tier()}}));}
+    summary(); updateWA(); updateBar();
+  });
+  track.addEventListener('click',function(e){if(e.target.classList.contains('aosel')) e.stopPropagation();},true);
+  /* sticky bar: tier price + add-ons, number counts up */
+  var shown=null,raf=0;
+  function num(x){return parseFloat(String(x).replace(/[^0-9.]/g,''))||0;}
+  function setNum(el,v){el.textContent=money(v);}
+  function updateBar(){
+    var sel=document.querySelector('#offer .ocard.sel'); if(!sel) return;
+    var bp=document.getElementById('barprice'),bn=document.getElementById('barname'); if(!bp||!bn) return;
+    var total=num(sel.dataset.price); chosen().forEach(function(k){total+=disc(P[k].p);});
+    total=Math.round(total*100)/100;
+    var names=[sel.dataset.name].concat(chosen().map(function(k){return P[k].t;}));
+    bn.textContent=names.join(' + ');
+    var node=bp.childNodes[0];
+    if(!node||node.nodeType!==3){node=document.createTextNode('');bp.insertBefore(node,bp.firstChild);}
+    if(shown===null){shown=total;node.textContent=money(total);return;}
+    var from=shown,t0=null; cancelAnimationFrame(raf);
+    function step(ts){t0=t0||ts;var f=Math.min(1,(ts-t0)/380),v=from+(total-from)*f;node.textContent=money(f<1?v:total);shown=f<1?v:total;if(f<1)raf=requestAnimationFrame(step);}
+    raf=requestAnimationFrame(step);
+  }
+  /* title always on one line */
+  function fit(){var t=document.getElementById('ao-title');if(!t)return;t.style.fontSize='';var max=parseFloat(getComputedStyle(t).fontSize),w=t.parentNode.clientWidth,s=max;
+    while(t.scrollWidth>w&&s>12){s-=0.5;t.style.fontSize=s+'px';}}
+  window.addEventListener('resize',fit);
+  function nudge(d){track.scrollBy({left:d*170,behavior:'smooth'});}
+  document.getElementById('ao-prev').onclick=function(){nudge(-1);};
+  document.getElementById('ao-next').onclick=function(){nudge(1);};
+  var orig=window.pickO;
+  if(typeof orig==='function'){window.pickO=function(){var r=orig.apply(this,arguments);render();return r;};}
+  /* used by addToCart */
+  window.WWAddons={items:function(bundleName,parent){
+    return chosen().map(function(k){var s=st(k);return {id:P[k].v[s.vi][1],quantity:1,properties:{'_WeeWonders add-on':'15% off','_Bundle parent variant':String(parent)}};});
+  },names:function(){var m={};Object.keys(P).forEach(function(k){P[k].v.forEach(function(v){m[v[1]]=P[k].t+(v[0]?' ('+v[0]+')':'');});});return m;}};
+  render();
+  /* hide anything sold out so a sold-out add-on can never break the pump's add to cart */
+  try{Object.keys(P).forEach(function(k){
+    fetch('/products/'+P[k].h+'.js',{credentials:'same-origin'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
+      if(!d||!d.variants)return; var ch=false;
+      d.variants.forEach(function(v){if(v.available===false){gone[v.id]=true;ch=true;}});
+      if(ch)render();
+    }).catch(function(){});
+  });}catch(e){}
 })();
 </script>
 
