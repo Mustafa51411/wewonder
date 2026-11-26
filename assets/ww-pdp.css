@@ -584,7 +584,7 @@
   .whatsapp-floating-button{bottom:calc(88px + env(safe-area-inset-bottom))!important}
 }
 
-/* WeeWonders add-ons (15% off) */
+/* WeeWonders add-ons (Black Friday, 25% off) */
 .ww-addons{margin:14px 0 6px}
 .ww-addons .aohead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
 .ww-addons .aot{font-weight:800;color:var(--navy);font-size:1.4rem;line-height:1.4;white-space:nowrap;margin-bottom:6px}

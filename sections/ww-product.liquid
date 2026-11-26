@@ -355,30 +355,16 @@ delivery|+ FREE Delivery||FREE{%- endcapture -%}
       </div>
 
       {%- comment -%} Real bundle gift items from theme blocks {%- endcomment -%}
-      <div id="bundle-gift-data" hidden>
-        {%- assign configured_bundle_gifts = 0 -%}
-        {%- for b in section.blocks -%}
-          {%- if b.type == 'bundle_gift' and b.settings.product != blank -%}
-            {%- assign configured_bundle_gifts = configured_bundle_gifts | plus: 1 -%}
-            {%- assign gp = b.settings.product -%}
-            {%- assign gv = gp.selected_or_first_available_variant -%}
-            {%- if gv != blank -%}
-              <span data-bundle-gift data-applies-to="{{ b.settings.applies_to }}" data-variant-id="{{ gv.id }}" data-product-title="{{ gp.title | escape }}" data-available="{{ gv.available }}"></span>
-            {%- endif -%}
-          {%- endif -%}
-        {%- endfor -%}
-        {%- if configured_bundle_gifts == 0 -%}
-          {%- if fallback_storage_gift != blank -%}{%- assign storage_variant = fallback_storage_gift.selected_or_first_available_variant -%}{%- if storage_variant != blank -%}<span data-bundle-gift data-applies-to="both" data-variant-id="{{ storage_variant.id }}" data-product-title="{{ fallback_storage_gift.title | escape }}" data-available="{{ storage_variant.available }}"></span>{%- endif -%}{%- endif -%}
-          {%- if fallback_warmer_gift != blank -%}{%- assign warmer_variant = fallback_warmer_gift.selected_or_first_available_variant -%}{%- if warmer_variant != blank -%}<span data-bundle-gift data-applies-to="double" data-variant-id="{{ warmer_variant.id }}" data-product-title="{{ fallback_warmer_gift.title | escape }}" data-available="{{ warmer_variant.available }}"></span>{%- endif -%}{%- endif -%}
-          {%- if fallback_pillow_gift != blank -%}{%- assign pillow_variant = fallback_pillow_gift.selected_or_first_available_variant -%}{%- if pillow_variant != blank -%}<span data-bundle-gift data-applies-to="single" data-variant-id="{{ pillow_variant.id }}" data-product-title="{{ fallback_pillow_gift.title | escape }}" data-available="{{ pillow_variant.available }}"></span>{%- endif -%}{%- endif -%}
-        {%- endif -%}
-      </div>
+<div id="bundle-gift-data" hidden><span data-bundle-gift data-applies-to="both" data-variant-id="48850126471465" data-product-title="Milk Storage Bags (50pcs)" data-available="true"></span></div>
 
-      <div class="ww-addons" id="ww-addons" aria-label="Add to your order, 15% off">
-        <div class="aot" id="ao-title">Add to your order with a <span class="aohl">special discount</span></div>
-        <div class="aohead">
-          <span class="aopill">15% off</span>
-          <div class="aonav"><button type="button" id="ao-prev" aria-label="Previous">&#8249;</button><button type="button" id="ao-next" aria-label="Next">&#8250;</button></div>
+      <div class="ww-addons" id="ww-addons" aria-label="Add to your order, 25% off">
+  <div class="aot" id="ao-title">Add to your order with a <span class="aohl">Black Friday discount</span></div>
+  <div class="aohead">
+    <span class="aopill">25% off</span>
+    <div class="aonav"><button type="button" id="ao-prev" aria-label="Previous">&#8249;</button><button type="button" id="ao-next" aria-label="Next">&#8250;</button></div>
+  </div>
+  <div class="aotrack" id="ao-track"></div>
+  <div class="aosum" id="ao-sum"><span id="ao-sum-a"></span><span id="ao-sum-b"></span></div>
         </div>
         <div class="aotrack" id="ao-track"></div>
         <div class="aosum" id="ao-sum"><span id="ao-sum-a"></span><span id="ao-sum-b"></span></div>
@@ -404,16 +390,16 @@ delivery|+ FREE Delivery||FREE{%- endcapture -%}
       </a>
       {%- endif -%}
 
-      <div class="guarbox">
-        <span class="gi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/></svg></span>
-        <div><b>{{ section.settings.guarantee_title }}</b><small>{{ section.settings.guarantee_text }}</small></div>
+<div class="guarbox">
+        <span class="gi"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M22 8l13 5v9c0 8-5.5 13-13 16-1.5-.6-2.8-1.3-4-2z" fill="var(--sky)"/><g stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 4l13 5v9c0 8-5.5 13-13 16C10.5 31 5 26 5 18V9z"/><path d="M12 18.5l4.2 4.2 8-8.4"/></g></svg></span>
+        <div><b>6-month warranty</b><small>If it stops working or something goes wrong, we’ve got you covered.</small></div>
       </div>
 
       <div class="trust">
-        <div class="t"><div class="i"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="14" height="10" rx="3"/><path d="M21 10v4"/></svg></div>{{ section.settings.trust_1 }}</div>
-        <div class="t"><div class="i"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z"/></svg></div>{{ section.settings.trust_2 }}</div>
-        <div class="t"><div class="i"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 01-11.8 7L4 20l1.1-4.6A8 8 0 1121 12z"/></svg></div>{{ section.settings.trust_3 }}</div>
-        <div class="t"><div class="i"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 010 12h-3"/></svg></div>{{ section.settings.trust_4 }}</div>
+        <div class="t"><div class="i"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M7 14h19v15H7z" fill="var(--sky)"/><g stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h19v17H4z"/><path d="M23 15h6l6 6v6H23"/><circle cx="12" cy="29" r="3.2" fill="#fff"/><circle cx="28" cy="29" r="3.2" fill="#fff"/></g></svg></div>48h delivery</div>
+        <div class="t"><div class="i"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M22 8l13 5v9c0 8-5.5 13-13 16-1.5-.6-2.8-1.3-4-2z" fill="var(--sky)"/><g stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 4l13 5v9c0 8-5.5 13-13 16C10.5 31 5 26 5 18V9z"/><path d="M12 18.5l4.2 4.2 8-8.4"/></g></svg></div>6-month warranty</div>
+        <div class="t"><div class="i"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M9 11h28v19H9z" fill="var(--sky)"/><g stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7h24a4 4 0 014 4v14a4 4 0 01-4 4H19l-7 6v-6H8a4 4 0 01-4-4V11a4 4 0 014-4z"/><path d="M12 15h16M12 21h10"/></g></svg></div>WhatsApp 7 days</div>
+        <div class="t"><div class="i"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M12 17h16a8 8 0 010 16H14z" fill="var(--sky)" opacity=".9"/><g stroke="var(--navy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 8L6 15l7 7"/><path d="M6 15h17a9 9 0 010 18h-6"/></g></svg></div>Risk-free</div>
       </div>
     </div>
   </div>
@@ -587,7 +573,7 @@ delivery|+ FREE Delivery||FREE{%- endcapture -%}
 
 <script>
 (function(){
-  var OFF=0.15, IMG='?width=300';
+  var OFF=0.25, IMG='?width=300';
   var V={
     pillow:[['Striped',53019505131817],['Animal',53019505164585],['Stars',53019505197353]],
     cover:[['Green',53435726561577],['Baby Blue',53435726594345],['Blue',53435726627113],['Beige',53435726659881]],
@@ -598,7 +584,8 @@ delivery|+ FREE Delivery||FREE{%- endcapture -%}
   var P={
     pillow:{h:'breastfeeding-pillow',t:'Breastfeeding Pillow',p:14,img:CDN+'Screenshot2026-04-20195447.png?v=1776706497',v:V.pillow},
     warmer:{h:'bottle-warmer',t:'Fast Bottle Warmer',p:40,img:CDN+'ChatGPT_Image_Aug_6_2026_08_44_45_PM.png?v=1786038332',v:[['',48807430127913]]},
-    monitor:{h:'baby-monitor',t:'Baby Monitor',p:44,img:CDN+'c5f8a26a-9328-41e5-9284-ca9ca9cc063e_f313b296-6c62-4882-becc-955cb4e9a628.png?v=1787071365',v:[['',48901884412201]]},
+    screen:{h:'baby-monitor-with-screen',t:'Baby Monitor with Screen',p:120,img:CDN+'7785f32d-5b70-4841-ac3c-856beaa76cd2.png?v=1787069695',v:[['',52981736866089]]},
+    monitor:{h:'baby-monitor',t:'Baby Monitor',p:44,fixed:25,img:CDN+'c5f8a26a-9328-41e5-9284-ca9ca9cc063e_f313b296-6c62-4882-becc-955cb4e9a628.png?v=1787071365',v:[['',48901884412201]]},
     noise:{h:'white-noise-machine',t:'White Noise Machine',p:40,img:CDN+'ChatGPTImageAug18_2026_08_12_32PM.png?v=1787073229',v:[['',50586094534953]]},
     cover:{h:'baby-nursing-cover',t:'Nursing Cover',p:12,img:CDN+'Hb0e546c8235d4a52b4ed34e0837d221ej.jpg?v=1787074637',v:V.cover},
     holder:{h:'baby-holder',t:'Baby Holder',p:28,img:CDN+'Screenshot_2026-05-24_190342.png?v=1779641788',v:V.holder},
@@ -606,24 +593,26 @@ delivery|+ FREE Delivery||FREE{%- endcapture -%}
     bag:{h:'untitled-aug18_13-12-05',t:'Bag for Mom',p:38,img:CDN+'ChatGPTImageAug18_2026_06_03_54PM.png?v=1787068651',v:V.bag}
   };
   /* Only items that are NOT already free gifts in that set */
-  var LIST={single:['holder','monitor','cover','bag','brush','warmer','noise'],double:['holder','cover','bag','pillow','brush','warmer','noise']};
+  var LIST={single:['screen','noise','warmer','brush','pillow','bag','cover','holder','monitor'],double:['screen','noise','warmer','brush','pillow','bag','cover','holder','monitor']};
   var gone={}; /* variant ids that are sold out (filled from the store at load) */
   var state={}; /* key -> {on:bool, vi:number} */
   var root=document.getElementById('ww-addons'); if(!root) return;
   var track=document.getElementById('ao-track');
   function money(n){n=Math.round(n*100)/100;return '$'+(n%1?n.toFixed(2):n);}
   function disc(p){return Math.round(p*(1-OFF)*100)/100;}
+ function dk(k){var q=P[k];return q.fixed!=null?q.fixed:disc(q.p);}
   function tier(){var s=document.querySelector('#offer .ocard.sel');var n=(s&&s.dataset.name||'').toLowerCase();return n.indexOf('double')>=0?'double':'single';}
   function parentId(){var s=document.querySelector('#offer .ocard.sel');return s?String(s.dataset.variantId):'';}
   function st(k){return state[k]||(state[k]={on:false,vi:0});}
   function render(){
     var t=tier(),h='';
     avail(t).forEach(function(k){
+ if(k==='monitor')return;
       var p=P[k],s=st(k),sel='';
       if(vlist(k).length>1){if(gone[p.v[s.vi][1]])s.vi=vlist(k)[0];sel='<select class="aosel" data-k="'+k+'" aria-label="'+p.t+' option">'+vlist(k).map(function(i){return '<option value="'+i+'"'+(i===s.vi?' selected':'')+'>'+p.v[i][0]+'</option>';}).join('')+'</select>';}else if(gone[p.v[s.vi][1]]){s.vi=vlist(k)[0];}
       h+='<label class="aoc'+(s.on?' on':'')+'" data-k="'+k+'"><input class="aock" type="checkbox" data-k="'+k+'"'+(s.on?' checked':'')+'><span class="aobox"></span>'
         +'<span class="aoimg"><img loading="lazy" src="'+p.img+(p.img.indexOf('?')>0?'&':'?')+'width=300" alt="'+p.t+'"></span>'
-        +'<span class="aoname">'+p.t+'</span><span class="aopr"><em>'+money(disc(p.p))+'</em><s>'+money(p.p)+'</s></span>'+sel+'</label>';
+        +'<span class="aoname">'+p.t+'</span><span class="aopr"><em>'+money(dk(k))+'</em><s>'+money(p.p)+'</s></span>'+sel+'</label>';
     });
     track.innerHTML=h; summary(); updateWA(); updateBar(); fit();
   }
@@ -632,7 +621,7 @@ delivery|+ FREE Delivery||FREE{%- endcapture -%}
   function chosen(){var t=tier();return avail(t).filter(function(k){var s=st(k);if(gone[P[k].v[s.vi][1]]){s.vi=vlist(k)[0];}return s.on;});}
   function summary(){
     var c=chosen(),tot=0,sav=0;
-    c.forEach(function(k){tot+=disc(P[k].p);sav+=P[k].p-disc(P[k].p);});
+    c.forEach(function(k){tot+=dk(k);sav+=P[k].p-dk(k);});
     var box=document.getElementById('ao-sum');
     box.classList.toggle('show',c.length>0);
     if(c.length){document.getElementById('ao-sum-a').textContent='Add-ons ('+c.length+'): +'+money(tot);document.getElementById('ao-sum-b').textContent='You save '+money(sav);}
@@ -643,7 +632,7 @@ delivery|+ FREE Delivery||FREE{%- endcapture -%}
     var extra=chosen().map(label);
     document.querySelectorAll('[data-whatsapp-order]').forEach(function(a){
       var msg=(a.dataset.whatsappMessage||'Hi, I want to order the WeeWonders pump')+': '+(a.dataset.productTitle||'Wearable Breast Pump')+' - '+sel.dataset.name;
-      if(extra.length) msg+=' + add-ons (15% off): '+extra.join(', ');
+      if(extra.length) msg+=' + add-ons (special price): '+extra.join(', ');
       a.href='https://api.whatsapp.com/send/?phone='+a.dataset.whatsappNumber+'&text='+encodeURIComponent(msg)+'&type=phone_number&app_absent=0';
     });
   }
@@ -651,7 +640,7 @@ delivery|+ FREE Delivery||FREE{%- endcapture -%}
     var k=e.target.dataset.k; if(!k) return;
     if(e.target.classList.contains('aosel')){st(k).vi=+e.target.value;}
     else{st(k).on=e.target.checked;var c=e.target.closest('.aoc');if(c)c.classList.toggle('on',st(k).on);
-      document.dispatchEvent(new CustomEvent('ww:addon-toggle',{detail:{key:k,title:P[k].t,on:st(k).on,price:disc(P[k].p),tier:tier()}}));}
+      document.dispatchEvent(new CustomEvent('ww:addon-toggle',{detail:{key:k,title:P[k].t,on:st(k).on,price:dk(k),tier:tier()}}));}
     summary(); updateWA(); updateBar();
   });
   track.addEventListener('click',function(e){if(e.target.classList.contains('aosel')) e.stopPropagation();},true);
@@ -662,7 +651,7 @@ delivery|+ FREE Delivery||FREE{%- endcapture -%}
   function updateBar(){
     var sel=document.querySelector('#offer .ocard.sel'); if(!sel) return;
     var bp=document.getElementById('barprice'),bn=document.getElementById('barname'); if(!bp||!bn) return;
-    var total=num(sel.dataset.price); chosen().forEach(function(k){total+=disc(P[k].p);});
+    var total=num(sel.dataset.price); chosen().forEach(function(k){total+=dk(k);});
     total=Math.round(total*100)/100;
     var names=[sel.dataset.name].concat(chosen().map(function(k){return P[k].t;}));
     bn.textContent=names.join(' + ');
@@ -684,8 +673,10 @@ delivery|+ FREE Delivery||FREE{%- endcapture -%}
   if(typeof orig==='function'){window.pickO=function(){var r=orig.apply(this,arguments);render();return r;};}
   /* used by addToCart */
   window.WWAddons={items:function(bundleName,parent){
-    return chosen().map(function(k){var s=st(k);return {id:P[k].v[s.vi][1],quantity:1,properties:{'_WeeWonders add-on':'15% off','_Bundle parent variant':String(parent)}};});
+    return chosen().map(function(k){var s=st(k);return {id:P[k].v[s.vi][1],quantity:1,properties:{'_WeeWonders add-on':(k==='monitor'?'Special price':'25% off'),'_Bundle parent variant':String(parent)}};});
   },names:function(){var m={};Object.keys(P).forEach(function(k){P[k].v.forEach(function(v){m[v[1]]=P[k].t+(v[0]?' ('+v[0]+')':'');});});return m;}};
+  window.WWSaved=function(){var s=0;chosen().forEach(function(k){s+=P[k].p-dk(k);});return s;};
+  window.WWMonitor={on:function(){return !!st('monitor').on;},set:function(v){st('monitor').on=!!v;try{summary();updateWA();updateBar();}catch(e){}render();}};
   render();
   /* hide anything sold out so a sold-out add-on can never break the pump's add to cart */
   try{Object.keys(P).forEach(function(k){
@@ -698,6 +689,250 @@ delivery|+ FREE Delivery||FREE{%- endcapture -%}
 })();
 </script>
 
+
+<script>
+/* WeeWonders Lebanon: Black Friday layer for the pump page.
+   Runs on top of the live .ww-pdp markup. Stops by itself at the end time (no fake reset). */
+(function () {
+  var CFG = {
+    pct: 25,                                   // headline discount
+    end: Date.UTC(2026, 10, 30, 21, 59, 59),   // Nov 30 2026 23:59:59 Beirut (UTC+2)
+    endLabel: "Nov 30",
+    list: { "Double Pump Set": 175, "Single Pump": 100 }   // list prices before Black Friday
+  };
+  if (window.__wwbf || Date.now() >= CFG.end) return;
+  window.__wwbf = 1;
+
+  function $(s, r) { return (r || document).querySelector(s); }
+  function $$(s, r) { return [].slice.call((r || document).querySelectorAll(s)); }
+  function m(n) { return "$" + (Math.round(n * 100) / 100); }
+  function p2(n) { return (n < 10 ? "0" : "") + n; }
+
+  var css = [
+    ".ww-pdp .topbar.bf-topbar{background:#000!important;padding:18px 16px 18px;text-align:center;line-height:1.2}",
+    ".bf-t1{display:block;font:800 21px/1.4 'Plus Jakarta Sans',system-ui,sans-serif;letter-spacing:.04em;color:#fff}",
+    ".bf-t1 span{display:inline-block;background:#8FD9F5!important;color:#1A2B3C!important;opacity:1!important;padding:2px 10px;border-radius:8px;margin-left:6px;white-space:nowrap;line-height:1.2}",
+    ".bf-t2{display:block;margin-top:18px!important;font:700 12.5px/1.2 'Plus Jakarta Sans',system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#CFE9F7}",
+    ".bf-t2 b{color:#fff;font-weight:800;font-variant-numeric:tabular-nums}",
+    ".ww-pdp .ocard .flag{width:74px!important;height:74px!important;top:-24px!important;left:-6px!important}",
+    ".ww-pdp .ocard .flag .bft{position:absolute;inset:0;padding-top:4px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;line-height:1;color:#fff}",
+    ".ww-pdp .ocard .flag .bft i{font:800 6.5px/1.1 'Plus Jakarta Sans',sans-serif;font-style:normal;letter-spacing:.06em}",
+    ".ww-pdp .ocard .flag .bft b{font:800 19px/1 'Plus Jakarta Sans',sans-serif;color:#8FD9F5;margin-top:2px;letter-spacing:-.02em}",
+    ".ww-pdp .ocard .obadge.bf-save{background:#13A055!important;color:#fff!important;font-size:13px!important;font-weight:800;letter-spacing:.02em;text-transform:none!important;padding:7px 14px!important;border-radius:999px;white-space:nowrap;line-height:1.2;margin-top:2px}",
+    ".ww-pdp .bf-timer{box-sizing:border-box;display:block;margin:16px 0 8px!important;border:2px solid #1A2B3C;border-radius:16px;background:#fff;padding:22px 12px 22px!important;text-align:center}",
+    ".bf-th{display:block!important;font:800 25px/1.2 'Plus Jakarta Sans',sans-serif!important;letter-spacing:-.01em!important;text-transform:none!important;color:#1A2B3C!important;background:none!important;padding:0!important;margin:0 0 6px!important;text-align:center}",
+    ".bf-th .bf-ul{display:inline-block;position:relative;padding-bottom:9px;background:url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12' preserveAspectRatio='none'><path d='M3 8 C 25 2, 45 11, 68 5 S 105 3, 117 7' fill='none' stroke='%238FD9F5' stroke-width='5' stroke-linecap='round'/></svg>\") no-repeat bottom center/100% 12px}",
+    ".bf-units{display:flex;justify-content:center;gap:8px;margin:22px 0 22px!important}",
+    ".bf-units div{min-width:58px;background:#1A2B3C;border-radius:12px;padding:8px 4px 6px;color:#fff}",
+    ".bf-units b{display:block;font:800 26px/1 'Plus Jakarta Sans',sans-serif;font-variant-numeric:tabular-nums}",
+    ".bf-units small{display:block;margin-top:3px;font:700 8.5px/1 'Plus Jakarta Sans',sans-serif;letter-spacing:.1em;color:#8FD9F5}",
+    ".ww-pdp .bf-note{margin:0!important;padding-top:2px!important;font:700 12.5px/1.3 'Plus Jakarta Sans',sans-serif;color:#1A2B3C}",
+    ".bf-note u{text-decoration-color:#8FD9F5;text-decoration-thickness:3px;text-underline-offset:2px}"
+  ].join("\n");
+  var st = document.createElement("style");
+  st.id = "wwbf-css";
+  st.textContent = css;
+  document.head.appendChild(st);
+
+  /* 1. Offer cards: stamp, price, green savings pill, gifts */
+  $$(".ww-pdp .ocard").forEach(function (c) {
+    var list = CFG.list[c.getAttribute("data-name")];
+    if (!list) return;
+    var now = Math.round(list * (1 - CFG.pct / 100)), save = list - now;
+    c.setAttribute("data-price", m(now));
+
+    var f = $(".flag", c);
+    if (!f) {   // card without a stamp (e.g. the second offer block): add one
+      f = document.createElement("span"); f.className = "flag";
+      f.innerHTML = '<svg viewBox="0 0 100 100"><path d="M96.8,60.7 L86.9,67.8 L87.5,79.9 L75.6,82.1 L70.8,93.2 L59.1,90.0 L50.0,98.0 L40.9,90.0 L29.2,93.2 L24.4,82.1 L12.5,79.9 L13.1,67.8 L3.2,60.7 L9.0,50.0 L3.2,39.3 L13.1,32.2 L12.5,20.1 L24.4,17.9 L29.2,6.8 L40.9,10.0 L50.0,2.0 L59.1,10.0 L70.8,6.8 L75.6,17.9 L87.5,20.1 L86.9,32.2 L96.8,39.3 L91.0,50.0 Z" fill="#1A2B3C"></path></svg>';
+      c.insertBefore(f, c.firstChild);
+    }
+    $$(".rgifts span", c).forEach(function (x) { x.textContent = x.textContent.replace("gifts", "milk bags"); });
+    if (f) {
+      var svg = $("svg", f);
+      f.innerHTML = "";
+      if (svg) f.appendChild(svg);
+      var t = document.createElement("span");
+      t.className = "bft";
+      t.innerHTML = "<i>BLACK FRIDAY</i><b>-" + CFG.pct + "%</b>";
+      f.appendChild(t);
+    }
+    var b = $(".obadge", c);
+    if (b) { b.textContent = "You save " + m(save); b.className += " bf-save"; var pr = $(".oprice", c); if (pr) pr.appendChild(b); }
+    var n = $(".onow", c); if (n) n.textContent = m(now);
+    var w = $(".owas", c); if (w) w.textContent = m(list);
+
+    // pure percentage: only the milk bags stay as a free gift (plus sizing kit and delivery)
+    $$(".ogifts li", c).forEach(function (li) {
+      if (/monitor|pillow|warmer|noise|holder/i.test(li.textContent)) li.parentNode.removeChild(li);
+    });
+  });
+
+  /* 2. Banner */
+  var tb = $(".ww-pdp .topbar");
+  if (tb) {
+    tb.className += " bf-topbar";
+    tb.innerHTML = '<div class="bf-t1">BLACK FRIDAY <span>' + CFG.pct + '% OFF</span></div>' +
+      '<div class="bf-t2">Ends ' + CFG.endLabel + ' &middot; <b class="bf-mini">--</b> left</div>';
+  }
+
+
+  /* Sharp logo: the theme loads the header logo at 44-50px tall (blurry on phones). Use the full-size file. */
+  $$(".header__heading-logo").forEach(function (i) {
+    var base = (i.getAttribute("src") || "").split("?")[0];
+    if (!base || /^data:/.test(base)) return;
+    i.removeAttribute("srcset"); i.removeAttribute("sizes");
+    i.setAttribute("loading", "eager");
+    i.src = base + "?height=200&v=1724328903";
+  });
+  /* 3. Countdown + scarcity under Add to cart */
+  var atc = $("#atc");
+  if (atc) {
+    var box = document.createElement("div");
+    box.className = "bf-timer";
+    box.innerHTML = '<div class="bf-th"><span class="bf-ul">Black Friday</span> price ends in</div>' +
+      '<div class="bf-units"><div><b data-u="d">00</b><small>DAYS</small></div><div><b data-u="h">00</b><small>HOURS</small></div>' +
+      '<div><b data-u="m">00</b><small>MIN</small></div><div><b data-u="s">00</b><small>SEC</small></div></div>' +
+      '<p class="bf-note">These prices end on <u>' + CFG.endLabel + '</u> and won’t come back.</p>';
+    atc.parentNode.insertBefore(box, atc.nextSibling);
+  }
+
+  function tick() {
+    var s = Math.floor((CFG.end - Date.now()) / 1000);
+    if (s <= 0) { location.reload(); return; }   // the page then shows the real, post-sale state
+    var d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), mi = Math.floor(s % 3600 / 60), se = s % 60;
+    var v = { d: p2(d), h: p2(h), m: p2(mi), s: p2(se) };
+    $$("[data-u]").forEach(function (e) { e.textContent = v[e.getAttribute("data-u")]; });
+    var mini = $(".bf-mini");
+    if (mini) mini.textContent = d + "d " + p2(h) + ":" + p2(mi) + ":" + p2(se);
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  /* 4. Refresh the sticky bar from the selected card's new data-price */
+  var sel = $(".ww-pdp .ocard.sel");
+  if (sel && typeof window.pickO === "function") window.pickO(sel);
+})();
+
+
+/* ===== Monitor tick under each offer + open-from-a-file rescue ===== */
+(function () {
+  function $(s, r) { return (r || document).querySelector(s); }
+  function $$(s, r) { return [].slice.call((r || document).querySelectorAll(s)); }
+
+  // Rescue: a saved copy of the page opened from a file can stay covered by the theme's loading screen
+  var rs = document.createElement("style");
+  rs.textContent = ".transition-cover{display:none!important}";
+  document.head.appendChild(rs);
+  function reveal() { document.body.classList.add("loaded"); }
+  if (document.readyState === "complete") reveal(); else window.addEventListener("load", reveal);
+  setTimeout(reveal, 2500);
+
+  if (!window.WWMonitor || window.__wwmt) return;
+  window.__wwmt = 1;
+  var MON = { was: 44, price: 25,
+    img: "https://cdn.shopify.com/s/files/1/0847/2120/5545/files/c5f8a26a-9328-41e5-9284-ca9ca9cc063e_f313b296-6c62-4882-becc-955cb4e9a628.png?v=1787071365&width=300" };
+  var css = [
+    ".bf-mtick{display:flex;align-items:center;gap:12px;margin:6px 12px 16px!important;padding:22px 14px!important;min-height:96px;border-radius:12px;background:#E7F6FD;border:1.5px dashed #5FB6E3;cursor:pointer;position:relative;font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#1A2B3C;text-align:left;box-sizing:border-box}",
+    ".ww-addons .aot{font-weight:800!important;white-space:normal!important;line-height:1.5!important}",
+    ".ww-addons .aoname{font-weight:800!important;color:#1A2B3C!important}",
+    ".ww-addons .aohead{margin-top:14px!important}.aobf{display:flex;flex-wrap:wrap;align-items:center;gap:10px 10px;margin:10px 0 14px;font-family:'Plus Jakarta Sans',system-ui,sans-serif}",
+    ".aobf b{display:inline-block;background:#000;color:#fff;border-radius:8px;font-size:12px;font-weight:800;letter-spacing:.08em;padding:6px 11px;line-height:1.2}",
+    ".aobf span{flex-basis:100%;font-size:13.5px;font-weight:700;color:#1A2B3C;line-height:1.35}",
+    ".aobf u{text-decoration-color:#8FD9F5;text-decoration-thickness:3px;text-underline-offset:2px}",
+    ".trust .t .i{background:none!important;width:auto!important;height:auto!important;margin:0 auto 6px!important;display:grid;place-items:center}",
+    ".trust .t .i svg{width:38px!important;height:38px!important}",
+    ".guarbox .gi{background:none!important;flex:none}.guarbox .gi svg{width:36px!important;height:36px!important}",
+    ".oprice{display:flex!important;flex-direction:column;align-items:flex-end;gap:5px}",
+    ".bf-mp{display:flex;flex-direction:column;align-items:flex-end;gap:3px}",
+    ".bf-msave{font-style:normal;background:#13A055;color:#fff;border-radius:999px;font-size:11.5px!important;font-weight:800;padding:5px 12px!important;line-height:1.2;white-space:nowrap;margin-top:3px}",
+    ".buybar .p.bf-hasave{display:flex!important;flex-wrap:wrap;align-items:center;column-gap:10px;row-gap:2px}",
+    ".buybar .p .bf-bsave{order:1;background:#13A055;color:#fff;border-radius:999px;font-size:12px;font-weight:800;padding:5px 11px;line-height:1.2;white-space:nowrap}",
+    ".buybar .p small{order:2;flex-basis:100%}",
+    "#buybar.buybar{padding-top:16px!important;padding-bottom:calc(18px + env(safe-area-inset-bottom,0px))!important;min-height:96px}",
+    "#buybar.buybar .wrap{align-items:center}",
+    "#buybar.buybar .btn-cta{padding:19px 26px!important;font-size:16px!important}",
+    "#buybar.buybar .p{font-size:1.75rem!important}",
+    "#atc.btn-atc{min-height:76px!important;border-radius:16px!important;font-size:16px!important;letter-spacing:.1em;box-shadow:6px 6px 0 0 #8FD9F5!important;margin-bottom:10px!important;transition:transform .15s,box-shadow .15s}",
+    "#atc.btn-atc:hover{transform:translate(2px,2px);box-shadow:4px 4px 0 0 #8FD9F5!important}",
+    "#atc.btn-atc:active{transform:translate(6px,6px);box-shadow:0 0 0 0 #8FD9F5!important}",
+    ".bf-timer{background:#000!important;border-color:#000!important}",
+    ".bf-timer .bf-th{color:#fff!important}",
+    ".bf-timer .bf-th .bf-ul{color:#8FD9F5!important}",
+    ".bf-timer .bf-units div{background:#8FD9F5!important;color:#000!important}",
+    ".bf-timer .bf-units b{color:#000!important}",
+    ".bf-timer .bf-units small{color:#000!important;font-weight:800!important}",
+    ".bf-timer .bf-note{color:#fff!important}",
+    ".bf-timer .bf-note u{text-decoration-color:#8FD9F5!important}",
+    ".bf-timer .bf-units div{background:#fff!important;color:#000!important}",
+    ".bf-timer .bf-note u{text-decoration-color:#fff!important}",
+    ".bf-timer .bf-th .bf-ul{color:#fff!important}",
+    ".ocard .flag svg path{fill:#000!important}",
+    ".bf-mtick{background:#fff!important;border-color:#000!important}",
+    ".bf-mtick.on{background:#F2F2F2!important}",
+    ".bf-lt{background:#000!important}",
+    "#offer .ocard,#offer .offer,#offer .otiers{min-width:0!important;max-width:100%!important}",
+    "@media (max-width:400px){.bf-mimg{width:42px!important;height:42px!important}.bf-mtick{gap:8px!important;padding:16px 10px!important;margin:4px 8px 12px!important}.bf-mt1{font-size:12px!important}.bf-mtxt small{font-size:10.5px!important}.bf-mp b{font-size:15px!important}.bf-msave{font-size:10.5px!important;padding:4px 9px!important}.obadge.bf-save{font-size:11.5px!important;padding:6px 11px!important}.ohead{gap:8px!important}.oimg{width:60px!important;height:60px!important}.oname{font-size:14px!important}}",
+    ".bf-mtick:hover{border-color:#1A2B3C}",
+    "",
+    ".bf-mbox{flex:none;width:22px;height:22px;border-radius:6px;border:2px solid #1A2B3C;background:#fff;display:grid;place-items:center}",
+    ".bf-mbox::after{content:'';width:5px;height:10px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg) translate(-1px,-1px);opacity:0}",
+    ".bf-mtick.on{background:#CBEAFA;border-style:solid;border-color:#1A2B3C}",
+    ".bf-mtick.on .bf-mbox{background:#1A2B3C}.bf-mtick.on .bf-mbox::after{opacity:1}",
+    ".bf-mimg{flex:none;width:54px;height:54px;border-radius:8px;background:#fff;overflow:hidden;display:grid;place-items:center}",
+    ".bf-mimg img{width:100%;height:100%;object-fit:contain}",
+    ".bf-mtxt{flex:1;min-width:0;display:flex;flex-wrap:wrap;align-items:center;gap:3px 6px;font-size:13px!important;font-weight:700;line-height:1.25}",
+    ".bf-mtxt small{flex-basis:100%;display:block;font-weight:500!important;color:#5C6B7A!important;font-size:11px!important;line-height:1.3}",
+    ".bf-mt1{font-size:13px!important;font-weight:800!important;color:#1A2B3C!important}",
+    ".bf-lt{display:inline-block;margin:0;background:#1A2B3C;color:#fff!important;border-radius:999px;font-size:8.5px!important;line-height:1!important;white-space:nowrap;font-weight:800!important;letter-spacing:.05em;padding:4px 9px!important;margin:0!important}",
+    ".bf-mp{flex:none;text-align:right;line-height:1.1}.bf-mp b{display:block;font-size:17px!important;font-weight:800;color:#1A2B3C}.bf-mp s{display:block;color:#E8001C!important;font-weight:700;font-size:11px!important}"
+  ].join("\n");
+  var st = document.createElement("style"); st.textContent = css; document.head.appendChild(st);
+
+  var ticks = [];
+  function sync() { var s = $("#offer .ocard.sel"); WWMonitor.set(!!(s && s.__mon)); }
+  var orig = window.pickO;
+  if (typeof orig === "function") {
+    window.pickO = function () { var r = orig.apply(this, arguments); sync(); return r; };
+  }
+  $$("#offer .ocard").forEach(function (c) {
+    var lab = document.createElement("div");
+    lab.className = "bf-mtick"; lab.setAttribute("role", "checkbox"); lab.setAttribute("tabindex", "0");
+    lab.setAttribute("aria-checked", "false");
+    lab.innerHTML = '<span class="bf-mbox"></span>' +
+      '<span class="bf-mimg"><img alt="Baby Monitor" src="' + MON.img + '"></span>' +
+      '<span class="bf-mtxt"><span class="bf-mt1">Add a Baby Monitor</span><span class="bf-lt">BLACK FRIDAY</span></span>' +
+      '<span class="bf-mp"><s>$' + MON.was + '</s><b>$' + MON.price + '</b><em class="bf-msave">You save $' + (MON.was - MON.price) + '</em></span>';
+    c.appendChild(lab);
+    ticks.push(lab);
+    function toggle(e) {
+      e.stopPropagation();
+      c.__mon = !c.__mon;
+      lab.classList.toggle("on", c.__mon); lab.setAttribute("aria-checked", String(c.__mon));
+      if (c.classList.contains("sel")) sync(); else if (window.pickO) window.pickO(c);
+    }
+    lab.addEventListener("click", toggle);
+    lab.addEventListener("keydown", function (e) { if (e.key === " " || e.key === "Enter") { e.preventDefault(); toggle(e); } });
+  });
+
+  /* Total saved pill in the sticky bar (pump + monitor + add-ons) */
+  var bp = $("#barprice");
+  if (bp) {
+    bp.className += " bf-hasave";
+    var bs = document.createElement("span"); bs.className = "bf-bsave"; bp.appendChild(bs);
+    var LISTP = { "Double Pump Set": 175, "Single Pump": 100 };
+    function num(x) { return parseFloat(String(x).replace(/[^0-9.]/g, "")) || 0; }
+    function saved() {
+      var s = $("#offer .ocard.sel"); if (!s) return 0;
+      var t = (LISTP[s.getAttribute("data-name")] || 0) - num(s.getAttribute("data-price"));
+      if (window.WWSaved) t += window.WWSaved();
+      return Math.round(t * 100) / 100;
+    }
+    function upd() { var t = saved(); bs.style.display = t > 0 ? "" : "none"; bs.textContent = "You save $" + (Math.round(t * 100) / 100); }
+    upd(); setInterval(upd, 250);
+  }
+})();
+</script>
 </div>
 
 {% schema %}
