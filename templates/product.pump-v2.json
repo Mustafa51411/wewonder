@@ -106,6 +106,7 @@
         },
         "offer_QYKgq9": {
           "type": "offer",
+          "disabled": true,
           "settings": {
             "variant_title": "Double Pump Set",
             "name": "Double Pump Set",
@@ -381,6 +382,23 @@
     "ww_offer_bottom_riaPD8": {
       "type": "ww-offer-bottom",
       "name": "WW Bottom offer",
+      "blocks": {
+        "offer_single_only": {
+          "type": "offer",
+          "settings": {
+            "variant_title": "Single Pump",
+            "name": "Single Pump",
+            "flag": "",
+            "badge": "Free gifts included",
+            "was_price": "",
+            "image": "",
+            "summary": "Free sizing kit, gifts and delivery"
+          }
+        }
+      },
+      "block_order": [
+        "offer_single_only"
+      ],
       "settings": {
         "h_a": "Give your milk",
         "h_b": "a way out",
